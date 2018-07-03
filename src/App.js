@@ -7,17 +7,25 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      name: '',
+      term: '',
+      items: [],
     };
   }
 
-  componentDidMount() {
-    fetch('https://api.themoviedb.org/3/search/movie?api_key=b3487e6f673fc1e8d1fcbfa4feef3fb8&query=Groundhog')
+  onChange = (event) => {
+    this.setState({ term: event.target.value });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    fetch('https://api.themoviedb.org/3/search/tv?api_key=b3487e6f673fc1e8d1fcbfa4feef3fb8&query="'+this.state.term+'"')
     .then(results => {
       return results.json();
     }).then(data => {
-      this.setState({name: data.results[0].original_title});
-      console.log(data);
+      this.setState({
+        term: '',
+        items: data.results
+      });
     });
   }
 
@@ -28,9 +36,11 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Your TV List</h1>
         </header>
-        <p className="App-intro">
-          { this.state.name }
-        </p>
+          <form className="App-intro" onSubmit={this.onSubmit}>
+            <input value={this.state.term} onChange={this.onChange} />
+            <button>Submit</button>
+          </form>
+          { this.state.items.map((item, index) => <li key={index}>{item.original_name}</li>) }
       </div>
     );
   }
