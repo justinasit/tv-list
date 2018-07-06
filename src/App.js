@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import * as Tmdb from './api/Tmdb';
 
 class App extends Component {
 
@@ -10,6 +10,7 @@ class App extends Component {
       term: '',
       items: [],
     };
+    
   }
 
   onChange = (event) => {
@@ -18,10 +19,8 @@ class App extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('https://api.themoviedb.org/3/search/tv?api_key=b3487e6f673fc1e8d1fcbfa4feef3fb8&query="'+this.state.term+'"')
-    .then(results => {
-      return results.json();
-    }).then(data => {
+
+    Tmdb.searchTv(this.state.term).then(data => {
       this.setState({
         term: '',
         items: data.results
@@ -33,7 +32,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Your TV List</h1>
         </header>
           <form className="App-intro" onSubmit={this.onSubmit}>
