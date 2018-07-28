@@ -9,11 +9,21 @@ class App extends Component {
     this.state = {
       term: '',
       items: [],
+      showIds: [],
       myShows: []
     };
-    if (localStorage.getItem('myShows')) {
-      this.state.myShows = JSON.parse(localStorage.getItem('myShows'));
-    }    
+    if (localStorage.getItem('showIds')) {
+      this.state.showIds = JSON.parse(localStorage.getItem('showIds'));
+    }
+    let shows = [];
+    this.state.showIds.map((id) => 
+      Tmdb.getInfoById(id).then(data => {
+        shows.push({name: data.name, number_of_seasons: data.number_of_seasons});
+        this.setState({
+          myShows: shows
+        });
+      })
+    );
   }
 
   onChange = (event) => {
@@ -32,9 +42,15 @@ class App extends Component {
   }
 
   addShow = (id) => {
-    if (!this.state.myShows.includes(id)) {
-      this.state.myShows.push(id);
-      localStorage.setItem('myShows', JSON.stringify(this.state.myShows));
+    if (!this.state.showIds.includes(id)) {
+      this.state.showIds.push(id);
+      localStorage.setItem('showIds', JSON.stringify(this.state.showIds));
+      Tmdb.getInfoById(id).then(data => {
+        this.state.myShows.push({name: data.name, number_of_seasons: data.number_of_seasons});
+        this.setState({
+          myShows: this.state.myShows,
+        });
+      })
     }
   }
 
@@ -44,6 +60,10 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Your TV List</h1>
         </header>
+        { this.state.myShows.map((item, index) => 
+            <p key={index}>
+              <li>{item.name} (Seasons: { item.number_of_seasons })</li>
+        </p>) }
           <form className="App-intro" onSubmit={this.onSubmit}>
             <input value={this.state.term} onChange={this.onChange} />
             <button>Submit</button>

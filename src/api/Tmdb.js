@@ -6,3 +6,10 @@ export function searchTv(term) {
         return results.json();
     });
 }
+
+export function getInfoById(id) {
+    return fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`)
+      .then(results => {
+          return results.json();
+      });
+  }
