@@ -54,6 +54,14 @@ class App extends Component {
     }
   }
 
+  listSeasons = (numberOfSeasons) => {
+    let rows = [];
+    for (var i = 1; i <= numberOfSeasons; i++) {
+        rows.push(<span key={i}>Season {i} <input type="checkbox"/><br/></span>);
+    }
+    return <span>{rows}</span>;
+  }
+
   render() {
     return (
       <div className="App">
@@ -62,8 +70,11 @@ class App extends Component {
         </header>
         { this.state.myShows.map((item, index) => 
             <p key={index}>
-              <li>{item.name} (Seasons: { item.number_of_seasons })</li>
-        </p>) }
+              <li>{item.name}
+                <br/><br />
+                { this.listSeasons(item.number_of_seasons) }
+              </li>
+        </p>)}
           <form className="App-intro" onSubmit={this.onSubmit}>
             <input value={this.state.term} onChange={this.onChange} />
             <button>Submit</button>
