@@ -61,17 +61,24 @@ class App extends Component {
   listSeasons = (numberOfSeasons, showIndex) => {
     let rows = [];
     for (var i = 1; i <= numberOfSeasons; i++) {
-        rows.push(<span key={i}>Season {i} <input onClick={this.checkSeason.bind(this, i, showIndex)} type="checkbox"/><br/></span>);
+        rows.push(<span key={i}>Season {i} 
+        <input defaultChecked={this.state.showIds[showIndex].seasons_watched.includes(i)}
+          onChange={this.checkSeason.bind(this, i, showIndex)} type="checkbox"/>
+        <br/></span>);
     }
-    console.log(rows);
     return <span>{rows}</span>;
   }
 
-  checkSeason = (seasonIndex, showIndex) => {
-    if (this.state.showIds[showIndex].seasons_watched.includes(seasonIndex)) {
-      this.state.showIds[showIndex].seasons_watched.splice(seasonIndex);
+  isWatched = (seasonIndex, showIndex) => {
+    return this.state.showIds[showIndex].seasons_watched.includes(seasonIndex);
+  }
+
+  checkSeason = (season, showIndex) => {
+    if (this.state.showIds[showIndex].seasons_watched.includes(season)) {
+      let seasonIndex = this.state.showIds[showIndex].seasons_watched.indexOf(season);
+      this.state.showIds[showIndex].seasons_watched.splice(seasonIndex, 1);
     } else {
-      this.state.showIds[showIndex].seasons_watched.push(seasonIndex);
+      this.state.showIds[showIndex].seasons_watched.push(season);
     }
     localStorage.setItem('showIds', JSON.stringify(this.state.showIds));
   }
