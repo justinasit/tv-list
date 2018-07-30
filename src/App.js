@@ -49,11 +49,13 @@ class App extends Component {
 
   addShow = (id) => {
     this.state.showIds.push({id: id, seasons_watched: []});
-      localStorage.setItem('showIds', JSON.stringify(this.state.showIds));
-      Tmdb.getInfoById(id).then(data => {
-        this.state.myShows.push({name: data.name, number_of_seasons: data.number_of_seasons});
-        this.setState({
-          myShows: this.state.myShows,
+    localStorage.setItem('showIds', JSON.stringify(this.state.showIds));
+    Tmdb.getInfoById(id).then(data => {
+      this.setState({
+        myShows: [
+            ...this.state.myShows,
+            {name: data.name, number_of_seasons: data.number_of_seasons}
+        ],
       });
     })
   }
