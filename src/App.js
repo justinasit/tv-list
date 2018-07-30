@@ -19,9 +19,11 @@ class App extends Component {
     this.state.showIds.map((show) => 
       Tmdb.getInfoById(show.id).then(data => {
         shows.push({name: data.name, number_of_seasons: data.number_of_seasons});
-        this.setState({
-          myShows: shows
-        });
+        if (shows.length === this.state.showIds.length) {
+          this.setState({
+            myShows: shows
+          });
+        }
       })
     );
   }
