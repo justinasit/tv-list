@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as Tmdb from './api/Tmdb';
+import ListResults from './ListResults';
 
 class App extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       term: '',
       items: [],
@@ -26,6 +27,11 @@ class App extends Component {
         }
       })
     );
+    this.handler = this.handler.bind(this)
+  }
+
+  handler(someValue) {
+    this.setState(someValue);
   }
 
   onChange = (event) => {
@@ -41,25 +47,6 @@ class App extends Component {
         items: data.results
       });
     });
-  }
-
-  addShowCheck = (id) => {
-    if (!this.state.showIds.map(show => show.id).includes(id)) {
-      this.addShow(id);
-    }
-  }
-
-  addShow = (id) => {
-    this.state.showIds.push({id: id, seasons_watched: []});
-    localStorage.setItem('showIds', JSON.stringify(this.state.showIds));
-    Tmdb.getInfoById(id).then(data => {
-      this.setState({
-        myShows: [
-            ...this.state.myShows,
-            {name: data.name, number_of_seasons: data.number_of_seasons}
-        ],
-      });
-    })
   }
 
   listSeasons = (numberOfSeasons, showIndex) => {
@@ -104,11 +91,8 @@ class App extends Component {
             <input value={this.state.term} onChange={this.onChange} />
             <button>Submit</button>
           </form>
-          { this.state.items.map((item, index) => 
-            <p key={index}>
-              <li>{item.original_name}</li>
-              <button onClick={() => this.addShowCheck(item.id)}>Add</button>
-            </p>) }
+          <ListResults showIds={this.state.showIds} myShows={this.state.myShows} 
+          items={this.state.items} handler = {this.handler} />
       </div>
     );
   }
