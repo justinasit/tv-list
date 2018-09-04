@@ -19,7 +19,7 @@ class App extends Component {
     let shows = [];
     this.state.showIds.map((show) => 
       Tmdb.getInfoById(show.id).then(data => {
-        shows.push({name: data.name, number_of_seasons: data.number_of_seasons});
+        shows.push({name: data.name, number_of_seasons: data.number_of_seasons, last_aired_season: data.last_episode_to_air.season_number});
         if (shows.length === this.state.showIds.length) {
           this.setState({
             myShows: shows
@@ -49,12 +49,14 @@ class App extends Component {
     });
   }
 
-  listSeasons = (numberOfSeasons, showIndex) => {
+  listSeasons = (numberOfSeasons, showIndex, lastAiredSeason) => {
     let rows = [];
     for (var i = 1; i <= numberOfSeasons; i++) {
         rows.push(<span key={i}>Season {i} 
         <input defaultChecked={this.state.showIds[showIndex].seasons_watched.includes(i)}
-          onChange={this.checkSeason.bind(this, i, showIndex)} type="checkbox"/>
+          onChange={this.checkSeason.bind(this, i, showIndex)} type="checkbox"
+          disabled={i>lastAiredSeason}
+          />
         <br/></span>);
     }
     return <span>{rows}</span>;
@@ -74,6 +76,10 @@ class App extends Component {
     localStorage.setItem('showIds', JSON.stringify(this.state.showIds));
   }
 
+  getAiredSeasonsNumber = (show) => {
+    return show.last_episode_to_air.season_number;
+  }
+
   render() {
     return (
       <div className="App">
@@ -84,7 +90,7 @@ class App extends Component {
             <p key={index}>
               <li>{item.name}
                 <br/><br />
-                { this.listSeasons(item.number_of_seasons, index) }
+                { this.listSeasons(item.number_of_seasons, index, item.last_aired_season) }
               </li>
         </p>)}
           <form className="App-intro" onSubmit={this.onSubmit}>
