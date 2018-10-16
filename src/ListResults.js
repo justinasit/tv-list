@@ -14,10 +14,11 @@ class ListResults extends React.Component {
         localStorage.setItem('showIds', JSON.stringify(this.props.showIds));
         Tmdb.getInfoById(id).then(data => {
             this.props.handler({
-            myShows: [
-                ...this.props.myShows,
-                {name: data.name, number_of_seasons: data.number_of_seasons}
-            ],
+            myShows: {active: [
+                ...this.props.myShows.active,
+                {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: this.props.showIds.length-1}
+              ], finished: this.props.myShows.finished,
+            },
           });
         })
       }

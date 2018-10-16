@@ -11,16 +11,22 @@ class App extends Component {
       term: '',
       items: [],
       showIds: [],
-      myShows: []
+      myShows: {active: [], finished: []}
     };
     if (localStorage.getItem('showIds')) {
       this.state.showIds = JSON.parse(localStorage.getItem('showIds'));
     }
-    let shows = [];
-    this.state.showIds.map((show) => 
+    let shows = {active: [], finished: []};
+    this.state.showIds.map((show, showIdIndex) => 
       Tmdb.getInfoById(show.id).then(data => {
-        shows.push({name: data.name, number_of_seasons: data.number_of_seasons, last_aired_season: data.last_episode_to_air.season_number});
-        if (shows.length === this.state.showIds.length) {
+        if (Math.max(...show.seasons_watched) === data.last_episode_to_air.season_number) {
+          shows.finished.push({name: data.name, number_of_seasons: data.number_of_seasons, 
+            last_aired_season: data.last_episode_to_air.season_number, showIdIndex: showIdIndex});
+        } else {
+          shows.active.push({name: data.name, number_of_seasons: data.number_of_seasons, 
+            last_aired_season: data.last_episode_to_air.season_number, showIdIndex: showIdIndex});
+        }
+        if ((shows.finished.length + shows.active.length) === this.state.showIds.length) {
           this.setState({
             myShows: shows
           });
@@ -86,11 +92,20 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Your TV List</h1>
         </header>
-        { this.state.myShows.map((item, index) => 
+        Active Shows
+        { this.state.myShows.active.map((item, index) => 
             <p key={index}>
               <li>{item.name}
                 <br/><br />
-                { this.listSeasons(item.number_of_seasons, index, item.last_aired_season) }
+                { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
+              </li>
+        </p>)}
+        Finished Shows
+        { this.state.myShows.finished.map((item, index) => 
+            <p key={index}>
+              <li>{item.name}
+                <br/><br />
+                { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
               </li>
         </p>)}
           <form className="App-intro" onSubmit={this.onSubmit}>
