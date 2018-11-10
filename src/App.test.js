@@ -10,13 +10,13 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
-describe('search works', () => {
+describe('tv-list app testing', () => {
   let page;
   let browser;
   
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
     });
     page = await browser.newPage();
     await page.goto(config.appUrl);
@@ -26,12 +26,20 @@ describe('search works', () => {
     browser.close();
   });
 
-  test(
-    'the search submit button is visible',
-    async () => {
+  test('the search submit button is visible', async () => {
       const button = await page.$eval('.App-intro button', e => e.innerHTML);
       expect(button).toEqual('Submit');
     },
     config.timeout
   );
+
+  test('search works', async () => {
+    await page.focus('.App-intro input');
+    await page.keyboard.type('Stranger');
+    await page.click('.App-intro button');
+    await page.waitFor('span p li');
+    await page.$eval('span p li', value => value = 'Stranger Things');
+  },
+  config.timeout
+);
 });
