@@ -20,11 +20,23 @@ describe('tv-list app testing', () => {
     });
     page = await browser.newPage();
     await page.goto(config.appUrl);
+    
+    await page.evaluate(() => {
+      localStorage.setItem('showIds', '[{"id":1407,"seasons_watched":[1]}]');
+    });
+    page.reload();
+    await page.waitFor(1000);
   });
 
   afterAll(async () => {
     browser.close();
   });
+
+  test('stored show is visible', async () => {
+    await page.$eval('p li', value => value = 'Homeland');
+  },
+  config.timeout
+  );
 
   test('the search submit button is visible', async () => {
       const button = await page.$eval('.App-intro button', e => e.innerHTML);
@@ -41,5 +53,5 @@ describe('tv-list app testing', () => {
     await page.$eval('span p li', value => value = 'Stranger Things');
   },
   config.timeout
-);
+  );
 });
