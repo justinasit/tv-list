@@ -13,11 +13,18 @@ class App extends Component {
       showIds: [],
       myShows: {active: [], finished: []}
     };
+  }
+
+  componentDidMount() {
+    let showIds = [];
     if (localStorage.getItem('showIds')) {
-      this.state.showIds = JSON.parse(localStorage.getItem('showIds'));
+      showIds = JSON.parse(localStorage.getItem('showIds'));
+      this.setState({
+        showIds: showIds
+      });
     }
     let shows = {active: [], finished: []};
-    this.state.showIds.map((show, showIdIndex) => 
+    showIds.map((show, showIdIndex) => 
       Tmdb.getInfoById(show.id).then(data => {
         if (Math.max(...show.seasons_watched) === data.last_episode_to_air.season_number) {
           shows.finished.push({name: data.name, number_of_seasons: data.number_of_seasons, 
@@ -26,14 +33,14 @@ class App extends Component {
           shows.active.push({name: data.name, number_of_seasons: data.number_of_seasons, 
             last_aired_season: data.last_episode_to_air.season_number, showIdIndex: showIdIndex});
         }
-        if ((shows.finished.length + shows.active.length) === this.state.showIds.length) {
+        if ((shows.finished.length + shows.active.length) === showIds.length) {
           this.setState({
             myShows: shows
           });
         }
       })
     );
-    this.handler = this.handler.bind(this)
+    this.handler = this.handler.bind(this);
   }
 
   handler(someValue) {
@@ -68,10 +75,6 @@ class App extends Component {
     return <span>{rows}</span>;
   }
 
-  isWatched = (seasonIndex, showIndex) => {
-    return this.state.showIds[showIndex].seasons_watched.includes(seasonIndex);
-  }
-
   checkSeason = (season, showIndex) => {
     if (this.state.showIds[showIndex].seasons_watched.includes(season)) {
       let seasonIndex = this.state.showIds[showIndex].seasons_watched.indexOf(season);
@@ -80,10 +83,6 @@ class App extends Component {
       this.state.showIds[showIndex].seasons_watched.push(season);
     }
     localStorage.setItem('showIds', JSON.stringify(this.state.showIds));
-  }
-
-  getAiredSeasonsNumber = (show) => {
-    return show.last_episode_to_air.season_number;
   }
 
   render() {
