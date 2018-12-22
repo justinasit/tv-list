@@ -26,13 +26,7 @@ class App extends Component {
     let shows = {active: [], finished: []};
     showIds.map((show, showIdIndex) => 
       Tmdb.getInfoById(show.id).then(data => {
-        if (Math.max(...show.seasons_watched) === data.last_episode_to_air.season_number) {
-          shows.finished.push({name: data.name, number_of_seasons: data.number_of_seasons, 
-            last_aired_season: data.last_episode_to_air.season_number, showIdIndex: showIdIndex});
-        } else {
-          shows.active.push({name: data.name, number_of_seasons: data.number_of_seasons, 
-            last_aired_season: data.last_episode_to_air.season_number, showIdIndex: showIdIndex});
-        }
+        shows = this.getShowData(shows, show, data, showIdIndex);
         if ((shows.finished.length + shows.active.length) === showIds.length) {
           this.setState({
             myShows: shows
@@ -41,6 +35,23 @@ class App extends Component {
       })
     );
     this.handler = this.handler.bind(this);
+  }
+
+  /* Push show data from the API to either active or finished array */
+  getShowData(showsArray, show, apiData, showIdIndex) {
+    if (Math.max(...show.seasons_watched) === apiData.last_episode_to_air.season_number) {
+      showsArray.finished.push(this.mapApiDataToObject(apiData, showIdIndex));
+    } else {
+      showsArray.active.push(this.mapApiDataToObject(apiData, showIdIndex));
+    }
+
+    return showsArray;
+  }
+
+  /* Map show data from the API to our shows object */
+  mapApiDataToObject(apiData, showIdIndex) {
+    return {name: apiData.name, number_of_seasons: apiData.number_of_seasons, 
+      last_aired_season: apiData.last_episode_to_air.season_number, showIdIndex: showIdIndex};
   }
 
   handler(someValue) {
