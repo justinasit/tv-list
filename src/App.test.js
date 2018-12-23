@@ -22,7 +22,7 @@ describe('tv-list app testing', () => {
     await page.goto(config.appUrl);
     
     await page.evaluate(() => {
-      localStorage.setItem('showIds', '[{"id":1407,"seasons_watched":[1]}]');
+      localStorage.setItem('storedShows', '[{"id":1407,"seasons_watched":[1]}]');
     });
     page.reload();
     await page.waitFor(1000);
