@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Tmdb from './api/Tmdb';
+import Storage from './Storage';
 
 export default class ListResults extends React.Component {
 
@@ -11,7 +12,7 @@ export default class ListResults extends React.Component {
   
   addShow = (id) => {
       this.props.storedShows.push({id: id, seasons_watched: []});
-      localStorage.setItem('storedShows', JSON.stringify(this.props.storedShows));
+      Storage.setItem('storedShows', this.props.storedShows);
       Tmdb.getInfoById(id).then(data => {
           this.props.handler({
           myShows: {active: [

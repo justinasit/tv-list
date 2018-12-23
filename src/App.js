@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import * as Tmdb from './api/Tmdb';
 import ListResults from './ListResults';
+import Storage from './Storage';
 
 export default class App extends Component {
 
@@ -11,6 +12,7 @@ export default class App extends Component {
     storedShows: [],
     myShows: {active: [], finished: []}
   };
+  storage = new Storage();
 
   /** Call the API to retrieve all user's stored show data */
   componentDidMount() {
@@ -33,8 +35,8 @@ export default class App extends Component {
   /* Get stored shows from storage on app load */
   getStoredShows = () => {
     let storedShows = [];
-    if (localStorage.getItem('storedShows')) {
-      storedShows = JSON.parse(localStorage.getItem('storedShows'));
+    if (this.storage.getItem('storedShows')) {
+      storedShows = this.storage.getItem('storedShows');
       this.setState({
         storedShows: storedShows
       });
@@ -100,7 +102,7 @@ export default class App extends Component {
     } else {
       this.state.storedShows[showIndex].seasons_watched.push(season);
     }
-    localStorage.setItem('storedShows', JSON.stringify(this.state.storedShows));
+    this.storage.setItem('storedShows', this.state.storedShows);
   }
 
   render() {
