@@ -4,12 +4,14 @@ import Storage from './Storage';
 
 export default class ListResults extends React.Component {
 
+  /* If the show is already stored - no need to add it again */
   addShowCheck = (id) => {
       if (!this.props.storedShows.map(show => show.id).includes(id)) {
         this.addShow(id);
       }
     }
   
+  /* Add show id and season number to storage, update the state with show details */
   addShow = (id) => {
       this.props.storedShows.push({id: id, seasons_watched: []});
       Storage.setItem('storedShows', this.props.storedShows);

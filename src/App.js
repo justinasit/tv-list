@@ -95,12 +95,13 @@ export default class App extends Component {
     return <span>{rows}</span>;
   }
 
-  checkSeason = (season, showIndex) => {
-    if (this.state.storedShows[showIndex].seasons_watched.includes(season)) {
-      const seasonIndex = this.state.storedShows[showIndex].seasons_watched.indexOf(season);
+  /* Update the seasons watched array in storage and state */
+  checkSeason = (seasonNumber, showIndex) => {
+    if (this.state.storedShows[showIndex].seasons_watched.includes(seasonNumber)) {
+      const seasonIndex = this.state.storedShows[showIndex].seasons_watched.indexOf(seasonNumber);
       this.state.storedShows[showIndex].seasons_watched.splice(seasonIndex, 1);
     } else {
-      this.state.storedShows[showIndex].seasons_watched.push(season);
+      this.state.storedShows[showIndex].seasons_watched.push(seasonNumber);
     }
     this.storage.setItem('storedShows', this.state.storedShows);
   }
