@@ -1,6 +1,6 @@
 export default class Storage {
   setItem = (key, value) => {
-    JSON.stringify(localStorage.setItem(key, value));
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
   getItem = (key) => {

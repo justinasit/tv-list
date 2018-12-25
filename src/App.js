@@ -59,7 +59,7 @@ export default class App extends Component {
   /* Map show data from the API to our shows object */
   mapApiDataToObject(apiData, showIdIndex) {
     return {name: apiData.name, number_of_seasons: apiData.number_of_seasons, 
-      last_aired_season: apiData.last_episode_to_air.season_number, showIdIndex: showIdIndex};
+      last_aired_season: apiData.last_episode_to_air.season_number, showIdIndex: showIdIndex, id: apiData.id};
   }
 
   handler(someValue) {
@@ -106,6 +106,18 @@ export default class App extends Component {
     this.storage.setItem('storedShows', this.state.storedShows);
   }
 
+  removeShow = (e, arrayKey, id) => {
+    e.preventDefault();
+    this.state.myShows[arrayKey].splice(0, 1);
+    this.setState({
+      myShows: {
+        active: this.state.myShows.active,
+        finished: this.state.myShows.finished
+      }
+    });
+    this.storage.setItem('storedShows', this.state.storedShows.filter(show => id !== show.id));
+  }
+
   render() {
     return (
       <div className="App">
@@ -113,17 +125,19 @@ export default class App extends Component {
           <h1 className="App-title">Your TV List</h1>
         </header>
         Active Shows
+        { (this.state.myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
         { this.state.myShows.active.map((item, index) => 
-            <p key={index}>
-              <li>{item.name}
+            <p key={index}> 
+              <li>{item.name} <button onClick={(e) => this.removeShow(e, 'active', item.id)} className="remove-button">Remove</button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
               </li>
         </p>)}
         Finished Shows
+        { (this.state.myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
         { this.state.myShows.finished.map((item, index) => 
-            <p key={index}>
-              <li>{item.name}
+            <p key={index}> 
+              <li>{item.name} <button onClick={(e) => this.removeShow(e, 'finished', item.id)} className="remove-button">Remove</button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
               </li>
