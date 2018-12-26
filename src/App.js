@@ -128,7 +128,7 @@ export default class App extends Component {
         { (this.state.myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
         { this.state.myShows.active.map((item, index) => 
             <p key={index}> 
-              <li>{item.name} <button onClick={(e) => this.removeShow(e, 'active', item.id)} className="remove-button">Remove</button>
+              <li>{item.name} <button id={'remove-button-'+index} onClick={(e) => this.removeShow(e, 'active', item.id)} className="remove-button">Remove</button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
               </li>

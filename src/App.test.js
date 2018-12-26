@@ -38,6 +38,14 @@ describe('tv-list app testing', () => {
   config.timeout
   );
 
+  test('remove show', async () => {
+    await page.waitForSelector('p li', {visible: true});
+    await page.click('#remove-button-0');
+    await page.waitForSelector('p li', {hidden: true});
+  },
+  config.timeout
+  );
+
   test('the search submit button is visible', async () => {
       const button = await page.$eval('.App-intro button', e => e.innerHTML);
       expect(button).toEqual('Submit');
