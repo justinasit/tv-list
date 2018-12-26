@@ -3,6 +3,7 @@ import './App.css';
 import * as Tmdb from './api/Tmdb';
 import ListResults from './ListResults';
 import Storage from './Storage';
+import { Button } from 'reactstrap';
 
 export default class App extends Component {
 
@@ -123,31 +124,34 @@ export default class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Your TV List</h1>
+          <p>You can store a list of TV series you watch using this app!</p>
         </header>
-        Active Shows
+        <h2>Active Shows</h2><br/>
         { (this.state.myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
         { this.state.myShows.active.map((item, index) => 
             <p key={index}> 
-              <li>{item.name} <button id={'remove-button-'+index} onClick={(e) => this.removeShow(e, 'active', item.id)} className="remove-button">Remove</button>
+              <li>{item.name} <Button size="sm" color="danger" id={'remove-button-'+index} onClick={(e) => this.removeShow(e, 'active', item.id)} className="remove-button">Remove</Button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
               </li>
         </p>)}
-        Finished Shows
+        <h2>Finished Shows</h2><br/>
         { (this.state.myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
         { this.state.myShows.finished.map((item, index) => 
             <p key={index}> 
-              <li>{item.name} <button onClick={(e) => this.removeShow(e, 'finished', item.id)} className="remove-button">Remove</button>
+              <li>{item.name} <Button size="sm" color="danger" onClick={(e) => this.removeShow(e, 'finished', item.id)} className="remove-button">Remove</Button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
               </li>
         </p>)}
-          <form className="App-intro" onSubmit={this.searchApi}>
-            <input value={this.state.term} onChange={this.setSearchTerm} />
-            <button>Submit</button>
-          </form>
-          <ListResults storedShows={this.state.storedShows} myShows={this.state.myShows} 
-          items={this.state.items} handler = {this.handler} />
+        Search for tv series below.<br/>
+        <form className="App-intro" onSubmit={this.searchApi}>
+          <input value={this.state.term} onChange={this.setSearchTerm} />
+          <Button color="success">Submit</Button>
+        </form>
+        <br/>
+        <ListResults storedShows={this.state.storedShows} myShows={this.state.myShows} 
+        items={this.state.items} handler = {this.handler} />
       </div>
     );
   }
