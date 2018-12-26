@@ -34,7 +34,7 @@ export default class ListResults extends React.Component {
         {this.props.items.map((item, index) => 
           <p key={index}>
               <li>{item.original_name}</li>
-              <button onClick={() => this.addShowCheck(item.id)}>Add</button>
+              <button id={'add-show-button-'+index} onClick={() => this.addShowCheck(item.id)}>Add</button>
           </p>
         )}
       </span> 

@@ -62,4 +62,12 @@ describe('tv-list app testing', () => {
   },
   config.timeout
   );
+
+  test('storing show works', async () => {
+    await page.click('#add-show-button-0');
+    const newShowName = await page.$eval('p li', e => e.innerHTML);
+    expect(newShowName).toEqual('Stranger Things');
+  },
+  config.timeout
+  );
 });
