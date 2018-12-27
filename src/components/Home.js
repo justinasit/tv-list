@@ -118,6 +118,13 @@ export default class Home extends Component {
     this.storage.setItem('storedShows', this.state.storedShows.filter(show => id !== show.id));
   }
 
+  archiveShow = (e, arrayKey, id, index) => {
+    const archivedShows = this.storage.getItem('archivedShows') ? this.storage.getItem('archivedShows') : [];
+    archivedShows.push(this.state.myShows[arrayKey][index]);
+    this.storage.setItem('archivedShows', archivedShows);
+    this.removeShow(e, arrayKey, id);
+  }
+
   render() {
     return (
       <div className="Home">
@@ -125,7 +132,9 @@ export default class Home extends Component {
         { (this.state.myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
         { this.state.myShows.active.map((item, index) => 
             <p key={index}> 
-              <li>{item.name} <Button size="sm" color="danger" id={'remove-button-'+index} onClick={(e) => this.removeShow(e, 'active', item.id)} className="remove-button">Remove</Button>
+              <li>{item.name}
+              <Button size="sm" color="danger" id={'remove-button-'+index} onClick={(e) => this.removeShow(e, 'active', item.id)} className="remove-button">Remove</Button>
+              <Button size="sm" id={'archive-button-'+index} onClick={(e) => this.archiveShow(e, 'active', item.id, index)} className="archive-button">Archive</Button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
               </li>
@@ -134,7 +143,9 @@ export default class Home extends Component {
         { (this.state.myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
         { this.state.myShows.finished.map((item, index) => 
             <p key={index}> 
-              <li>{item.name} <Button size="sm" color="danger" onClick={(e) => this.removeShow(e, 'finished', item.id)} className="remove-button">Remove</Button>
+              <li>{item.name} 
+              <Button size="sm" color="danger" onClick={(e) => this.removeShow(e, 'finished', item.id)} className="remove-button">Remove</Button>
+              <Button size="sm" id={'archive-button-'+index} onClick={(e) => this.archiveShow(e, 'active', item.id, index)} className="archive-button">Archive</Button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
               </li>

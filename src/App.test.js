@@ -71,4 +71,12 @@ describe('tv-list app testing', () => {
   },
   config.timeout
   );
+
+  test('archive show', async () => {
+    await page.waitForSelector('p li', {visible: true});
+    await page.click('#archive-button-0');
+    await page.waitForSelector('p li', {hidden: true});
+  },
+  config.timeout
+  );
 });
