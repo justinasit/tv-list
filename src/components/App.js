@@ -1,10 +1,11 @@
 import React from 'react';
 import Header from './Header';
 import Main from './Main';
+import '../stylesheets/BaseStyle.css';
 
 // this component will be rendered by our <___Router>
 const App = () => (
-  <div>
+  <div className="App">
     <Header />
     <Main />
   </div>

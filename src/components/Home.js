@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Home.css';
 import * as Tmdb from '../api/Tmdb';
 import ListResults from './ListResults';
 import Storage from '../Storage';
@@ -121,11 +120,7 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Your TV List</h1>
-          <p>You can store a list of TV series you watch using this app!</p>
-        </header>
+      <div className="Home">
         <h2>Active Shows</h2><br/>
         { (this.state.myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
         { this.state.myShows.active.map((item, index) => 
