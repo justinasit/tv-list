@@ -15,6 +15,19 @@ export default class ListResults extends React.Component {
     });
   }
 
+  unArchiveShow(id, index) {
+    const storedShows = this.storage.getItem('storedShows');
+    storedShows.push({id: id, seasons_watched: []});
+    this.storage.setItem('storedShows', storedShows);
+    
+    const archivedShows = this.state.archivedShows;
+    archivedShows.splice(index, 1);
+    this.setState({
+      archivedShows: archivedShows
+    });
+    this.storage.setItem('archivedShows', archivedShows);
+  }
+
   render() {
     return ( 
       <div>
@@ -23,7 +36,7 @@ export default class ListResults extends React.Component {
         { this.state.archivedShows.map((item, index) => 
             <p key={index}> 
               <li>{`${item.name} (Seasons - ${item.number_of_seasons})`} 
-              <Button size="sm" id={'unarchive-button-'+index} onClick={(e) => this.unArchiveShow(e, 'active', item.id, index)}>Un-Archive</Button>
+              <Button size="sm" id={'unarchive-button-'+index} onClick={(e) => this.unArchiveShow(item.id, index)}>Un-Archive</Button>
                 <br/><br />  
               </li>
         </p>)}
