@@ -30,3 +30,7 @@ ul.nav {
 .nav-item {
   margin-left: 10px;
 }
+
+.is-active {
+  font-weight: bold;
+}

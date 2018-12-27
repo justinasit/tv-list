@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Nav, NavItem } from 'reactstrap';
 
 const Header = () => (
@@ -8,10 +8,10 @@ const Header = () => (
     <p>You can store a list of TV series you watch using this app!</p>
     <Nav>
       <NavItem>
-        <Link to='/'>Home</Link>
+        <NavLink exact={true} activeClassName='is-active' to='/'>Home</NavLink>
       </NavItem>
       <NavItem>
-        <Link to='/archived'>Archived</Link>
+        <NavLink activeClassName='is-active' to='/archived'>Archived</NavLink>
       </NavItem>
     </Nav>
   </header>
