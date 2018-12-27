@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
-import * as Tmdb from './api/Tmdb';
+import './Home.css';
+import * as Tmdb from '../api/Tmdb';
 import ListResults from './ListResults';
-import Storage from './Storage';
+import Storage from '../Storage';
 import { Button } from 'reactstrap';
 
-export default class App extends Component {
+export default class Home extends Component {
 
   state = {
     term: '',

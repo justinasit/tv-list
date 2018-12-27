@@ -1,6 +1,6 @@
 import React from 'react';
-import * as Tmdb from './api/Tmdb';
-import Storage from './Storage';
+import * as Tmdb from '../api/Tmdb';
+import Storage from '../Storage';
 
 export default class ListResults extends React.Component {
 
