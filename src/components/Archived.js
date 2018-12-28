@@ -11,7 +11,7 @@ export default class ListResults extends React.Component {
 
   componentDidMount() {
     this.setState({
-      archivedShows: this.storage.getItem('archivedShows')
+      archivedShows: this.storage.getItem('archivedShows') ? this.storage.getItem('archivedShows') : []
     });
   }
 
