@@ -106,9 +106,9 @@ export default class Home extends Component {
     this.storage.setItem('storedShows', this.state.storedShows);
   }
 
-  removeShow = (e, arrayKey, id) => {
+  removeShow = (e, arrayKey, id, index) => {
     e.preventDefault();
-    this.state.myShows[arrayKey].splice(0, 1);
+    this.state.myShows[arrayKey].splice(index, 1);
     this.setState({
       myShows: {
         active: this.state.myShows.active,
@@ -133,7 +133,7 @@ export default class Home extends Component {
         { this.state.myShows.active.map((item, index) => 
             <p key={index}> 
               <li>{item.name}
-              <Button size="sm" color="danger" id={'remove-button-'+index} onClick={(e) => this.removeShow(e, 'active', item.id)} className="remove-button">Remove</Button>
+              <Button size="sm" color="danger" id={'remove-button-'+index} onClick={(e) => this.removeShow(e, 'active', item.id, index)} className="remove-button">Remove</Button>
               <Button size="sm" id={'archive-button-'+index} onClick={(e) => this.archiveShow(e, 'active', item.id, index)} className="archive-button">Archive</Button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
@@ -144,7 +144,7 @@ export default class Home extends Component {
         { this.state.myShows.finished.map((item, index) => 
             <p key={index}> 
               <li>{item.name} 
-              <Button size="sm" color="danger" onClick={(e) => this.removeShow(e, 'finished', item.id)} className="remove-button">Remove</Button>
+              <Button size="sm" color="danger" onClick={(e) => this.removeShow(e, 'finished', item.id, index)} className="remove-button">Remove</Button>
               <Button size="sm" id={'archive-button-'+index} onClick={(e) => this.archiveShow(e, 'active', item.id, index)} className="archive-button">Archive</Button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
