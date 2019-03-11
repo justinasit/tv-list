@@ -26,7 +26,7 @@ describe('tv-list app testing', () => {
       localStorage.setItem('storedShows', '[{"id":1407,"seasons_watched":[1]}]');
     });
     page.reload();
-    await page.waitFor(1000);
+    await page.waitFor(2000);
   });
 
   afterAll(async () => {
@@ -73,9 +73,9 @@ describe('tv-list app testing', () => {
   );
 
   test('archive show', async () => {
-    await page.waitForSelector('p li', {visible: true});
+    await page.waitForSelector('#archive-button-0', {visible: true});
     await page.click('#archive-button-0');
-    await page.waitForSelector('p li', {hidden: true});
+    await page.waitForSelector('#archive-button-0', {hidden: true});
   },
   config.timeout
   );
