@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.2.1",
-    "puppeteer": "^1.11.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
+    "bootstrap": "^4.3.1",
+    "puppeteer": "^1.13.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.2",
+    "react-scripts": "^2.1.8",
     "reactstrap": "^6.5.0"
   },
   "scripts": {
