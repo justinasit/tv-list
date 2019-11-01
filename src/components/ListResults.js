@@ -15,18 +15,22 @@ export default class ListResults extends React.Component {
   
   /* Add show id and season number to storage, update the state with show details */
   addShow = (id) => {
-      this.props.storedShows.push({id: id, seasons_watched: []});
-      this.storage.setItem('storedShows', this.props.storedShows);
-      Tmdb.getInfoById(id).then(data => {
-          this.props.handler({
+    Tmdb.getInfoById(id).then(data => {
+      if (data.number_of_seasons) {
+        this.props.storedShows.push({id: id, seasons_watched: []});
+        this.storage.setItem('storedShows', this.props.storedShows);
+        this.props.handler({
           myShows: {active: [
-              ...this.props.myShows.active,
-              {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: this.props.storedShows.length-1}
-            ], finished: this.props.myShows.finished,
+            ...this.props.myShows.active,
+            {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: this.props.storedShows.length-1}
+          ], finished: this.props.myShows.finished,
           },
         });
-      })
-    }
+      } else {
+        alert('Sorry, this show does not have a season number provided!');
+      }
+    });
+  }
 
   render() {
     return ( 
