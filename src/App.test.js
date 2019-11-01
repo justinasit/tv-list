@@ -79,4 +79,20 @@ describe('tv-list app testing', () => {
   },
   config.timeout
   );
+
+  test('cannot add a show with no seasons', async () => {
+    await page.focus('.App-intro input');
+    await page.keyboard.type('Dar');
+    await page.click('.App-intro button');
+    await page.waitFor('#add-show-button-0');
+    await page.click('#add-show-button-0');
+    await page.on('dialog', async dialog => {
+      const defaultValue = await dialog.message();
+      expect(defaultValue).toEqual('Sorry, this show does not have a season number provided!');
+      await dialog.dismiss();
+    });
+    await page.waitFor(1000);
+  },
+  config.timeout
+  );
 });
