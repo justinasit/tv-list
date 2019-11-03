@@ -122,7 +122,7 @@ export default class Home extends Component {
     const archivedShows = this.storage.getItem('archivedShows') ? this.storage.getItem('archivedShows') : [];
     archivedShows.push(this.state.myShows[arrayKey][index]);
     this.storage.setItem('archivedShows', archivedShows);
-    this.removeShow(e, arrayKey, id);
+    this.removeShow(e, arrayKey, id, index);
   }
 
   render() {
@@ -145,7 +145,7 @@ export default class Home extends Component {
             <p key={index}> 
               <li>{item.name} 
               <Button size="sm" color="danger" onClick={(e) => this.removeShow(e, 'finished', item.id, index)} className="remove-button">Remove</Button>
-              <Button size="sm" id={'archive-button-'+index} onClick={(e) => this.archiveShow(e, 'active', item.id, index)} className="archive-button">Archive</Button>
+              <Button size="sm" id={'archive-button-'+index} onClick={(e) => this.archiveShow(e, 'finished', item.id, index)} className="archive-button">Archive</Button>
                 <br/><br />
                 { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
               </li>
