@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Storage from '../Storage';
 import { Button } from 'reactstrap';
 
-function Archived() {
+const Archived = () => {
   const storage = new Storage();
   const [archivedShows, setArchivedShows] = useState(storage.getItem('archivedShows') ? storage.getItem('archivedShows') : []);
 
