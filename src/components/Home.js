@@ -1,164 +1,131 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Tmdb from '../api/Tmdb';
 import ListResults from './ListResults';
 import Storage from '../Storage';
 import { Button } from 'reactstrap';
 
-export default class Home extends Component {
+const Home = () => {
 
-  state = {
-    term: '',
-    items: [],
-    storedShows: [],
-    myShows: {active: [], finished: []}
-  };
-  storage = new Storage();
-
-  /** Call the API to retrieve all user's stored show data */
-  componentDidMount() {
-    let storedShows = this.getStoredShows();
+  const storage = new Storage();
+  const [term, setTerm] = useState('');
+  const [items, setItems] = useState([]);
+  const [storedShows, setStoredShows] = useState(storage.getItem('storedShows') ? storage.getItem('storedShows') : []);
+  const [myShows, setMyShows] = useState({active: [], finished: []});
+  
+  /* Call the API to retrieve all user's stored show data.
+   * Push show data from the API to either active or finished array 
+   */
+  useEffect(() => {
     let shows = {active: [], finished: []};
+    const getShowData = (showsArray, show, apiData, showIdIndex) => {
+      if (Math.max(...show.seasons_watched) === apiData.last_episode_to_air.season_number) {
+        showsArray.finished.push(mapApiDataToObject(apiData, showIdIndex));
+      } else {
+        showsArray.active.push(mapApiDataToObject(apiData, showIdIndex));
+      }
+  
+      return showsArray;
+    }
+    
     storedShows.map((show, showIdIndex) => 
       Tmdb.getInfoById(show.id).then(data => {
-        shows = this.getShowData(shows, show, data, showIdIndex);
+        shows = getShowData(shows, show, data, showIdIndex);
         // Only change state on last element
         if ((shows.finished.length + shows.active.length) === storedShows.length) {
-          this.setState({
-            myShows: shows
-          });
+          setMyShows(shows);
         }
       })
     );
-    this.handler = this.handler.bind(this);
-  }
-  
-  /* Get stored shows from storage on app load */
-  getStoredShows = () => {
-    let storedShows = [];
-    if (this.storage.getItem('storedShows')) {
-      storedShows = this.storage.getItem('storedShows');
-      this.setState({
-        storedShows: storedShows
-      });
-    }
-
-    return storedShows;
-  }
-
-  /* Push show data from the API to either active or finished array */
-  getShowData(showsArray, show, apiData, showIdIndex) {
-    if (Math.max(...show.seasons_watched) === apiData.last_episode_to_air.season_number) {
-      showsArray.finished.push(this.mapApiDataToObject(apiData, showIdIndex));
-    } else {
-      showsArray.active.push(this.mapApiDataToObject(apiData, showIdIndex));
-    }
-
-    return showsArray;
-  }
+  }, [storedShows]);
 
   /* Map show data from the API to our shows object */
-  mapApiDataToObject(apiData, showIdIndex) {
+  const mapApiDataToObject = (apiData, showIdIndex) => {
     return {name: apiData.name, number_of_seasons: apiData.number_of_seasons, 
       last_aired_season: apiData.last_episode_to_air.season_number, showIdIndex: showIdIndex, id: apiData.id};
   }
 
-  handler(someValue) {
-    this.setState(someValue);
-  }
-
-  setSearchTerm = (event) => {
-    this.setState({ term: event.target.value });
-  }
-
-  searchApi = (event) => {
+  const searchApi = (event) => {
     event.preventDefault();
 
-    Tmdb.searchTv(this.state.term).then(data => {
-      this.setState({
-        term: '',
-        items: data.results
-      });
+    Tmdb.searchTv(term).then(data => {
+      setItems(data.results);
+      setTerm('');
     });
   }
 
   /* List seasons with checkboxes, disable checkboxes for seasons that haven't aired yet */
-  listSeasons = (numberOfSeasons, showIndex, lastAiredSeason) => {
-    let rows = [];
-    for (var i = 1; i <= numberOfSeasons; i++) {
-        rows.push(<span key={i}>Season {i} 
-        <input defaultChecked={this.state.storedShows[showIndex].seasons_watched.includes(i)}
-          onChange={this.checkSeason.bind(this, i, showIndex)} type="checkbox"
-          disabled={i>lastAiredSeason}
-          />
-        <br/></span>);
-    }
-    return <span>{rows}</span>;
+  const listSeasons = (numberOfSeasons, showIndex, lastAiredSeason) => {
+    return <span>{[...Array(numberOfSeasons).keys()].map(x => x++).map(i => <span key={i}>Season {i} 
+      <input defaultChecked={storedShows[showIndex].seasons_watched.includes(i)}
+        onChange={() => checkSeason(i, showIndex)} type="checkbox"
+        disabled={i>lastAiredSeason}
+        />
+      <br/></span>)}</span>
   }
 
   /* Update the seasons watched array in storage and state */
-  checkSeason = (seasonNumber, showIndex) => {
-    if (this.state.storedShows[showIndex].seasons_watched.includes(seasonNumber)) {
-      const seasonIndex = this.state.storedShows[showIndex].seasons_watched.indexOf(seasonNumber);
-      this.state.storedShows[showIndex].seasons_watched.splice(seasonIndex, 1);
+  const checkSeason = (seasonNumber, showIndex) => {
+    const updatedShows = storedShows;
+    if (storedShows[showIndex].seasons_watched.includes(seasonNumber)) {
+      const seasonIndex = storedShows[showIndex].seasons_watched.indexOf(seasonNumber);
+      updatedShows[showIndex].seasons_watched.splice(seasonIndex, 1);
     } else {
-      this.state.storedShows[showIndex].seasons_watched.push(seasonNumber);
+      updatedShows[showIndex].seasons_watched.push(seasonNumber);
     }
-    this.storage.setItem('storedShows', this.state.storedShows);
+    setStoredShows(updatedShows);
+    storage.setItem('storedShows', updatedShows);
   }
 
-  removeShow = (e, arrayKey, id, index) => {
+  const removeShow = (e, arrayKey, id, index) => {
     e.preventDefault();
-    this.state.myShows[arrayKey].splice(index, 1);
-    this.setState({
-      myShows: {
-        active: this.state.myShows.active,
-        finished: this.state.myShows.finished
-      }
+    const showsWithoutRemovedItem = myShows[arrayKey].filter((show, key) => key !== index);
+    setMyShows({
+      active: arrayKey === 'active' ? showsWithoutRemovedItem : myShows.active,
+      finished: arrayKey === 'finished' ? showsWithoutRemovedItem : myShows.finished,
     });
-    this.storage.setItem('storedShows', this.state.storedShows.filter(show => id !== show.id));
+    storage.setItem('storedShows', storedShows.filter(show => id !== show.id));
   }
 
-  archiveShow = (e, arrayKey, id, index) => {
-    const archivedShows = this.storage.getItem('archivedShows') ? this.storage.getItem('archivedShows') : [];
-    archivedShows.push(this.state.myShows[arrayKey][index]);
+  const archiveShow = (e, arrayKey, id, index) => {
+    const archivedShows = storage.getItem('archivedShows') ? storage.getItem('archivedShows') : [];
+    archivedShows.push(myShows[arrayKey][index]);
     this.storage.setItem('archivedShows', archivedShows);
     this.removeShow(e, arrayKey, id, index);
   }
 
-  render() {
-    return (
-      <div className="Home">
-        <h2>Active Shows</h2><br/>
-        { (this.state.myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
-        { this.state.myShows.active.map((item, index) => 
-            <p key={index}> 
-              <li>{item.name}
-              <Button size="sm" color="danger" id={'remove-button-'+index} onClick={(e) => this.removeShow(e, 'active', item.id, index)} className="remove-button">Remove</Button>
-              <Button size="sm" id={'archive-button-'+index} onClick={(e) => this.archiveShow(e, 'active', item.id, index)} className="archive-button">Archive</Button>
-                <br/><br />
-                { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-              </li>
-        </p>)}
-        <h2>Finished Shows</h2><br/>
-        { (this.state.myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
-        { this.state.myShows.finished.map((item, index) => 
-            <p key={index}> 
-              <li>{item.name} 
-              <Button size="sm" color="danger" onClick={(e) => this.removeShow(e, 'finished', item.id, index)} className="remove-button">Remove</Button>
-              <Button size="sm" id={'archive-button-'+index} onClick={(e) => this.archiveShow(e, 'finished', item.id, index)} className="archive-button">Archive</Button>
-                <br/><br />
-                { this.listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-              </li>
-        </p>)}
-        Search for tv series below.<br/>
-        <form className="App-intro" onSubmit={this.searchApi}>
-          <input value={this.state.term} onChange={this.setSearchTerm} />
-          <Button color="success">Submit</Button>
-        </form>
-        <br/>
-        <ListResults storedShows={this.state.storedShows} myShows={this.state.myShows} 
-        items={this.state.items} handler = {this.handler} />
-      </div>
-    );
-  }
+  return (
+    <div className="Home">
+      <h2>Active Shows</h2><br/>
+      { (myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
+      { myShows.active.map((item, index) => 
+          <p key={index}> 
+            <li>{item.name}
+            <Button size="sm" color="danger" id={'remove-button-'+index} onClick={(e) => removeShow(e, 'active', item.id, index)} className="remove-button">Remove</Button>
+            <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'active', item.id, index)} className="archive-button">Archive</Button>
+              <br/><br />
+              { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
+            </li>
+      </p>)}
+      <h2>Finished Shows</h2><br/>
+      { (myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
+      { myShows.finished.map((item, index) => 
+          <p key={index}> 
+            <li>{item.name} 
+            <Button size="sm" color="danger" onClick={(e) => removeShow(e, 'finished', item.id, index)} className="remove-button">Remove</Button>
+            <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'finished', item.id, index)} className="archive-button">Archive</Button>
+              <br/><br />
+              { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
+            </li>
+      </p>)}
+      Search for tv series below.<br/>
+      <form className="App-intro" onSubmit={searchApi}>
+        <input value={term} onChange={event => setTerm(event.target.value)} />
+        <Button color="success">Submit</Button>
+      </form>
+      <br/>
+      <ListResults storedShows={storedShows} myShows={myShows} items={items} />
+    </div>
+  );
 }
+
+export default Home;
