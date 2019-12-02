@@ -89,8 +89,8 @@ const Home = () => {
   const archiveShow = (e, arrayKey, id, index) => {
     const archivedShows = storage.getItem('archivedShows') ? storage.getItem('archivedShows') : [];
     archivedShows.push(myShows[arrayKey][index]);
-    this.storage.setItem('archivedShows', archivedShows);
-    this.removeShow(e, arrayKey, id, index);
+    storage.setItem('archivedShows', archivedShows);
+    removeShow(e, arrayKey, id, index);
   }
 
   return (
@@ -123,7 +123,7 @@ const Home = () => {
         <Button color="success">Submit</Button>
       </form>
       <br/>
-      <ListResults storedShows={storedShows} myShows={myShows} items={items} />
+      <ListResults storedShows={storedShows} myShows={myShows} items={items} setMyShows={setMyShows} />
     </div>
   );
 }

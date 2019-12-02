@@ -19,12 +19,10 @@ const ListResults = (props) => {
       if (data.number_of_seasons) {
         props.storedShows.push({id: id, seasons_watched: []});
         storage.setItem('storedShows', props.storedShows);
-        props.handler({
-          myShows: {active: [
+        props.setMyShows({active: [
             ...props.myShows.active,
             {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: props.storedShows.length-1}
           ], finished: props.myShows.finished,
-          },
         });
       } else {
         alert('Sorry, this show does not have a season number provided!');
