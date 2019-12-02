@@ -23,7 +23,7 @@ const Archived = () => {
       { archivedShows.map((item, index) => 
           <p key={index}> 
             <li>{`${item.name} (Seasons - ${item.number_of_seasons})`} 
-            <Button size="sm" id={'unarchive-button-'+index} onClick={(e) => unArchiveShow(item.id, index)}>Un-Archive</Button>
+            <Button size="sm" id={'unarchive-button-'+index} onClick={() => unArchiveShow(item.id, index)}>Un-Archive</Button>
               <br/><br />  
             </li>
       </p>)}

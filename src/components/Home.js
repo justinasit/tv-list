@@ -55,7 +55,7 @@ const Home = () => {
 
   /* List seasons with checkboxes, disable checkboxes for seasons that haven't aired yet */
   const listSeasons = (numberOfSeasons, showIndex, lastAiredSeason) => {
-    return <span>{[...Array(numberOfSeasons).keys()].map(x => x++).map(i => <span key={i}>Season {i} 
+    return <span>{Array.from(Array(numberOfSeasons), (e,i)=>i+1).map(i => <span key={i}>Season {i} 
       <input defaultChecked={storedShows[showIndex].seasons_watched.includes(i)}
         onChange={() => checkSeason(i, showIndex)} type="checkbox"
         disabled={i>lastAiredSeason}
