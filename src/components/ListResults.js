@@ -3,7 +3,6 @@ import * as Tmdb from '../api/Tmdb';
 import Storage from '../Storage';
 
 const ListResults = (props) => {
-
   const storage = new Storage();
 
   /* If the show is already stored - no need to add it again */

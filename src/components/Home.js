@@ -5,7 +5,6 @@ import Storage from '../Storage';
 import { Button } from 'reactstrap';
 
 const Home = () => {
-
   const storage = new Storage();
   const [term, setTerm] = useState('');
   const [items, setItems] = useState([]);
