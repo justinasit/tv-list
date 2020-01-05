@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as Tmdb from '../api/Tmdb';
 import ListResults from './ListResults';
 import Storage from '../Storage';
-import { Button } from 'reactstrap';
+import { Button, UncontrolledCollapse } from 'reactstrap';
 
 const Home = () => {
   const storage = new Storage();
@@ -107,36 +107,39 @@ const Home = () => {
         <h2>Active Shows</h2><br/>
         { (myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
         { myShows.active.map((item, index) => 
-            <p key={index}> 
-              <strong>{item.name}</strong><br/>
-              <Button size="sm" color="danger" id={'remove-button-'+index} 
-                onClick={(e) => removeShow(e, 'active', item.id, index)} className="remove-button ml-1">
-                Remove
-              </Button>
-              <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'active', item.id, index)} 
-                className="archive-button ml-1">
-                Archive
-              </Button>
+            <div key={index}> 
+              <strong id={'toggler'+index}>{item.name}</strong><br/>
+              <UncontrolledCollapse toggler={'#toggler'+index}>
+                <Button size="sm" color="danger" id={'remove-button-'+index} 
+                  onClick={(e) => removeShow(e, 'active', item.id, index)} className="remove-button ml-1">
+                  Remove
+                </Button>
+                <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'active', item.id, index)} 
+                  className="archive-button ml-1">
+                  Archive
+                </Button>
                 <br/><br />
                 { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-              
-        </p>)}
+              </UncontrolledCollapse>
+        </div>)}
         <h2>Finished Shows</h2><br/>
         { (myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
         { myShows.finished.map((item, index) => 
-            <p key={index}> 
-              {item.name}<br/>
-              <Button size="sm" color="danger" onClick={(e) => removeShow(e, 'finished', item.id, index)} 
-                className="remove-button">
-                Remove
-              </Button>
-              <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'finished', item.id, index)} 
-                className="archive-button">
-                Archive
-              </Button>
-              <br/><br />
-              { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-             </p>
+            <div key={index}> 
+              <strong id={'toggler-finished'+index}>{item.name}</strong><br/>
+              <UncontrolledCollapse toggler={'#toggler-finished'+index}>
+                <Button size="sm" color="danger" onClick={(e) => removeShow(e, 'finished', item.id, index)} 
+                  className="remove-button">
+                  Remove
+                </Button>
+                <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'finished', item.id, index)} 
+                  className="archive-button ml-1">
+                  Archive
+                </Button>
+                <br/><br />
+                { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
+              </UncontrolledCollapse>
+            </div>
         )}
       </div>
     </div>
