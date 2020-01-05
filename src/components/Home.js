@@ -93,47 +93,52 @@ const Home = () => {
   }
 
   return (
-    <div className="Home">
-      <h2>Active Shows</h2><br/>
-      { (myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
-      { myShows.active.map((item, index) => 
-          <p key={index}> 
-            <strong>{item.name}</strong><br/>
-            <Button size="sm" color="danger" id={'remove-button-'+index} 
-              onClick={(e) => removeShow(e, 'active', item.id, index)} className="remove-button ml-1">
-              Remove
-            </Button>
-            <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'active', item.id, index)} 
-              className="archive-button ml-1">
-              Archive
-            </Button>
+    <div className="Home row">
+      <div className="col-md-2 mt-2 ml-1 border-right">
+        Search for tv series below.<br/>
+        <form className="App-intro" onSubmit={searchApi}>
+          <input value={term} onChange={event => setTerm(event.target.value)} />
+          <Button className="ml-1" color="success" className="mt-1">Submit</Button>
+        </form>
+        <br/>
+        <ListResults storedShows={storedShows} myShows={myShows} items={items} setMyShows={setMyShows} />
+      </div>
+      <div className="col-md-9">
+        <h2>Active Shows</h2><br/>
+        { (myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
+        { myShows.active.map((item, index) => 
+            <p key={index}> 
+              <strong>{item.name}</strong><br/>
+              <Button size="sm" color="danger" id={'remove-button-'+index} 
+                onClick={(e) => removeShow(e, 'active', item.id, index)} className="remove-button ml-1">
+                Remove
+              </Button>
+              <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'active', item.id, index)} 
+                className="archive-button ml-1">
+                Archive
+              </Button>
+                <br/><br />
+                { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
+              
+        </p>)}
+        <h2>Finished Shows</h2><br/>
+        { (myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
+        { myShows.finished.map((item, index) => 
+            <p key={index}> 
+              {item.name}<br/>
+              <Button size="sm" color="danger" onClick={(e) => removeShow(e, 'finished', item.id, index)} 
+                className="remove-button">
+                Remove
+              </Button>
+              <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'finished', item.id, index)} 
+                className="archive-button">
+                Archive
+              </Button>
               <br/><br />
               { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-            
-      </p>)}
-      <h2>Finished Shows</h2><br/>
-      { (myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
-      { myShows.finished.map((item, index) => 
-          <p key={index}> 
-            {item.name}<br/>
-            <Button size="sm" color="danger" onClick={(e) => removeShow(e, 'finished', item.id, index)} 
-              className="remove-button">
-              Remove
-            </Button>
-            <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'finished', item.id, index)} 
-              className="archive-button">
-              Archive
-            </Button>
-              <br/><br />
-              { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-      </p>)}
-      Search for tv series below.<br/>
-      <form className="App-intro" onSubmit={searchApi}>
-        <input value={term} onChange={event => setTerm(event.target.value)} />
-        <Button className="ml-1" color="success">Submit</Button>
-      </form>
-      <br/>
-      <ListResults storedShows={storedShows} myShows={myShows} items={items} setMyShows={setMyShows} />
+             </p>
+        )}
+      </div>
     </div>
   );
 }
