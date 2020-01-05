@@ -92,6 +92,27 @@ const Home = () => {
     removeShow(e, arrayKey, id, index);
   }
 
+  const listShowActions = (showsArray, arrayName) => {
+    return (showsArray.length === 0) ? <p>Nothing here!</p> : 
+     showsArray.map((item, index) => 
+      <div key={index} className="mt-2"> 
+        <strong id={'toggler-'+arrayName+index} style={{cursor: 'pointer'}}>{item.name}</strong><br/>
+        <UncontrolledCollapse toggler={'#toggler-'+arrayName+index}>
+          <Button size="sm" color="danger" id={'remove-button-'+index} 
+            onClick={(e) => removeShow(e, arrayName, item.id, index)} className="remove-button ml-1">
+            Remove
+          </Button>
+          <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, arrayName, item.id, index)} 
+            className="archive-button ml-1">
+            Archive
+          </Button>
+          <br/><br />
+          { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
+        </UncontrolledCollapse>
+      </div>
+    )
+  }
+
   return (
     <div className="Home row">
       <div className="col-md-2 mt-2 ml-1 border-right">
@@ -105,43 +126,9 @@ const Home = () => {
       </div>
       <div className="col-md-9">
         <h2>Active Shows</h2><br/>
-        { (myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
-        { myShows.active.map((item, index) => 
-          <div key={index} className="mt-2"> 
-            <strong id={'toggler'+index} style={{cursor: 'pointer'}}>{item.name}</strong><br/>
-            <UncontrolledCollapse toggler={'#toggler'+index}>
-              <Button size="sm" color="danger" id={'remove-button-'+index} 
-                onClick={(e) => removeShow(e, 'active', item.id, index)} className="remove-button ml-1">
-                Remove
-              </Button>
-              <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'active', item.id, index)} 
-                className="archive-button ml-1">
-                Archive
-              </Button>
-              <br/><br />
-              { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-            </UncontrolledCollapse>
-            </div>
-        )}
+        { listShowActions(myShows.active, 'active') }
         <h2 className="mt-3">Finished Shows</h2><br/>
-        { (myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
-        { myShows.finished.map((item, index) => 
-          <div key={index} className="mt-2"> 
-            <strong id={'toggler-finished'+index} style={{cursor: 'pointer'}}>{item.name}</strong><br/>
-            <UncontrolledCollapse toggler={'#toggler-finished'+index}>
-              <Button size="sm" color="danger" onClick={(e) => removeShow(e, 'finished', item.id, index)} 
-                className="remove-button">
-                Remove
-              </Button>
-              <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'finished', item.id, index)} 
-                className="archive-button ml-1">
-                Archive
-              </Button>
-              <br/><br />
-              { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-            </UncontrolledCollapse>
-          </div>
-        )}
+        { listShowActions(myShows.finished, 'finished') }
       </div>
     </div>
   );
