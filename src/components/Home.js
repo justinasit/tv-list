@@ -57,7 +57,7 @@ const Home = () => {
     return <span>{Array.from(Array(numberOfSeasons), (e,i)=>i+1).map(i => <span key={i}>Season {i} 
       <input defaultChecked={storedShows[showIndex].seasons_watched.includes(i)}
         onChange={() => checkSeason(i, showIndex)} type="checkbox"
-        disabled={i>lastAiredSeason}
+        disabled={i>lastAiredSeason} className="ml-1"
         />
       <br/></span>)}</span>
   }
@@ -98,28 +98,39 @@ const Home = () => {
       { (myShows.active.length === 0) ? <p>Nothing here!</p> : ''}
       { myShows.active.map((item, index) => 
           <p key={index}> 
-            <li>{item.name}
-            <Button size="sm" color="danger" id={'remove-button-'+index} onClick={(e) => removeShow(e, 'active', item.id, index)} className="remove-button">Remove</Button>
-            <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'active', item.id, index)} className="archive-button">Archive</Button>
+            <strong>{item.name}</strong><br/>
+            <Button size="sm" color="danger" id={'remove-button-'+index} 
+              onClick={(e) => removeShow(e, 'active', item.id, index)} className="remove-button ml-1">
+              Remove
+            </Button>
+            <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'active', item.id, index)} 
+              className="archive-button ml-1">
+              Archive
+            </Button>
               <br/><br />
               { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-            </li>
+            
       </p>)}
       <h2>Finished Shows</h2><br/>
       { (myShows.finished.length === 0) ? <p>Nothing here!</p> : ''}
       { myShows.finished.map((item, index) => 
           <p key={index}> 
-            <li>{item.name} 
-            <Button size="sm" color="danger" onClick={(e) => removeShow(e, 'finished', item.id, index)} className="remove-button">Remove</Button>
-            <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'finished', item.id, index)} className="archive-button">Archive</Button>
+            {item.name}<br/>
+            <Button size="sm" color="danger" onClick={(e) => removeShow(e, 'finished', item.id, index)} 
+              className="remove-button">
+              Remove
+            </Button>
+            <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, 'finished', item.id, index)} 
+              className="archive-button">
+              Archive
+            </Button>
               <br/><br />
               { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
-            </li>
       </p>)}
       Search for tv series below.<br/>
       <form className="App-intro" onSubmit={searchApi}>
         <input value={term} onChange={event => setTerm(event.target.value)} />
-        <Button color="success">Submit</Button>
+        <Button className="ml-1" color="success">Submit</Button>
       </form>
       <br/>
       <ListResults storedShows={storedShows} myShows={myShows} items={items} setMyShows={setMyShows} />
