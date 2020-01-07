@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as Tmdb from '../api/Tmdb';
 import ListResults from './ListResults';
+import ListSeasons from './ListSeasons';
 import Storage from '../Storage';
 import { Button, UncontrolledCollapse } from 'reactstrap';
 
@@ -52,52 +53,6 @@ const Home = () => {
     });
   }
 
-  /* List seasons with checkboxes, disable checkboxes for seasons that haven't aired yet */
-  const listSeasons = (item, arrayName) => {
-    return <span>{Array.from(Array(item.number_of_seasons), (e,i)=>i+1).map(i => <span key={i}>Season {i} 
-      <input defaultChecked={storedShows[item.showIdIndex].seasons_watched.includes(i)}
-        onChange={() => checkSeason(i, item, arrayName)} type="checkbox"
-        disabled={i>item.last_aired_season} className="ml-1"
-        />
-      <br/></span>)}</span>
-  }
-
-  /* Update the seasons watched array in storage and state */
-  const checkSeason = (seasonNumber, item, arrayName) => {
-    const updatedShows = storedShows;
-    let seasonAdded = false;
-    if (storedShows[item.showIdIndex].seasons_watched.includes(seasonNumber)) {
-      const seasonIndex = storedShows[item.showIdIndex].seasons_watched.indexOf(seasonNumber);
-      updatedShows[item.showIdIndex].seasons_watched.splice(seasonIndex, 1);
-    } else {
-      updatedShows[item.showIdIndex].seasons_watched.push(seasonNumber);
-      seasonAdded = true;
-    }
-    setStoredShows(updatedShows);
-    storage.setItem('storedShows', updatedShows);
-    updateShowActivity(updatedShows, item, seasonAdded, arrayName);
-  }
-  
-  const updateShowActivity = (updatedShows, item, seasonAdded, arrayName) => {
-    if (seasonAdded) {
-      if (updatedShows[item.showIdIndex].seasons_watched.length === updatedShows[item.showIdIndex].number_of_seasons) {
-        myShows.finished.push(item);
-        setMyShows({
-          active: myShows.active.filter((show) => show.name !== item.name),
-          finished: myShows.finished
-        });
-      }
-    } else {
-      if (arrayName === 'finished') {
-        myShows.active.push(item);
-        setMyShows({
-          active: myShows.active,
-          finished: myShows.finished.filter((show) => show.name !== item.name),
-        });
-      }
-    }
-  }
-
   const removeShow = (e, arrayKey, id, index) => {
     e.preventDefault();
     const showsWithoutRemovedItem = myShows[arrayKey].filter((show, key) => key !== index);
@@ -130,7 +85,8 @@ const Home = () => {
             Archive
           </Button>
           <br/><br />
-          { listSeasons(item, arrayName) }
+          <ListSeasons item={item} arrayName={arrayName} storedShows={storedShows} 
+            setStoredShows={setStoredShows} myShows={myShows} setMyShows={setMyShows} />
         </UncontrolledCollapse>
       </div>
     )
