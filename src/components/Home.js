@@ -73,11 +73,14 @@ const Home = () => {
     }
     setStoredShows(updatedShows);
     storage.setItem('storedShows', updatedShows);
+    updateShowActivity(updatedShows, item);
+  }
+  
+  const updateShowActivity = (updatedShows, item) => {
     if (updatedShows[item.showIdIndex].seasons_watched.length === updatedShows[item.showIdIndex].number_of_seasons) {
-      const showsWithoutRemovedItem = myShows.active.filter((show) => show.name !== item.name);
       myShows.finished.push(item);
       setMyShows({
-        active: showsWithoutRemovedItem,
+        active: myShows.active.filter((show) => show.name !== item.name),
         finished: myShows.finished
       });
     }
