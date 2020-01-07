@@ -53,26 +53,34 @@ const Home = () => {
   }
 
   /* List seasons with checkboxes, disable checkboxes for seasons that haven't aired yet */
-  const listSeasons = (numberOfSeasons, showIndex, lastAiredSeason) => {
-    return <span>{Array.from(Array(numberOfSeasons), (e,i)=>i+1).map(i => <span key={i}>Season {i} 
-      <input defaultChecked={storedShows[showIndex].seasons_watched.includes(i)}
-        onChange={() => checkSeason(i, showIndex)} type="checkbox"
-        disabled={i>lastAiredSeason} className="ml-1"
+  const listSeasons = (item) => {
+    return <span>{Array.from(Array(item.number_of_seasons), (e,i)=>i+1).map(i => <span key={i}>Season {i} 
+      <input defaultChecked={storedShows[item.showIdIndex].seasons_watched.includes(i)}
+        onChange={() => checkSeason(i, item)} type="checkbox"
+        disabled={i>item.last_aired_season} className="ml-1"
         />
       <br/></span>)}</span>
   }
 
   /* Update the seasons watched array in storage and state */
-  const checkSeason = (seasonNumber, showIndex) => {
+  const checkSeason = (seasonNumber, item) => {
     const updatedShows = storedShows;
-    if (storedShows[showIndex].seasons_watched.includes(seasonNumber)) {
-      const seasonIndex = storedShows[showIndex].seasons_watched.indexOf(seasonNumber);
-      updatedShows[showIndex].seasons_watched.splice(seasonIndex, 1);
+    if (storedShows[item.showIdIndex].seasons_watched.includes(seasonNumber)) {
+      const seasonIndex = storedShows[item.showIdIndex].seasons_watched.indexOf(seasonNumber);
+      updatedShows[item.showIdIndex].seasons_watched.splice(seasonIndex, 1);
     } else {
-      updatedShows[showIndex].seasons_watched.push(seasonNumber);
+      updatedShows[item.showIdIndex].seasons_watched.push(seasonNumber);
     }
     setStoredShows(updatedShows);
     storage.setItem('storedShows', updatedShows);
+    if (updatedShows[item.showIdIndex].seasons_watched.length === updatedShows[item.showIdIndex].number_of_seasons) {
+      const showsWithoutRemovedItem = myShows.active.filter((show) => show.name !== item.name);
+      myShows.finished.push(item);
+      setMyShows({
+        active: showsWithoutRemovedItem,
+        finished: myShows.finished
+      });
+    }
   }
 
   const removeShow = (e, arrayKey, id, index) => {
@@ -107,7 +115,7 @@ const Home = () => {
             Archive
           </Button>
           <br/><br />
-          { listSeasons(item.number_of_seasons, item.showIdIndex, item.last_aired_season) }
+          { listSeasons(item) }
         </UncontrolledCollapse>
       </div>
     )
