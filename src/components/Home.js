@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import * as Tmdb from '../api/Tmdb';
 import ListResults from './ListResults';
-import ListSeasons from './ListSeasons';
+import ListActions from './ListActions';
 import Storage from '../Storage';
-import { Button, UncontrolledCollapse } from 'reactstrap';
+import { Button } from 'reactstrap';
 
 const Home = () => {
   const storage = new Storage();
@@ -53,45 +53,6 @@ const Home = () => {
     });
   }
 
-  const removeShow = (e, arrayKey, id, index) => {
-    e.preventDefault();
-    const showsWithoutRemovedItem = myShows[arrayKey].filter((show, key) => key !== index);
-    setMyShows({
-      active: arrayKey === 'active' ? showsWithoutRemovedItem : myShows.active,
-      finished: arrayKey === 'finished' ? showsWithoutRemovedItem : myShows.finished,
-    });
-    storage.setItem('storedShows', storedShows.filter(show => id !== show.id));
-  }
-
-  const archiveShow = (e, arrayKey, id, index) => {
-    const archivedShows = storage.getItem('archivedShows') ? storage.getItem('archivedShows') : [];
-    archivedShows.push(myShows[arrayKey][index]);
-    storage.setItem('archivedShows', archivedShows);
-    removeShow(e, arrayKey, id, index);
-  }
-
-  const listShowActions = (showsArray, arrayName) => {
-    return (showsArray.length === 0) ? <p>Nothing here!</p> : 
-     showsArray.map((item, index) => 
-      <div key={index} className="mt-2"> 
-        <strong id={'toggler-'+arrayName+index} style={{cursor: 'pointer'}}>{item.name}</strong><br/>
-        <UncontrolledCollapse toggler={'#toggler-'+arrayName+index}>
-          <Button size="sm" color="danger" id={'remove-button-'+index} 
-            onClick={(e) => removeShow(e, arrayName, item.id, index)} className="remove-button ml-1">
-            Remove
-          </Button>
-          <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, arrayName, item.id, index)} 
-            className="archive-button ml-1">
-            Archive
-          </Button>
-          <br/><br />
-          <ListSeasons item={item} arrayName={arrayName} storedShows={storedShows} 
-            setStoredShows={setStoredShows} myShows={myShows} setMyShows={setMyShows} />
-        </UncontrolledCollapse>
-      </div>
-    )
-  }
-
   return (
     <div className="Home row">
       <div className="col-md-2 mt-2 ml-1 border-right">
@@ -105,9 +66,11 @@ const Home = () => {
       </div>
       <div className="col-md-9">
         <h2>Active Shows</h2><br/>
-        { listShowActions(myShows.active, 'active') }
+        <ListActions shows={myShows.active} visibility='active' myShows={myShows}
+         storedShows={storedShows} setMyShows={setMyShows} setStoredShows={setStoredShows} />
         <h2 className="mt-3">Finished Shows</h2><br/>
-        { listShowActions(myShows.finished, 'finished') }
+        <ListActions shows={myShows.finished} visibility='finished' myShows={myShows}
+         storedShows={storedShows} setMyShows={setMyShows} setStoredShows={setStoredShows}/>
       </div>
     </div>
   );

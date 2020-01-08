@@ -5,7 +5,7 @@ const ListSeasons = (props) => {
   const storage = new Storage();
 
   /* Update the seasons watched array in storage and state */
-  const checkSeason = (seasonNumber, item, arrayName) => {
+  const checkSeason = (seasonNumber, item, visibility) => {
     const updatedShows = props.storedShows;
     let seasonAdded = false;
     if (props.storedShows[item.showIdIndex].seasons_watched.includes(seasonNumber)) {
@@ -17,10 +17,10 @@ const ListSeasons = (props) => {
     }
     props.setStoredShows(updatedShows);
     storage.setItem('storedShows', updatedShows);
-    updateShowActivity(updatedShows, item, seasonAdded, arrayName);
+    updateShowActivity(updatedShows, item, seasonAdded, visibility);
   }
 
-  const updateShowActivity = (updatedShows, item, seasonAdded, arrayName) => {
+  const updateShowActivity = (updatedShows, item, seasonAdded, visibility) => {
     if (seasonAdded) {
       if (updatedShows[item.showIdIndex].seasons_watched.length === updatedShows[item.showIdIndex].number_of_seasons) {
         props.myShows.finished.push(item);
@@ -30,7 +30,7 @@ const ListSeasons = (props) => {
         });
       }
     } else {
-      if (arrayName === 'finished') {
+      if (visibility === 'finished') {
         props.myShows.active.push(item);
         props.setMyShows({
           active: props.myShows.active,
@@ -45,7 +45,7 @@ const ListSeasons = (props) => {
     <span>
         {Array.from(Array(props.item.number_of_seasons), (e,i)=>i+1).map(i => <span key={i}>Season {i} 
         <input defaultChecked={props.storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
-          onChange={() => checkSeason(i, props.item, props.arrayName)} type="checkbox"
+          onChange={() => checkSeason(i, props.item, props.visibility)} type="checkbox"
           disabled={i>props.item.last_aired_season} className="ml-1"
           />
         <br/></span>)}
