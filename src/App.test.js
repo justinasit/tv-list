@@ -34,15 +34,18 @@ describe('tv-list app testing', () => {
   });
 
   test('stored show is visible', async () => {
-    await page.$eval('p li', value => value = 'Homeland');
+    await page.$eval('#toggler-active0', value => value = 'Homeland');
   },
   config.timeout
   );
 
   test('remove show', async () => {
-    await page.waitForSelector('p li', {visible: true});
+    await page.waitForSelector('#toggler-active0', {visible: true});
+    await page.click('#toggler-active0');
+    await page.waitForSelector('#remove-button-0', {visible: true});
+    await page.waitFor(1000);
     await page.click('#remove-button-0');
-    await page.waitForSelector('p li', {hidden: true});
+    await page.waitForSelector('#toggler-active0', {hidden: true});
   },
   config.timeout
   );
@@ -73,7 +76,10 @@ describe('tv-list app testing', () => {
   );
 
   test('archive show', async () => {
+    await page.waitForSelector('#toggler-active0', {visible: true});
+    await page.click('#toggler-active0');
     await page.waitForSelector('#archive-button-0', {visible: true});
+    await page.waitFor(1000);
     await page.click('#archive-button-0');
     await page.waitForSelector('#archive-button-0', {hidden: true});
   },
