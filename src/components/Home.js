@@ -18,7 +18,7 @@ const Home = () => {
   useEffect(() => {
     let shows = {active: [], finished: []};
     const getShowData = (showsArray, show, apiData, showIdIndex) => {
-      if (Math.max(...show.seasons_watched) === apiData.last_episode_to_air.season_number) {
+      if (show.seasons_watched.length === apiData.last_episode_to_air.season_number) {
         showsArray.finished.push(mapApiDataToObject(apiData, showIdIndex));
       } else {
         showsArray.active.push(mapApiDataToObject(apiData, showIdIndex));
