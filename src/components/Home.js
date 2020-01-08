@@ -59,7 +59,7 @@ const Home = () => {
         Search for tv series below.<br/>
         <form className="App-intro" onSubmit={searchApi}>
           <input value={term} onChange={event => setTerm(event.target.value)} />
-          <Button className="ml-1" color="success" className="mt-1">Submit</Button>
+          <Button className="ml-1 mt-1" color="success">Submit</Button>
         </form>
         <br/>
         <ListResults storedShows={storedShows} myShows={myShows} items={items} setMyShows={setMyShows} />
