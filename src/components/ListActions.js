@@ -27,21 +27,21 @@ const ListActions = (props) => {
     (props.shows.length === 0) ? <p>Nothing here!</p> : 
     props.shows.map((item, index) => 
     <div key={index} className="mt-2"> 
-        <strong id={'toggler-'+props.visibility+index} style={{cursor: 'pointer'}}>{item.name}</strong><br/>
-        <UncontrolledCollapse toggler={'#toggler-'+props.visibility+index}>
-          <Button size="sm" color="danger" id={'remove-button-'+index} 
-            onClick={(e) => removeShow(e, props.visibility, item.id, index)} className="remove-button ml-1">
-            Remove
-          </Button>
-          <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, props.visibility, item.id, index)} 
-            className="archive-button ml-1">
-            Archive
-          </Button>
-          <br/><br />
-          <ListSeasons item={item} visibility={props.visibility} storedShows={props.storedShows} 
-            setStoredShows={props.setStoredShows} myShows={props.myShows} setMyShows={props.setMyShows} />
-        </UncontrolledCollapse>
-      </div>
+      <strong id={'toggler-'+props.visibility+index} style={{cursor: 'pointer'}}>{item.name}</strong><br/>
+      <UncontrolledCollapse toggler={'#toggler-'+props.visibility+index}>
+        <Button size="sm" color="danger" id={'remove-button-'+index} 
+          onClick={(e) => removeShow(e, props.visibility, item.id, index)} className="remove-button ml-1">
+          Remove
+        </Button>
+        <Button size="sm" id={'archive-button-'+index} onClick={(e) => archiveShow(e, props.visibility, item.id, index)} 
+          className="archive-button ml-1">
+          Archive
+        </Button>
+        <br/><br />
+        <ListSeasons item={item} visibility={props.visibility} storedShows={props.storedShows} 
+          setStoredShows={props.setStoredShows} myShows={props.myShows} setMyShows={props.setMyShows} />
+      </UncontrolledCollapse>
+    </div>
     )
   )
 }

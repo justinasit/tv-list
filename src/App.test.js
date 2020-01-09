@@ -75,8 +75,31 @@ describe('tv-list app testing', () => {
   config.timeout
   );
 
-  test('archive show', async () => {
+  test('finish all seasons', async () => {
     await page.waitForSelector('#toggler-active0', {visible: true});
+    await page.waitForSelector('#toggler-finished0', {hidden: true});
+    await page.click('#toggler-active0');
+    await page.waitFor(1000);
+    for (let i=1; i < 5; i++) {
+      await page.click('#season-checkbox-66732-'+i);
+    }
+    await page.waitForSelector('#toggler-active0', {hidden: true});
+    await page.waitForSelector('#toggler-finished0', {visible: true});
+  },
+  config.timeout
+  );
+
+  test('move show back to active', async () => {
+    await page.click('#toggler-finished0');
+    await page.waitFor(1000);
+    await page.click('#season-checkbox-66732-1');
+    await page.waitForSelector('#toggler-active0', {visible: true});
+    await page.waitForSelector('#toggler-finished0', {hidden: true});
+  },
+  config.timeout
+  );
+
+  test('archive show', async () => {
     await page.click('#toggler-active0');
     await page.waitForSelector('#archive-button-0', {visible: true});
     await page.waitFor(1000);
