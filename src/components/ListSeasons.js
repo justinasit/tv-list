@@ -22,7 +22,8 @@ const ListSeasons = (props) => {
 
   const updateShowActivity = (updatedShows, item, seasonAdded, visibility) => {
     if (seasonAdded) {
-      if (updatedShows[item.showIdIndex].seasons_watched.length === updatedShows[item.showIdIndex].number_of_seasons) {
+      console.log(item.number_of_seasons);
+      if (updatedShows[item.showIdIndex].seasons_watched.length === item.number_of_seasons) {
         props.myShows.finished.push(item);
         props.setMyShows({
           active: props.myShows.active.filter((show) => show.name !== item.name),
@@ -46,7 +47,7 @@ const ListSeasons = (props) => {
         {Array.from(Array(props.item.number_of_seasons), (e,i)=>i+1).map(i => <span key={i}>Season {i} 
         <input defaultChecked={props.storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
           onChange={() => checkSeason(i, props.item, props.visibility)} type="checkbox"
-          disabled={i>props.item.last_aired_season} className="ml-1"
+          disabled={i>props.item.last_aired_season} className="ml-1" id={'season-checkbox-'+props.item.id+'-'+i}
           />
         <br/></span>)}
     </span>
