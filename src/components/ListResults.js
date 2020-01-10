@@ -20,7 +20,8 @@ const ListResults = (props) => {
         storage.setItem('storedShows', props.storedShows);
         props.setMyShows({active: [
             ...props.myShows.active,
-            {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: props.storedShows.length-1, id: data.id}
+            {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: props.storedShows.length-1, 
+              id: data.id, last_aired_season: data.last_episode_to_air.season_number}
           ], finished: props.myShows.finished,
         });
       } else {

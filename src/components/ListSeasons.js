@@ -22,7 +22,6 @@ const ListSeasons = (props) => {
 
   const updateShowActivity = (updatedShows, item, seasonAdded, visibility) => {
     if (seasonAdded) {
-      console.log(item.number_of_seasons);
       if (updatedShows[item.showIdIndex].seasons_watched.length === item.number_of_seasons) {
         props.myShows.finished.push(item);
         props.setMyShows({
