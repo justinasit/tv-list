@@ -7,10 +7,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import reducer from "./vehicle.js";
+import rootReducer from "./reducers";
 
 ReactDOM.render((
-  <Provider store={createStore(reducer)}>
+  <Provider store={createStore(rootReducer)}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
