@@ -4,6 +4,7 @@ import ListResults from './ListResults';
 import ListActions from './ListActions';
 import Storage from '../Storage';
 import { Button } from 'reactstrap';
+import { useDispatch } from "react-redux";
 
 const Home = () => {
   const storage = new Storage();
@@ -11,6 +12,7 @@ const Home = () => {
   const [items, setItems] = useState([]);
   const [storedShows, setStoredShows] = useState(storage.getItem('storedShows') ? storage.getItem('storedShows') : []);
   const [myShows, setMyShows] = useState({active: [], finished: []});
+  const dispatch = useDispatch();
   
   /* Call the API to retrieve all user's stored show data.
    * Push show data from the API to either active or finished array 
@@ -32,11 +34,14 @@ const Home = () => {
         shows = getShowData(shows, show, data, showIdIndex);
         // Only change state on last element
         if ((shows.finished.length + shows.active.length) === storedShows.length) {
-          setMyShows(shows);
+          dispatch({
+            payload: shows,
+            type: 'myShows'
+          })
         }
       })
     );
-  }, [storedShows]);
+  }, [storedShows, dispatch]);
 
   /* Map show data from the API to our shows object */
   const mapApiDataToObject = (apiData, showIdIndex) => {
@@ -66,10 +71,10 @@ const Home = () => {
       </div>
       <div className="col-md-9">
         <h2>Active Shows</h2><br/>
-        <ListActions shows={myShows.active} visibility='active' myShows={myShows}
+        <ListActions visibility='active'
          storedShows={storedShows} setMyShows={setMyShows} setStoredShows={setStoredShows} />
         <h2 className="mt-3">Finished Shows</h2><br/>
-        <ListActions shows={myShows.finished} visibility='finished' myShows={myShows}
+        <ListActions visibility='finished'
          storedShows={storedShows} setMyShows={setMyShows} setStoredShows={setStoredShows}/>
       </div>
     </div>

@@ -2,9 +2,11 @@ import React from 'react';
 import Storage from '../Storage';
 import ListSeasons from './ListSeasons';
 import { Button, UncontrolledCollapse } from 'reactstrap';
+import { useSelector } from "react-redux";
 
 const ListActions = (props) => {
   const storage = new Storage();
+  const myShows = useSelector(state => state.myShows);
 
   const removeShow = (e, visibility, id, index) => {
     e.preventDefault();
@@ -24,8 +26,8 @@ const ListActions = (props) => {
   }
 
   return ( 
-    (props.shows.length === 0) ? <p>Nothing here!</p> : 
-    props.shows.map((item, index) => 
+    (!myShows || myShows[props.visibility].length === 0) ? <p>Nothing here!</p> : 
+    myShows[props.visibility].map((item, index) => 
     <div key={index} className="mt-2"> 
       <strong id={'toggler-'+props.visibility+index} style={{cursor: 'pointer'}}>{item.name}</strong><br/>
       <UncontrolledCollapse toggler={'#toggler-'+props.visibility+index}>
