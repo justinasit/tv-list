@@ -1,6 +1,7 @@
-import myShows from './myShows'
-import storedShows from './storedShows'
-import {combineReducers} from 'redux'
+import {combineReducers} from 'redux';
+
+const myShows = (state = {}, action)  => action.payload ? action.payload : null;
+const storedShows = (state = {}, action)  => action.payload ? action.payload : null;
 
 const rootReducer = combineReducers({
     myShows,
