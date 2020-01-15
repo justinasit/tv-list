@@ -29,7 +29,7 @@ const ListSeasons = (props) => {
 
   const updateShowActivity = (updatedShows, item, seasonAdded, visibility) => {
     if (seasonAdded) {
-      if (updatedShows[item.showIdIndex].seasons_watched.length === item.number_of_seasons) {
+      if (updatedShows[item.showIdIndex].seasons_watched.length === item.last_aired_season) {
         myShows.finished.push(item);
         dispatch({
           payload: {
