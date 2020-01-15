@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 const ListActions = (props) => {
   const storage = new Storage();
   const myShows = useSelector(state => state.myShows);
+  const storedShows = useSelector(state => state.storedShows);
   const dispatch = useDispatch();
 
   const removeShow = (e, visibility, id, index) => {
@@ -19,7 +20,7 @@ const ListActions = (props) => {
       },
       type: 'myShows'
     });
-    storage.setItem('storedShows', props.storedShows.filter(show => id !== show.id));
+    storage.setItem('storedShows', storedShows.filter(show => id !== show.id));
   }
 
   const archiveShow = (e, visibility, id, index) => {
@@ -30,7 +31,7 @@ const ListActions = (props) => {
   }
 
   return ( 
-    (!myShows || myShows[props.visibility].length === 0) ? <p>Nothing here!</p> : 
+    (!myShows[props.visibility] || myShows[props.visibility].length === 0) ? <p>Nothing here!</p> : 
     myShows[props.visibility].map((item, index) => 
     <div key={index} className="mt-2"> 
       <strong id={'toggler-'+props.visibility+index} style={{cursor: 'pointer'}}>{item.name}</strong><br/>
@@ -44,8 +45,7 @@ const ListActions = (props) => {
           Archive
         </Button>
         <br/><br />
-        <ListSeasons item={item} visibility={props.visibility} storedShows={props.storedShows} 
-          setStoredShows={props.setStoredShows} />
+        <ListSeasons item={item} visibility={props.visibility} />
       </UncontrolledCollapse>
     </div>
     )

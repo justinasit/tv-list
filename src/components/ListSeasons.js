@@ -5,20 +5,24 @@ import { useSelector, useDispatch } from "react-redux";
 const ListSeasons = (props) => {
   const storage = new Storage();
   const myShows = useSelector(state => state.myShows);
+  const storedShows = useSelector(state => state.storedShows);
   const dispatch = useDispatch();
 
   /* Update the seasons watched array in storage and state */
   const checkSeason = (seasonNumber, item, visibility) => {
-    const updatedShows = props.storedShows;
+    const updatedShows = storedShows;
     let seasonAdded = false;
-    if (props.storedShows[item.showIdIndex].seasons_watched.includes(seasonNumber)) {
-        const seasonIndex = props.storedShows[item.showIdIndex].seasons_watched.indexOf(seasonNumber);
+    if (storedShows[item.showIdIndex].seasons_watched.includes(seasonNumber)) {
+        const seasonIndex = storedShows[item.showIdIndex].seasons_watched.indexOf(seasonNumber);
         updatedShows[item.showIdIndex].seasons_watched.splice(seasonIndex, 1);
     } else {
         updatedShows[item.showIdIndex].seasons_watched.push(seasonNumber);
         seasonAdded = true;
     }
-    props.setStoredShows(updatedShows);
+    dispatch({
+      payload: updatedShows,
+      type: "storedShows"
+    });
     storage.setItem('storedShows', updatedShows);
     updateShowActivity(updatedShows, item, seasonAdded, visibility);
   }
@@ -53,7 +57,7 @@ const ListSeasons = (props) => {
   return ( 
     <span>
         {Array.from(Array(props.item.number_of_seasons), (e,i)=>i+1).map(i => <span key={i}>Season {i} 
-        <input defaultChecked={props.storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
+        <input defaultChecked={storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
           onChange={() => checkSeason(i, props.item, props.visibility)} type="checkbox"
           disabled={i>props.item.last_aired_season} className="ml-1" id={'season-checkbox-'+props.item.id+'-'+i}
           />

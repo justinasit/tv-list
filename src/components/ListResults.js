@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 const ListResults = (props) => {
   const storage = new Storage();
   const myShows = useSelector(state => state.myShows);
+  const storedShows = useSelector(state => state.storedShows);
   const dispatch = useDispatch();
 
   /* If the show is already stored - no need to add it again */
   const addShowCheck = (id) => {
-      if (!props.storedShows.map(show => show.id).includes(id)) {
+      if (!storedShows.map(show => show.id).includes(id)) {
         addShow(id);
       }
     }
@@ -19,12 +20,12 @@ const ListResults = (props) => {
   const addShow = (id) => {
     Tmdb.getInfoById(id).then(data => {
       if (data.number_of_seasons) {
-        props.storedShows.push({id: id, seasons_watched: []});
-        storage.setItem('storedShows', props.storedShows);
+        storedShows.push({id: id, seasons_watched: []});
+        storage.setItem('storedShows', storedShows);
         dispatch({
           payload: {active: [
               ...myShows.active,
-              {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: props.storedShows.length-1, 
+              {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: storedShows.length-1, 
                 id: data.id, last_aired_season: data.last_episode_to_air.season_number}
             ], finished: myShows.finished,
           },
