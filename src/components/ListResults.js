@@ -1,9 +1,12 @@
 import React from 'react';
 import * as Tmdb from '../api/Tmdb';
 import Storage from '../Storage';
+import { useDispatch, useSelector } from "react-redux";
 
 const ListResults = (props) => {
   const storage = new Storage();
+  const myShows = useSelector(state => state.myShows);
+  const dispatch = useDispatch();
 
   /* If the show is already stored - no need to add it again */
   const addShowCheck = (id) => {
@@ -18,11 +21,14 @@ const ListResults = (props) => {
       if (data.number_of_seasons) {
         props.storedShows.push({id: id, seasons_watched: []});
         storage.setItem('storedShows', props.storedShows);
-        props.setMyShows({active: [
-            ...props.myShows.active,
-            {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: props.storedShows.length-1, 
-              id: data.id, last_aired_season: data.last_episode_to_air.season_number}
-          ], finished: props.myShows.finished,
+        dispatch({
+          payload: {active: [
+              ...myShows.active,
+              {name: data.name, number_of_seasons: data.number_of_seasons, showIdIndex: props.storedShows.length-1, 
+                id: data.id, last_aired_season: data.last_episode_to_air.season_number}
+            ], finished: myShows.finished,
+          },
+          type: 'myShows'
         });
       } else {
         alert('Sorry, this show does not have a season number provided!');

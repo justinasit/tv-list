@@ -1,8 +1,11 @@
 import React from 'react';
 import Storage from '../Storage';
+import { useSelector, useDispatch } from "react-redux";
 
 const ListSeasons = (props) => {
   const storage = new Storage();
+  const myShows = useSelector(state => state.myShows);
+  const dispatch = useDispatch();
 
   /* Update the seasons watched array in storage and state */
   const checkSeason = (seasonNumber, item, visibility) => {
@@ -23,18 +26,24 @@ const ListSeasons = (props) => {
   const updateShowActivity = (updatedShows, item, seasonAdded, visibility) => {
     if (seasonAdded) {
       if (updatedShows[item.showIdIndex].seasons_watched.length === item.number_of_seasons) {
-        props.myShows.finished.push(item);
-        props.setMyShows({
-          active: props.myShows.active.filter((show) => show.name !== item.name),
-          finished: props.myShows.finished
+        myShows.finished.push(item);
+        dispatch({
+          payload: {
+            active: myShows.active.filter((show) => show.name !== item.name),
+            finished: myShows.finished
+          },
+          type: 'myShows'
         });
       }
     } else {
       if (visibility === 'finished') {
-        props.myShows.active.push(item);
-        props.setMyShows({
-          active: props.myShows.active,
-          finished: props.myShows.finished.filter((show) => show.name !== item.name),
+        myShows.active.push(item);
+        dispatch({
+          payload: {
+            active: myShows.active,
+            finished: myShows.finished.filter((show) => show.name !== item.name),
+          },
+          type: "myShows"
         });
       }
     }

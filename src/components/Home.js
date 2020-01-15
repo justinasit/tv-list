@@ -11,7 +11,6 @@ const Home = () => {
   const [term, setTerm] = useState('');
   const [items, setItems] = useState([]);
   const [storedShows, setStoredShows] = useState(storage.getItem('storedShows') ? storage.getItem('storedShows') : []);
-  const [myShows, setMyShows] = useState({active: [], finished: []});
   const dispatch = useDispatch();
   
   /* Call the API to retrieve all user's stored show data.
@@ -37,7 +36,7 @@ const Home = () => {
           dispatch({
             payload: shows,
             type: 'myShows'
-          })
+          });
         }
       })
     );
@@ -67,15 +66,15 @@ const Home = () => {
           <Button className="ml-1 mt-1" color="success">Submit</Button>
         </form>
         <br/>
-        <ListResults storedShows={storedShows} myShows={myShows} items={items} setMyShows={setMyShows} />
+        <ListResults storedShows={storedShows} items={items} />
       </div>
       <div className="col-md-9">
         <h2>Active Shows</h2><br/>
         <ListActions visibility='active'
-         storedShows={storedShows} setMyShows={setMyShows} setStoredShows={setStoredShows} />
+         storedShows={storedShows} setStoredShows={setStoredShows} />
         <h2 className="mt-3">Finished Shows</h2><br/>
         <ListActions visibility='finished'
-         storedShows={storedShows} setMyShows={setMyShows} setStoredShows={setStoredShows}/>
+         storedShows={storedShows} setStoredShows={setStoredShows}/>
       </div>
     </div>
   );

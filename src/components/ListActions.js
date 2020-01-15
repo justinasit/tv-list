@@ -2,25 +2,29 @@ import React from 'react';
 import Storage from '../Storage';
 import ListSeasons from './ListSeasons';
 import { Button, UncontrolledCollapse } from 'reactstrap';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const ListActions = (props) => {
   const storage = new Storage();
   const myShows = useSelector(state => state.myShows);
+  const dispatch = useDispatch();
 
   const removeShow = (e, visibility, id, index) => {
     e.preventDefault();
-    const showsWithoutRemovedItem = props.myShows[visibility].filter((show, key) => key !== index);
-    props.setMyShows({
-      active: visibility === 'active' ? showsWithoutRemovedItem : props.myShows.active,
-      finished: visibility === 'finished' ? showsWithoutRemovedItem : props.myShows.finished,
+    const showsWithoutRemovedItem = myShows[visibility].filter((show, key) => key !== index);
+    dispatch({
+      payload: {
+        active: visibility === 'active' ? showsWithoutRemovedItem : myShows.active,
+        finished: visibility === 'finished' ? showsWithoutRemovedItem : myShows.finished,
+      },
+      type: 'myShows'
     });
     storage.setItem('storedShows', props.storedShows.filter(show => id !== show.id));
   }
 
   const archiveShow = (e, visibility, id, index) => {
     const archivedShows = storage.getItem('archivedShows') ? storage.getItem('archivedShows') : [];
-    archivedShows.push(props.myShows[visibility][index]);
+    archivedShows.push(myShows[visibility][index]);
     storage.setItem('archivedShows', archivedShows);
     removeShow(e, visibility, id, index);
   }
@@ -41,7 +45,7 @@ const ListActions = (props) => {
         </Button>
         <br/><br />
         <ListSeasons item={item} visibility={props.visibility} storedShows={props.storedShows} 
-          setStoredShows={props.setStoredShows} myShows={props.myShows} setMyShows={props.setMyShows} />
+          setStoredShows={props.setStoredShows} />
       </UncontrolledCollapse>
     </div>
     )
