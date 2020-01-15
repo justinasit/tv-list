@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import puppeteer from 'puppeteer';
 import * as config from './setupTests';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "./reducers";
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, div);
+  ReactDOM.render(
+  <Provider store={createStore(rootReducer)}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>, div);
   ReactDOM.unmountComponentAtNode(div);
 });
 
@@ -80,7 +88,7 @@ describe('tv-list app testing', () => {
     await page.waitForSelector('#toggler-finished0', {hidden: true});
     await page.click('#toggler-active0');
     await page.waitFor(1000);
-    for (let i=1; i < 5; i++) {
+    for (let i=1; i < 4; i++) {
       await page.click('#season-checkbox-66732-'+i);
     }
     await page.waitForSelector('#toggler-active0', {hidden: true});
