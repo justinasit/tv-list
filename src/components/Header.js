@@ -8,13 +8,17 @@ const Header = () => (
     <p>You can store a list of TV series you watch using this app!</p>
     <Nav>
       <NavItem>
-        <NavLink exact={true} activeClassName='is-active' to='/'>Home</NavLink>
+        <NavLink exact={true} activeClassName="is-active" to="/">
+          Home
+        </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink activeClassName='is-active' to='/archived'>Archived</NavLink>
+        <NavLink activeClassName="is-active" to="/archived">
+          Archived
+        </NavLink>
       </NavItem>
     </Nav>
   </header>
-  )
-  
-  export default Header;
+);
+
+export default Header;

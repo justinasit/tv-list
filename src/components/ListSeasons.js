@@ -1,8 +1,8 @@
 import React from 'react';
 import Storage from '../Storage';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 
-const ListSeasons = (props) => {
+const ListSeasons = props => {
   const storage = new Storage();
   const myShows = useSelector(state => state.myShows);
   const storedShows = useSelector(state => state.storedShows);
@@ -13,19 +13,19 @@ const ListSeasons = (props) => {
     const updatedShows = storedShows;
     let seasonAdded = false;
     if (storedShows[item.showIdIndex].seasons_watched.includes(seasonNumber)) {
-        const seasonIndex = storedShows[item.showIdIndex].seasons_watched.indexOf(seasonNumber);
-        updatedShows[item.showIdIndex].seasons_watched.splice(seasonIndex, 1);
+      const seasonIndex = storedShows[item.showIdIndex].seasons_watched.indexOf(seasonNumber);
+      updatedShows[item.showIdIndex].seasons_watched.splice(seasonIndex, 1);
     } else {
-        updatedShows[item.showIdIndex].seasons_watched.push(seasonNumber);
-        seasonAdded = true;
+      updatedShows[item.showIdIndex].seasons_watched.push(seasonNumber);
+      seasonAdded = true;
     }
     dispatch({
       payload: updatedShows,
-      type: "storedShows"
+      type: 'storedShows',
     });
     storage.setItem('storedShows', updatedShows);
     updateShowActivity(updatedShows, item, seasonAdded, visibility);
-  }
+  };
 
   const updateShowActivity = (updatedShows, item, seasonAdded, visibility) => {
     if (seasonAdded) {
@@ -33,10 +33,10 @@ const ListSeasons = (props) => {
         myShows.finished.push(item);
         dispatch({
           payload: {
-            active: myShows.active.filter((show) => show.name !== item.name),
-            finished: myShows.finished
+            active: myShows.active.filter(show => show.name !== item.name),
+            finished: myShows.finished,
           },
-          type: 'myShows'
+          type: 'myShows',
         });
       }
     } else {
@@ -45,25 +45,33 @@ const ListSeasons = (props) => {
         dispatch({
           payload: {
             active: myShows.active,
-            finished: myShows.finished.filter((show) => show.name !== item.name),
+            finished: myShows.finished.filter(show => show.name !== item.name),
           },
-          type: "myShows"
+          type: 'myShows',
         });
       }
     }
-  }
+  };
 
   /* List seasons with checkboxes, disable checkboxes for seasons that haven't aired yet */
-  return ( 
+  return (
     <span>
-        {Array.from(Array(props.item.number_of_seasons), (e,i)=>i+1).map(i => <span key={i}>Season {i} 
-        <input defaultChecked={storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
-          onChange={() => checkSeason(i, props.item, props.visibility)} type="checkbox"
-          disabled={i>props.item.last_aired_season} className="ml-1" id={'season-checkbox-'+props.item.id+'-'+i}
+      {Array.from(Array(props.item.number_of_seasons), (e, i) => i + 1).map(i => (
+        <span key={i}>
+          Season {i}
+          <input
+            defaultChecked={storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
+            onChange={() => checkSeason(i, props.item, props.visibility)}
+            type="checkbox"
+            disabled={i > props.item.last_aired_season}
+            className="ml-1"
+            id={'season-checkbox-' + props.item.id + '-' + i}
           />
-        <br/></span>)}
+          <br />
+        </span>
+      ))}
     </span>
-  )
-}
+  );
+};
 
 export default ListSeasons;
