@@ -8,10 +8,10 @@ import { useDispatch } from "react-redux";
 
 const Home = () => {
   const storage = new Storage();
-  const [term, setTerm] = useState('');
   const [items, setItems] = useState([]);
   const storedShows = storage.getItem('storedShows') ? storage.getItem('storedShows') : [];
   const dispatch = useDispatch();
+  let term = '';
   
   /* Call the API to retrieve all user's stored show data.
    * Push show data from the API to either active or finished array 
@@ -57,7 +57,7 @@ const Home = () => {
 
     Tmdb.searchTv(term).then(data => {
       setItems(data.results);
-      setTerm('');
+      term = '';
     });
   }
 
@@ -66,7 +66,7 @@ const Home = () => {
       <div className="col-md-2 mt-2 ml-1 border-right">
         Search for tv series below.<br/>
         <form className="App-intro" onSubmit={searchApi}>
-          <input value={term} onChange={event => setTerm(event.target.value)} />
+          <input onChange={event => term = event.target.value} />
           <Button className="ml-1 mt-1" color="success">Submit</Button>
         </form>
         <br/>
