@@ -7,16 +7,16 @@ import { Button } from 'reactstrap';
 import { useDispatch } from "react-redux";
 
 const Home = () => {
-  const storage = new Storage();
   const [items, setItems] = useState([]);
-  const storedShows = storage.getItem('storedShows') ? storage.getItem('storedShows') : [];
-  const dispatch = useDispatch();
   let term = '';
+  const dispatch = useDispatch();
   
   /* Call the API to retrieve all user's stored show data.
-   * Push show data from the API to either active or finished array 
-   */
+  * Push show data from the API to either active or finished array 
+  */
   useEffect(() => {
+    const storage = new Storage();
+    const storedShows = storage.getItem('storedShows') ? storage.getItem('storedShows') : [];
     dispatch({
       payload: storedShows,
       type: 'storedShows'
@@ -44,7 +44,7 @@ const Home = () => {
         }
       })
     );
-  }, [storedShows, dispatch]);
+  }, [dispatch]);
 
   /* Map show data from the API to our shows object */
   const mapApiDataToObject = (apiData, showIdIndex) => {
