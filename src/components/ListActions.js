@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Storage from '../Storage';
 import ListSeasons from './ListSeasons';
-import { Button, UncontrolledCollapse } from 'reactstrap';
+import {
+  Button,
+  UncontrolledCollapse,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  FormGroup,
+  Input,
+} from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 
 const ListActions = props => {
@@ -9,6 +19,8 @@ const ListActions = props => {
   const myShows = useSelector(state => state.myShows);
   const storedShows = useSelector(state => state.storedShows);
   const dispatch = useDispatch();
+  const [modal, setModal] = useState(false);
+  let note = '';
 
   const removeShow = (e, visibility, id, index) => {
     e.preventDefault();
@@ -37,6 +49,19 @@ const ListActions = props => {
     return note ? note : '';
   };
 
+  const addNote = (e, item) => {
+    e.preventDefault();
+    storedShows[item.showIdIndex].note = note;
+    dispatch({
+      payload: storedShows,
+      type: 'storedShows',
+    });
+    storage.setItem('storedShows', storedShows);
+    setModal(false);
+  };
+
+  const toggleModal = () => setModal(!modal);
+
   return !myShows[props.visibility] || myShows[props.visibility].length === 0 ? (
     <p>Nothing here!</p>
   ) : (
@@ -47,7 +72,6 @@ const ListActions = props => {
         </strong>
         <br />
         {showNote(storedShows[item.showIdIndex].note)}
-
         <UncontrolledCollapse toggler={'#toggler-' + props.visibility + index}>
           <Button
             size="sm"
@@ -66,6 +90,32 @@ const ListActions = props => {
           >
             Archive
           </Button>
+          <Button
+            size="sm"
+            // id={'archive-button-' + index}
+            onClick={toggleModal}
+            className="archive-button ml-1"
+          >
+            Add Note
+          </Button>
+          <Modal isOpen={modal} toggle={toggleModal}>
+            <ModalHeader>Add Note</ModalHeader>
+            <ModalBody>
+              <Form>
+                <FormGroup>
+                  <Input placeholder="Your Note" onChange={event => (note = event.target.value)} />
+                </FormGroup>
+              </Form>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={e => addNote(e, item)}>
+                Submit
+              </Button>{' '}
+              <Button color="secondary" onClick={toggleModal}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </Modal>
           <br />
           <br />
           <ListSeasons item={item} visibility={props.visibility} />
