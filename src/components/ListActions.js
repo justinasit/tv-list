@@ -33,6 +33,10 @@ const ListActions = props => {
     removeShow(e, visibility, id, index);
   };
 
+  const showNote = note => {
+    return note ? note : '';
+  };
+
   return !myShows[props.visibility] || myShows[props.visibility].length === 0 ? (
     <p>Nothing here!</p>
   ) : (
@@ -42,6 +46,8 @@ const ListActions = props => {
           {item.name}
         </strong>
         <br />
+        {showNote(storedShows[item.showIdIndex].note)}
+
         <UncontrolledCollapse toggler={'#toggler-' + props.visibility + index}>
           <Button
             size="sm"
