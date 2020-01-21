@@ -95,12 +95,7 @@ const ListActions = props => {
           >
             Archive
           </Button>
-          <Button
-            size="sm"
-            // id={'archive-button-' + index}
-            onClick={e => toggleModal(e, item)}
-            className="archive-button ml-1"
-          >
+          <Button size="sm" onClick={e => toggleModal(e, item)} className="ml-1" color="info">
             Add Note
           </Button>
           <Modal isOpen={modal} toggle={toggleModal}>
