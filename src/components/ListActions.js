@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Storage from '../Storage';
 import ListSeasons from './ListSeasons';
 import {
@@ -21,6 +21,7 @@ const ListActions = props => {
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
   let note = '';
+  const activeItem = useRef(0);
 
   const removeShow = (e, visibility, id, index) => {
     e.preventDefault();
@@ -51,7 +52,7 @@ const ListActions = props => {
 
   const addNote = (e, item) => {
     e.preventDefault();
-    storedShows[item.showIdIndex].note = note;
+    storedShows[activeItem.current.showIdIndex].note = note;
     dispatch({
       payload: storedShows,
       type: 'storedShows',
@@ -60,7 +61,11 @@ const ListActions = props => {
     setModal(false);
   };
 
-  const toggleModal = () => setModal(!modal);
+  const toggleModal = (e, item) => {
+    e.preventDefault();
+    activeItem.current = item;
+    setModal(!modal);
+  };
 
   return !myShows[props.visibility] || myShows[props.visibility].length === 0 ? (
     <p>Nothing here!</p>
@@ -93,7 +98,7 @@ const ListActions = props => {
           <Button
             size="sm"
             // id={'archive-button-' + index}
-            onClick={toggleModal}
+            onClick={e => toggleModal(e, item)}
             className="archive-button ml-1"
           >
             Add Note
@@ -103,7 +108,11 @@ const ListActions = props => {
             <ModalBody>
               <Form>
                 <FormGroup>
-                  <Input placeholder="Your Note" onChange={event => (note = event.target.value)} />
+                  <Input
+                    defaultValue={activeItem.current.note}
+                    placeholder="Your Note"
+                    onChange={event => (note = event.target.value)}
+                  />
                 </FormGroup>
               </Form>
             </ModalBody>
