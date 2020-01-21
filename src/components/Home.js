@@ -24,9 +24,9 @@ const Home = () => {
     let shows = { active: [], finished: [] };
     const getShowData = (showsArray, show, apiData, showIdIndex) => {
       if (show.seasons_watched.length === apiData.last_episode_to_air.season_number) {
-        showsArray.finished.push(mapApiDataToObject(apiData, showIdIndex));
+        showsArray.finished.push(mapApiDataToObject(apiData, showIdIndex, show.note));
       } else {
-        showsArray.active.push(mapApiDataToObject(apiData, showIdIndex));
+        showsArray.active.push(mapApiDataToObject(apiData, showIdIndex, show.note));
       }
 
       return showsArray;
@@ -47,13 +47,14 @@ const Home = () => {
   }, [dispatch]);
 
   /* Map show data from the API to our shows object */
-  const mapApiDataToObject = (apiData, showIdIndex) => {
+  const mapApiDataToObject = (apiData, showIdIndex, note) => {
     return {
       name: apiData.name,
       number_of_seasons: apiData.number_of_seasons,
       last_aired_season: apiData.last_episode_to_air.season_number,
       showIdIndex: showIdIndex,
       id: apiData.id,
+      note: note,
     };
   };
 
