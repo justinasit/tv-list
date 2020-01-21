@@ -50,7 +50,7 @@ const ListActions = props => {
     return note ? note : '';
   };
 
-  const addNote = (e, item) => {
+  const addNote = e => {
     e.preventDefault();
     storedShows[activeItem.current.showIdIndex].note = note;
     dispatch({
@@ -63,7 +63,7 @@ const ListActions = props => {
 
   const toggleModal = (e, item) => {
     e.preventDefault();
-    activeItem.current = item;
+    if (!modal) activeItem.current = item;
     setModal(!modal);
   };
 
@@ -112,7 +112,7 @@ const ListActions = props => {
               </Form>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={e => addNote(e, item)}>
+              <Button color="primary" onClick={e => addNote(e)}>
                 Submit
               </Button>{' '}
               <Button color="secondary" onClick={toggleModal}>
