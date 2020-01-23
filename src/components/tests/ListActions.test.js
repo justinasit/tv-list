@@ -38,10 +38,14 @@ describe('Our test suite', () => {
 
   beforeEach(() => {
     store = mockStore(initialState);
+    const div = document.createElement('div');
+    div.setAttribute('id', 'toggler-active0');
+    document.body.appendChild(div);
     wrapper = mount(
       <Provider store={store}>
         <ListActions visibility="active" />
       </Provider>,
+      { attachTo: div },
     );
   });
 
@@ -54,10 +58,15 @@ describe('Our test suite', () => {
   it('renders no shows', () => {
     const initialState = { myShows: { active: [], finished: [] } };
     const store = mockStore(initialState);
+    const div = document.createElement('div');
+    div.setAttribute('id', 'toggler-active0');
+    document.body.appendChild(div);
+
     const wrapper = mount(
       <Provider store={store}>
         <ListActions visibility="active" />
       </Provider>,
+      { attachTo: div },
     );
     expect(wrapper.find('#empty').exists()).toBe(true);
   });
