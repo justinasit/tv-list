@@ -46,9 +46,7 @@ const ListActions = props => {
     removeShow(e, visibility, id, index);
   };
 
-  const showNote = note => {
-    return note ? note : '';
-  };
+  const showNote = note => (note ? note : '');
 
   const addNote = e => {
     e.preventDefault();
@@ -68,7 +66,7 @@ const ListActions = props => {
   };
 
   return !myShows[props.visibility] || myShows[props.visibility].length === 0 ? (
-    <p>Nothing here!</p>
+    <p id="empty">Nothing here!</p>
   ) : (
     myShows[props.visibility].map((item, index) => (
       <div key={index} className="mt-2">
@@ -95,7 +93,13 @@ const ListActions = props => {
           >
             Archive
           </Button>
-          <Button size="sm" onClick={e => toggleModal(e, item)} className="ml-1" color="info">
+          <Button
+            id={'add-note-' + index}
+            size="sm"
+            onClick={e => toggleModal(e, item)}
+            className="ml-1"
+            color="info"
+          >
             Add Note
           </Button>
           <Modal isOpen={modal} toggle={toggleModal}>
@@ -112,7 +116,7 @@ const ListActions = props => {
               </Form>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={e => addNote(e)}>
+              <Button id="submit-note" color="primary" onClick={e => addNote(e)}>
                 Submit
               </Button>{' '}
               <Button color="secondary" onClick={toggleModal}>

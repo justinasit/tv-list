@@ -1,11 +1,10 @@
 import React from 'react';
-import { shallow, mount, render } from '../../enzyme';
+import { mount } from '../../enzyme';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-
 import ListActions from '../ListActions';
 
-describe('Our test suite', () => {
+describe('ListActions test suite', () => {
   const initialState = {
     myShows: {
       active: [
@@ -34,20 +33,25 @@ describe('Our test suite', () => {
   };
 
   const mockStore = configureStore();
-  let store, wrapper;
+  let wrapper;
 
   beforeEach(() => {
-    store = mockStore(initialState);
+    wrapper = initialiseComponent();
+  });
+
+  const initialiseComponent = state => {
+    const store = mockStore(state ? state : initialState);
     const div = document.createElement('div');
     div.setAttribute('id', 'toggler-active0');
     document.body.appendChild(div);
-    wrapper = mount(
+
+    return mount(
       <Provider store={store}>
         <ListActions visibility="active" />
       </Provider>,
       { attachTo: div },
     );
-  });
+  };
 
   it('renders all mocked shows', () => {
     expect(wrapper.find('#empty').exists()).toBe(false);
@@ -56,18 +60,7 @@ describe('Our test suite', () => {
   });
 
   it('renders no shows', () => {
-    const initialState = { myShows: { active: [], finished: [] } };
-    const store = mockStore(initialState);
-    const div = document.createElement('div');
-    div.setAttribute('id', 'toggler-active0');
-    document.body.appendChild(div);
-
-    const wrapper = mount(
-      <Provider store={store}>
-        <ListActions visibility="active" />
-      </Provider>,
-      { attachTo: div },
-    );
+    const wrapper = initialiseComponent({ myShows: { active: [], finished: [] } });
     expect(wrapper.find('#empty').exists()).toBe(true);
   });
 });
