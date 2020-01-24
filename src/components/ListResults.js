@@ -25,7 +25,7 @@ const ListResults = props => {
         dispatch({
           payload: {
             active: [
-              ...myShows.active,
+              ...(myShows.active ? myShows.active : []),
               {
                 name: data.name,
                 number_of_seasons: data.number_of_seasons,
