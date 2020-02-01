@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Tmdb from '../api/Tmdb';
+import * as MovieApi from '../api/MovieApi';
 import Storage from '../Storage';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,7 +18,7 @@ const ListResults = props => {
 
   /* Add show id and season number to storage, update the state with show details */
   const addShow = id => {
-    Tmdb.getInfoById(id).then(data => {
+    MovieApi.getInfoById(id).then(data => {
       if (data.number_of_seasons) {
         storedShows.push({ id: id, seasons_watched: [] });
         storage.setItem('storedShows', storedShows);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as Tmdb from '../api/Tmdb';
+import * as MovieApi from '../api/MovieApi';
 import ListResults from './ListResults';
 import ListActions from './ListActions';
 import Storage from '../Storage';
@@ -33,7 +33,7 @@ const Home = () => {
     };
 
     storedShows.map((show, showIdIndex) =>
-      Tmdb.getInfoById(show.id).then(data => {
+      MovieApi.getInfoById(show.id).then(data => {
         shows = getShowData(shows, show, data, showIdIndex);
         // Only change state on last element
         if (shows.finished.length + shows.active.length === storedShows.length) {
@@ -61,7 +61,7 @@ const Home = () => {
   const searchApi = event => {
     event.preventDefault();
 
-    Tmdb.searchTv(term).then(data => {
+    MovieApi.searchTv(term).then(data => {
       setItems(data.results);
       term = '';
     });
