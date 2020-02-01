@@ -13,3 +13,15 @@ export function getInfoById(id) {
     return results.json();
   });
 }
+
+/* Map show data from the API to our shows object */
+export function mapApiDataToObject(apiData, showIdIndex, note) {
+  return {
+    name: apiData.name,
+    number_of_seasons: apiData.number_of_seasons,
+    last_aired_season: apiData.last_episode_to_air.season_number,
+    showIdIndex: showIdIndex,
+    id: apiData.id,
+    note: note,
+  };
+}
