@@ -15,7 +15,7 @@ export function getInfoById(id) {
 }
 
 /* Map show data from the API to our shows object */
-export function mapApiDataToObject(apiData, showIdIndex, note) {
+export function mapApiDataToObject(apiData, showIdIndex, note = null) {
   return {
     name: apiData.name,
     number_of_seasons: apiData.number_of_seasons,
@@ -24,4 +24,8 @@ export function mapApiDataToObject(apiData, showIdIndex, note) {
     id: apiData.id,
     note: note,
   };
+}
+
+export function hasSeasons(apiData) {
+  return apiData.number_of_seasons;
 }

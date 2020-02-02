@@ -19,20 +19,14 @@ const ListResults = props => {
   /* Add show id and season number to storage, update the state with show details */
   const addShow = id => {
     MovieApi.getInfoById(id).then(data => {
-      if (data.number_of_seasons) {
+      if (MovieApi.hasSeasons(data)) {
         storedShows.push({ id: id, seasons_watched: [] });
         storage.setItem('storedShows', storedShows);
         dispatch({
           payload: {
             active: [
               ...(myShows.active ? myShows.active : []),
-              {
-                name: data.name,
-                number_of_seasons: data.number_of_seasons,
-                showIdIndex: storedShows.length - 1,
-                id: data.id,
-                last_aired_season: data.last_episode_to_air.season_number,
-              },
+              MovieApi.mapApiDataToObject(data, storedShows.length - 1),
             ],
             finished: myShows.finished,
           },

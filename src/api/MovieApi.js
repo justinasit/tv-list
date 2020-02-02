@@ -12,3 +12,7 @@ export async function getInfoById(id) {
 export function mapApiDataToObject(apiData, showIdIndex, note) {
   return Tmdb.mapApiDataToObject(apiData, showIdIndex, note);
 }
+
+export function hasSeasons(apiData) {
+  return Tmdb.hasSeasons(apiData);
+}
