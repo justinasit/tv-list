@@ -77,7 +77,7 @@ describe('tv-list app testing', () => {
     'search works',
     async () => {
       await page.focus('.App-intro input');
-      await page.keyboard.type('Stranger');
+      await page.keyboard.type('Stranger Things');
       await page.click('.App-intro button');
       await page.waitFor('span p li');
       await page.$eval('span p li', value => (value = 'Stranger Things'));
