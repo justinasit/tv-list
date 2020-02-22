@@ -16,34 +16,39 @@ const Home = () => {
    */
   useEffect(() => {
     const storage = new Storage();
-    const storedShows = storage.getItem('storedShows') ? storage.getItem('storedShows') : [];
-    dispatch({
-      payload: storedShows,
-      type: 'storedShows',
-    });
-    let shows = { active: [], finished: [] };
-    const getShowData = (showsArray, show, apiData, showIdIndex) => {
-      if (show.seasons_watched.length === apiData.last_episode_to_air.season_number) {
-        showsArray.finished.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
-      } else {
-        showsArray.active.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
-      }
 
-      return showsArray;
-    };
+    const fetchData = async () => {
+      const storedShows = await storage.getItem('storedShows');
 
-    storedShows.map((show, showIdIndex) =>
-      MovieApi.getInfoById(show.id).then(data => {
-        shows = getShowData(shows, show, data, showIdIndex);
-        // Only change state on last element
-        if (shows.finished.length + shows.active.length === storedShows.length) {
-          dispatch({
-            payload: shows,
-            type: 'myShows',
-          });
+      dispatch({
+        payload: storedShows,
+        type: 'storedShows',
+      });
+      let shows = { active: [], finished: [] };
+      const getShowData = (showsArray, show, apiData, showIdIndex) => {
+        if (show.seasons_watched.length === apiData.last_episode_to_air.season_number) {
+          showsArray.finished.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
+        } else {
+          showsArray.active.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
         }
-      }),
-    );
+
+        return showsArray;
+      };
+
+      storedShows.map((show, showIdIndex) =>
+        MovieApi.getInfoById(show.id).then(data => {
+          shows = getShowData(shows, show, data, showIdIndex);
+          // Only change state on last element
+          if (shows.finished.length + shows.active.length === storedShows.length) {
+            dispatch({
+              payload: shows,
+              type: 'myShows',
+            });
+          }
+        }),
+      );
+    };
+    fetchData();
   }, [dispatch]);
 
   const searchApi = event => {
