@@ -34,7 +34,7 @@ const ListActions = props => {
       type: 'myShows',
     });
     storage.setItem(
-      'storedShows',
+      'stored-shows',
       storedShows.filter(show => id !== show.id),
     );
   };
@@ -53,9 +53,9 @@ const ListActions = props => {
     storedShows[activeItem.current.showIdIndex].note = note;
     dispatch({
       payload: storedShows,
-      type: 'storedShows',
+      type: 'stored-shows',
     });
-    storage.setItem('storedShows', storedShows);
+    storage.setItem('stored-shows', storedShows);
     setModal(false);
   };
 

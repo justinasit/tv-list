@@ -21,7 +21,7 @@ const ListResults = props => {
     MovieApi.getInfoById(id).then(data => {
       if (MovieApi.hasSeasons(data)) {
         storedShows.push({ id: id, seasons_watched: [] });
-        storage.setItem('storedShows', storedShows);
+        storage.setItem('stored-shows', storedShows);
         dispatch({
           payload: {
             active: [

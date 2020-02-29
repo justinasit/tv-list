@@ -9,9 +9,9 @@ const Archived = () => {
   );
 
   const unArchiveShow = (id, index) => {
-    const storedShows = storage.getItem('storedShows');
+    const storedShows = storage.getItem('stored-shows');
     storedShows.push({ id: id, seasons_watched: [] });
-    storage.setItem('storedShows', storedShows);
+    storage.setItem('stored-shows', storedShows);
 
     const showsWithoutRemovedItem = archivedShows.filter((show, key) => key !== index);
     setArchivedShows(showsWithoutRemovedItem);

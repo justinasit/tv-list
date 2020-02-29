@@ -18,7 +18,7 @@ const Home = () => {
     const storage = new Storage();
 
     const fetchData = async () => {
-      const storedShows = await storage.getItem('storedShows');
+      const storedShows = await storage.getItem('stored-shows');
 
       dispatch({
         payload: storedShows,
