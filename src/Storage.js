@@ -6,7 +6,7 @@ export default class Storage {
   };
 
   async getItem(key) {
-    const itemsFromStorage = [];
+    let itemsFromStorage = [];
     try {
       itemsFromStorage = await (await fetch(this.storageUrl + key)).json();
 

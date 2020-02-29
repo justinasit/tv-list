@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Storage from '../Storage';
 import { Button } from 'reactstrap';
 
 const Archived = () => {
   const storage = new Storage();
-  const [archivedShows, setArchivedShows] = useState(
-    storage.getItem('archivedShows') ? storage.getItem('archivedShows') : [],
-  );
+  const [archivedShows, setArchivedShows] = useState([]);
 
-  const unArchiveShow = (id, index) => {
-    const storedShows = storage.getItem('stored-shows');
+  useEffect(() => {
+    const storage = new Storage();
+
+    const fetchData = async () => {
+      setArchivedShows(await storage.getItem('archivedShows'));
+    };
+    fetchData();
+  }, []);
+
+  const unArchiveShow = async (id, index) => {
+    const storedShows = await storage.getItem('stored-shows');
     storedShows.push({ id: id, seasons_watched: [] });
     storage.setItem('stored-shows', storedShows);
 

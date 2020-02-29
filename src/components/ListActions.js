@@ -39,8 +39,8 @@ const ListActions = props => {
     );
   };
 
-  const archiveShow = (e, visibility, id, index) => {
-    const archivedShows = storage.getItem('archivedShows') ? storage.getItem('archivedShows') : [];
+  const archiveShow = async (e, visibility, id, index) => {
+    const archivedShows = await storage.getItem('archivedShows');
     archivedShows.push(myShows[visibility][index]);
     storage.setItem('archivedShows', archivedShows);
     removeShow(e, visibility, id, index);
