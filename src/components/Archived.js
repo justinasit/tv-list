@@ -10,7 +10,7 @@ const Archived = () => {
     const storage = new Storage();
 
     const fetchData = async () => {
-      setArchivedShows(await storage.getItem('archivedShows'));
+      setArchivedShows(await storage.getItem('archived-shows'));
     };
     fetchData();
   }, []);
@@ -22,7 +22,7 @@ const Archived = () => {
 
     const showsWithoutRemovedItem = archivedShows.filter((show, key) => key !== index);
     setArchivedShows(showsWithoutRemovedItem);
-    storage.setItem('archivedShows', showsWithoutRemovedItem);
+    storage.setItem('archived-shows', showsWithoutRemovedItem);
   };
 
   return (
