@@ -6,14 +6,17 @@ export default class Storage {
   };
 
   async getItem(key) {
-    switch (key) {
-      case 'storedShows':
-        const result = await fetch(this.storageUrl + 'shows');
-        return await result.json();
-      case 'archivedShows':
-        return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : null;
-      default:
-        return '';
+    const itemsFromStorage = [];
+    try {
+      itemsFromStorage = await (await fetch(this.storageUrl + key)).json();
+
+      return itemsFromStorage.length > 0
+        ? itemsFromStorage
+        : localStorage.getItem(key)
+        ? JSON.parse(localStorage.getItem(key))
+        : [];
+    } catch (e) {
+      return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : [];
     }
   }
 }
