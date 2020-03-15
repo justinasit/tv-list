@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as MovieApi from '../api/MovieApi';
 import ListResults from './ListResults';
 import ListActions from './ListActions';
+import SaveAndLoad from './SaveAndLoad';
 import Storage from '../Storage';
 import { Button } from 'reactstrap';
 import { useDispatch } from 'react-redux';
@@ -81,6 +82,7 @@ const Home = () => {
         <h2 className="mt-3">Finished Shows</h2>
         <br />
         <ListActions visibility="finished" />
+        <SaveAndLoad />
       </div>
     </div>
   );

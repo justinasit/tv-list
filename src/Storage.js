@@ -1,9 +1,18 @@
 export default class Storage {
   storageUrl = process.env.REACT_APP_STORAGE_URL;
 
-  setItem = (key, value) => {
+  async setItem(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
-  };
+    try {
+      return await fetch(this.storageUrl + key, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(value),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   async getItem(key) {
     let itemsFromStorage = [];
