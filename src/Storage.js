@@ -14,10 +14,18 @@ export default class Storage {
     }
   }
 
-  async getItem(key) {
+  async getItem(key, token = '') {
     let itemsFromStorage = [];
     try {
-      itemsFromStorage = await (await fetch(this.storageUrl + key)).json();
+      itemsFromStorage = await (
+        await fetch(this.storageUrl + key, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': token,
+          },
+        })
+      ).json();
 
       return itemsFromStorage.length > 0
         ? itemsFromStorage
