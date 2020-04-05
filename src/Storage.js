@@ -6,7 +6,10 @@ export default class Storage {
     try {
       return await fetch(this.storageUrl + key, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': localStorage.getItem('x-access-token'),
+        },
         body: JSON.stringify(value),
       });
     } catch (e) {
@@ -14,7 +17,7 @@ export default class Storage {
     }
   }
 
-  async getItem(key, token = '') {
+  async getItem(key) {
     let itemsFromStorage = [];
     try {
       itemsFromStorage = await (
@@ -22,7 +25,7 @@ export default class Storage {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'x-access-token': token,
+            'x-access-token': localStorage.getItem('x-access-token'),
           },
         })
       ).json();

@@ -38,10 +38,8 @@ const SaveAndLoad = props => {
       email: email,
       password: password,
     });
-    storage.setItem(
-      'stored-shows',
-      await storage.getItem('stored-shows', response.headers.get('x-auth-token')),
-    );
+    localStorage.setItem('x-access-token', response.headers.get('x-auth-token'));
+    storage.setItem('stored-shows', await storage.getItem('stored-shows'));
     window.location.reload();
     setLoadModal(false);
   };
