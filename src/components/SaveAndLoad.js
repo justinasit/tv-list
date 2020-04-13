@@ -9,6 +9,7 @@ import {
   Form,
   FormGroup,
   Input,
+  Alert,
 } from 'reactstrap';
 import { useSelector } from 'react-redux';
 
@@ -17,6 +18,7 @@ const SaveAndLoad = props => {
   const storedShows = useSelector(state => state.storedShows);
   const [saveModal, setSaveModal] = useState(false);
   const [loadModal, setLoadModal] = useState(false);
+  const [error, setError] = useState(null);
   let name = '';
   let email = '';
   let password = '';
@@ -34,14 +36,26 @@ const SaveAndLoad = props => {
 
   const loadShows = async e => {
     e.preventDefault();
-    const response = await storage.setItem('login', {
-      email: email,
-      password: password,
+    const response = await fetch(process.env.REACT_APP_STORAGE_URL + 'login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
     });
-    localStorage.setItem('x-access-token', response.headers.get('x-auth-token'));
-    storage.setItem('stored-shows', await storage.getItem('stored-shows'));
-    window.location.reload();
-    setLoadModal(false);
+
+    if (response.ok) {
+      localStorage.setItem('x-access-token', response.headers.get('x-auth-token'));
+      storage.setItem('stored-shows', await storage.getItem('stored-shows'));
+      window.location.reload();
+      setLoadModal(false);
+    }
+
+    const error = await response.json();
+    setError(<Alert color="danger">{error.message}</Alert>);
   };
 
   const toggleSaveModal = e => {
@@ -91,6 +105,7 @@ const SaveAndLoad = props => {
       <Modal isOpen={loadModal} toggle={toggleLoadModal}>
         <ModalHeader>Login</ModalHeader>
         <ModalBody>
+          {error}
           <Form>
             <FormGroup>
               <Input placeholder="Email" onChange={event => (email = event.target.value)} />
