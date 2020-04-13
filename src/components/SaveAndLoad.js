@@ -13,7 +13,7 @@ import {
 } from 'reactstrap';
 import { useSelector } from 'react-redux';
 
-const SaveAndLoad = props => {
+const SaveAndLoad = () => {
   const storage = new Storage();
   const storedShows = useSelector(state => state.storedShows);
   const [saveModal, setSaveModal] = useState(false);
@@ -23,15 +23,28 @@ const SaveAndLoad = props => {
   let email = '';
   let password = '';
 
-  const saveShows = e => {
+  const saveShows = async e => {
     e.preventDefault();
-    storage.setItem('user', {
-      shows: storedShows,
-      email: email,
-      password: password,
-      name: name,
+    const response = await fetch(process.env.REACT_APP_STORAGE_URL + 'user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        shows: storedShows,
+        email: email,
+        password: password,
+        name: name,
+      }),
     });
-    setSaveModal(false);
+
+    if (response.ok) {
+      localStorage.setItem('x-access-token', response.headers.get('x-auth-token'));
+      setSaveModal(false);
+    }
+
+    const error = await response.json();
+    setError(<Alert color="danger">{error.message}</Alert>);
   };
 
   const loadShows = async e => {
@@ -76,6 +89,7 @@ const SaveAndLoad = props => {
       <Modal isOpen={saveModal} toggle={toggleSaveModal}>
         <ModalHeader>Save shows</ModalHeader>
         <ModalBody>
+          {error}
           <Form>
             <FormGroup>
               <Input placeholder="Name" onChange={event => (name = event.target.value)} />
