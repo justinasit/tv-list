@@ -28,7 +28,7 @@ const ListResults = props => {
               ...(myShows.active ? myShows.active : []),
               MovieApi.mapApiDataToObject(data, storedShows.length - 1),
             ],
-            finished: myShows.finished,
+            finished: myShows.finished ? myShows.finished : [],
           },
           type: 'myShows',
         });
