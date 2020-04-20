@@ -34,15 +34,15 @@ const ListActions = props => {
       type: 'myShows',
     });
     storage.setItem(
-      'storedShows',
+      'stored-shows',
       storedShows.filter(show => id !== show.id),
     );
   };
 
-  const archiveShow = (e, visibility, id, index) => {
-    const archivedShows = storage.getItem('archivedShows') ? storage.getItem('archivedShows') : [];
+  const archiveShow = async (e, visibility, id, index) => {
+    const archivedShows = await storage.getItem('archived-shows');
     archivedShows.push(myShows[visibility][index]);
-    storage.setItem('archivedShows', archivedShows);
+    storage.setItem('archived-shows', archivedShows);
     removeShow(e, visibility, id, index);
   };
 
@@ -53,9 +53,9 @@ const ListActions = props => {
     storedShows[activeItem.current.showIdIndex].note = note;
     dispatch({
       payload: storedShows,
-      type: 'storedShows',
+      type: 'stored-shows',
     });
-    storage.setItem('storedShows', storedShows);
+    storage.setItem('stored-shows', storedShows);
     setModal(false);
   };
 

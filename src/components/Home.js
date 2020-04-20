@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as MovieApi from '../api/MovieApi';
 import ListResults from './ListResults';
 import ListActions from './ListActions';
+import SaveAndLoad from './SaveAndLoad';
 import Storage from '../Storage';
 import { Button } from 'reactstrap';
 import { useDispatch } from 'react-redux';
@@ -16,34 +17,39 @@ const Home = () => {
    */
   useEffect(() => {
     const storage = new Storage();
-    const storedShows = storage.getItem('storedShows') ? storage.getItem('storedShows') : [];
-    dispatch({
-      payload: storedShows,
-      type: 'storedShows',
-    });
-    let shows = { active: [], finished: [] };
-    const getShowData = (showsArray, show, apiData, showIdIndex) => {
-      if (show.seasons_watched.length === apiData.last_episode_to_air.season_number) {
-        showsArray.finished.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
-      } else {
-        showsArray.active.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
-      }
 
-      return showsArray;
-    };
+    const fetchData = async () => {
+      const storedShows = await storage.getItem('stored-shows');
 
-    storedShows.map((show, showIdIndex) =>
-      MovieApi.getInfoById(show.id).then(data => {
-        shows = getShowData(shows, show, data, showIdIndex);
-        // Only change state on last element
-        if (shows.finished.length + shows.active.length === storedShows.length) {
-          dispatch({
-            payload: shows,
-            type: 'myShows',
-          });
+      dispatch({
+        payload: storedShows,
+        type: 'storedShows',
+      });
+      let shows = { active: [], finished: [] };
+      const getShowData = (showsArray, show, apiData, showIdIndex) => {
+        if (show.seasons_watched.length === apiData.last_episode_to_air.season_number) {
+          showsArray.finished.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
+        } else {
+          showsArray.active.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
         }
-      }),
-    );
+
+        return showsArray;
+      };
+
+      storedShows.map((show, showIdIndex) =>
+        MovieApi.getInfoById(show.id).then(data => {
+          shows = getShowData(shows, show, data, showIdIndex);
+          // Only change state on last element
+          if (shows.finished.length + shows.active.length === storedShows.length) {
+            dispatch({
+              payload: shows,
+              type: 'myShows',
+            });
+          }
+        }),
+      );
+    };
+    fetchData();
   }, [dispatch]);
 
   const searchApi = event => {
@@ -76,6 +82,7 @@ const Home = () => {
         <h2 className="mt-3">Finished Shows</h2>
         <br />
         <ListActions visibility="finished" />
+        <SaveAndLoad />
       </div>
     </div>
   );

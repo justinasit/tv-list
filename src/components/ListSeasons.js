@@ -23,7 +23,7 @@ const ListSeasons = props => {
       payload: updatedShows,
       type: 'storedShows',
     });
-    storage.setItem('storedShows', updatedShows);
+    storage.setItem('stored-shows', updatedShows);
     updateShowActivity(updatedShows, item, seasonAdded, visibility);
   };
 

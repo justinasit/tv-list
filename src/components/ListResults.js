@@ -21,14 +21,14 @@ const ListResults = props => {
     MovieApi.getInfoById(id).then(data => {
       if (MovieApi.hasSeasons(data)) {
         storedShows.push({ id: id, seasons_watched: [] });
-        storage.setItem('storedShows', storedShows);
+        storage.setItem('stored-shows', storedShows);
         dispatch({
           payload: {
             active: [
               ...(myShows.active ? myShows.active : []),
               MovieApi.mapApiDataToObject(data, storedShows.length - 1),
             ],
-            finished: myShows.finished,
+            finished: myShows.finished ? myShows.finished : [],
           },
           type: 'myShows',
         });

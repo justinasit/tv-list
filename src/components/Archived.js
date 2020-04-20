@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Storage from '../Storage';
 import { Button } from 'reactstrap';
 
 const Archived = () => {
   const storage = new Storage();
-  const [archivedShows, setArchivedShows] = useState(
-    storage.getItem('archivedShows') ? storage.getItem('archivedShows') : [],
-  );
+  const [archivedShows, setArchivedShows] = useState([]);
 
-  const unArchiveShow = (id, index) => {
-    const storedShows = storage.getItem('storedShows');
+  useEffect(() => {
+    const storage = new Storage();
+
+    const fetchData = async () => {
+      setArchivedShows(await storage.getItem('archived-shows'));
+    };
+    fetchData();
+  }, []);
+
+  const unArchiveShow = async (id, index) => {
+    const storedShows = await storage.getItem('stored-shows');
     storedShows.push({ id: id, seasons_watched: [] });
-    storage.setItem('storedShows', storedShows);
+    storage.setItem('stored-shows', storedShows);
 
     const showsWithoutRemovedItem = archivedShows.filter((show, key) => key !== index);
     setArchivedShows(showsWithoutRemovedItem);
-    storage.setItem('archivedShows', showsWithoutRemovedItem);
+    storage.setItem('archived-shows', showsWithoutRemovedItem);
   };
 
   return (
