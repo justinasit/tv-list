@@ -35,6 +35,7 @@ const SaveAndLoad = () => {
         email: email,
         password: password,
         name: name,
+        archivedShows: await storage.getItem('archived-shows'),
       }),
     });
 
@@ -63,6 +64,7 @@ const SaveAndLoad = () => {
     if (response.ok) {
       localStorage.setItem('x-access-token', response.headers.get('x-auth-token'));
       storage.setItem('stored-shows', await storage.getItem('stored-shows'));
+      storage.setItem('archived-shows', await storage.getItem('archived-shows'));
       window.location.reload();
       setLoadModal(false);
     }
