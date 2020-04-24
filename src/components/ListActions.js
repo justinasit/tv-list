@@ -13,6 +13,11 @@ import {
   Input,
 } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
+
+const SingleShow = styled.div`
+  border-bottom: 1px solid grey;
+`;
 
 const ListActions = props => {
   const storage = new Storage();
@@ -69,66 +74,71 @@ const ListActions = props => {
     <p id="empty">Nothing here!</p>
   ) : (
     myShows[props.visibility].map((item, index) => (
-      <div key={index} className="mt-2">
-        <strong id={'toggler-' + props.visibility + index} style={{ cursor: 'pointer' }}>
-          {item.name}
-        </strong>
-        <br />
-        {showNote(storedShows[item.showIdIndex].note)}
-        <UncontrolledCollapse toggler={'#toggler-' + props.visibility + index}>
-          <Button
-            size="sm"
-            color="danger"
-            id={'remove-button-' + index}
-            onClick={e => removeShow(e, props.visibility, item.id, index)}
-            className="remove-button ml-1"
-          >
-            Remove
-          </Button>
-          <Button
-            size="sm"
-            id={'archive-button-' + index}
-            onClick={e => archiveShow(e, props.visibility, item.id, index)}
-            className="archive-button ml-1"
-          >
-            Archive
-          </Button>
-          <Button
-            id={'add-note-' + index}
-            size="sm"
-            onClick={e => toggleModal(e, item)}
-            className="ml-1"
-            color="info"
-          >
-            Add Note
-          </Button>
-          <Modal isOpen={modal} toggle={toggleModal}>
-            <ModalHeader>Add Note</ModalHeader>
-            <ModalBody>
-              <Form>
-                <FormGroup>
-                  <Input
-                    defaultValue={activeItem.current.note}
-                    placeholder="Your Note"
-                    onChange={event => (note = event.target.value)}
-                  />
-                </FormGroup>
-              </Form>
-            </ModalBody>
-            <ModalFooter>
-              <Button id="submit-note" color="primary" onClick={e => addNote(e)}>
-                Submit
-              </Button>{' '}
-              <Button color="secondary" onClick={toggleModal}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </Modal>
+      <SingleShow key={index} className="mt-2 row pb-1">
+        <div className="col-md-3">
+          <img className="col-md-8" src={item.poster} alt="poster" />
+        </div>
+        <div className="col-md-9">
+          <h4 id={'toggler-' + props.visibility + index} style={{ cursor: 'pointer' }}>
+            {item.name}
+          </h4>
           <br />
-          <br />
-          <ListSeasons item={item} visibility={props.visibility} />
-        </UncontrolledCollapse>
-      </div>
+          {showNote(storedShows[item.showIdIndex].note)}
+          <UncontrolledCollapse toggler={'#toggler-' + props.visibility + index}>
+            <ListSeasons item={item} visibility={props.visibility} />
+            <br />
+            <br />
+            <Button
+              size="sm"
+              color="danger"
+              id={'remove-button-' + index}
+              onClick={e => removeShow(e, props.visibility, item.id, index)}
+              className="remove-button ml-1"
+            >
+              Remove
+            </Button>
+            <Button
+              size="sm"
+              id={'archive-button-' + index}
+              onClick={e => archiveShow(e, props.visibility, item.id, index)}
+              className="archive-button ml-1"
+            >
+              Archive
+            </Button>
+            <Button
+              id={'add-note-' + index}
+              size="sm"
+              onClick={e => toggleModal(e, item)}
+              className="ml-1"
+              color="info"
+            >
+              Add Note
+            </Button>
+            <Modal isOpen={modal} toggle={toggleModal}>
+              <ModalHeader>Add Note</ModalHeader>
+              <ModalBody>
+                <Form>
+                  <FormGroup>
+                    <Input
+                      defaultValue={activeItem.current.note}
+                      placeholder="Your Note"
+                      onChange={event => (note = event.target.value)}
+                    />
+                  </FormGroup>
+                </Form>
+              </ModalBody>
+              <ModalFooter>
+                <Button id="submit-note" color="primary" onClick={e => addNote(e)}>
+                  Submit
+                </Button>{' '}
+                <Button color="secondary" onClick={toggleModal}>
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </UncontrolledCollapse>
+        </div>
+      </SingleShow>
     ))
   );
 };

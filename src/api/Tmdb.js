@@ -23,6 +23,9 @@ export function mapApiDataToObject(apiData, showIdIndex, note = null) {
     showIdIndex: showIdIndex,
     id: apiData.id,
     note: note,
+    poster: apiData.poster_path
+      ? 'https://image.tmdb.org/t/p/w440_and_h660_face' + apiData.poster_path
+      : './img/no_poster.jpg',
   };
 }
 
