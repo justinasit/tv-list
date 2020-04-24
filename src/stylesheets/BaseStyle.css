@@ -1,11 +1,5 @@
-.App {
-  text-align: center;
-}
-
-.header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+body {
+  background-color: #222 !important;
   color: white;
 }
 
