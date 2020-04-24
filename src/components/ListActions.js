@@ -3,7 +3,6 @@ import Storage from '../Storage';
 import ListSeasons from './ListSeasons';
 import {
   Button,
-  UncontrolledCollapse,
   Modal,
   ModalHeader,
   ModalBody,
@@ -80,59 +79,55 @@ const ListActions = props => {
           <img className="col-md-8" src={item.poster} alt="poster" />
         </div>
         <div className="col-md-9">
-          <h4 id={'toggler-' + props.visibility + index} style={{ cursor: 'pointer' }}>
-            {item.name}
-          </h4>
+          <h4>{item.name}</h4>
           <br />
           {showNote(storedShows[item.showIdIndex].note)}
-          <UncontrolledCollapse toggler={'#toggler-' + props.visibility + index}>
-            <ListSeasons item={item} visibility={props.visibility} />
-            <br />
-            <br />
-            <DefaultButton
-              id={'remove-button-' + index}
-              onClick={e => removeShow(e, props.visibility, item.id, index)}
-              className="remove-button mr-2"
-            >
-              Remove
-            </DefaultButton>
-            <DefaultButton
-              id={'archive-button-' + index}
-              onClick={e => archiveShow(e, props.visibility, item.id, index)}
-              className="archive-button mr-2"
-            >
-              Archive
-            </DefaultButton>
-            <DefaultButton
-              id={'add-note-' + index}
-              onClick={e => toggleModal(e, item)}
-              className="mr-2"
-            >
-              Add Note
-            </DefaultButton>
-            <Modal isOpen={modal} toggle={toggleModal}>
-              <ModalHeader>Add Note</ModalHeader>
-              <ModalBody>
-                <Form>
-                  <FormGroup>
-                    <Input
-                      defaultValue={activeItem.current.note}
-                      placeholder="Your Note"
-                      onChange={event => (note = event.target.value)}
-                    />
-                  </FormGroup>
-                </Form>
-              </ModalBody>
-              <ModalFooter>
-                <Button id="submit-note" color="primary" onClick={e => addNote(e)}>
-                  Submit
-                </Button>{' '}
-                <Button color="secondary" onClick={toggleModal}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </UncontrolledCollapse>
+          <ListSeasons item={item} visibility={props.visibility} />
+          <br />
+          <br />
+          <DefaultButton
+            id={'remove-button-' + index}
+            onClick={e => removeShow(e, props.visibility, item.id, index)}
+            className="remove-button mr-2"
+          >
+            Remove
+          </DefaultButton>
+          <DefaultButton
+            id={'archive-button-' + index}
+            onClick={e => archiveShow(e, props.visibility, item.id, index)}
+            className="archive-button mr-2"
+          >
+            Archive
+          </DefaultButton>
+          <DefaultButton
+            id={'add-note-' + index}
+            onClick={e => toggleModal(e, item)}
+            className="mr-2"
+          >
+            Add Note
+          </DefaultButton>
+          <Modal isOpen={modal} toggle={toggleModal}>
+            <ModalHeader>Add Note</ModalHeader>
+            <ModalBody>
+              <Form>
+                <FormGroup>
+                  <Input
+                    defaultValue={activeItem.current.note}
+                    placeholder="Your Note"
+                    onChange={event => (note = event.target.value)}
+                  />
+                </FormGroup>
+              </Form>
+            </ModalBody>
+            <ModalFooter>
+              <Button id="submit-note" color="primary" onClick={e => addNote(e)}>
+                Submit
+              </Button>{' '}
+              <Button color="secondary" onClick={toggleModal}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </Modal>
         </div>
       </SingleShow>
     ))
