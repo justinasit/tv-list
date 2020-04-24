@@ -14,6 +14,7 @@ import {
 } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import DefaultButton from '../stylesheets/DefaultButton';
 
 const SingleShow = styled.div`
   border-bottom: 1px solid grey;
@@ -88,32 +89,27 @@ const ListActions = props => {
             <ListSeasons item={item} visibility={props.visibility} />
             <br />
             <br />
-            <Button
-              size="sm"
-              color="danger"
+            <DefaultButton
               id={'remove-button-' + index}
               onClick={e => removeShow(e, props.visibility, item.id, index)}
-              className="remove-button ml-1"
+              className="remove-button mr-2"
             >
               Remove
-            </Button>
-            <Button
-              size="sm"
+            </DefaultButton>
+            <DefaultButton
               id={'archive-button-' + index}
               onClick={e => archiveShow(e, props.visibility, item.id, index)}
-              className="archive-button ml-1"
+              className="archive-button mr-2"
             >
               Archive
-            </Button>
-            <Button
+            </DefaultButton>
+            <DefaultButton
               id={'add-note-' + index}
-              size="sm"
               onClick={e => toggleModal(e, item)}
-              className="ml-1"
-              color="info"
+              className="mr-2"
             >
               Add Note
-            </Button>
+            </DefaultButton>
             <Modal isOpen={modal} toggle={toggleModal}>
               <ModalHeader>Add Note</ModalHeader>
               <ModalBody>
