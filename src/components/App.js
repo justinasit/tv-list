@@ -7,7 +7,6 @@ import styled from 'styled-components';
 require('dotenv').config();
 
 const Body = styled.div`
-  text-align: center;
   background-color: #222;
   color: white;
 `;
