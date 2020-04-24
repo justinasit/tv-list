@@ -4,10 +4,10 @@ import { Nav, NavItem } from 'reactstrap';
 
 const Header = () => (
   <header className="header row row">
-    <div class="col-md-6">
+    <div className="col-md-6">
       <h1 className="title">Your TV List</h1>
     </div>
-    <div class="col-md-6">
+    <div className="col-md-6">
       <Nav>
         <NavItem>
           <NavLink exact={true} activeClassName="is-active" to="/">

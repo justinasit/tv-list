@@ -2,29 +2,3 @@ body {
   background-color: #222 !important;
   color: white;
 }
-
-.title {
-  font-size: 1.5em;
-}
-
-.nav-item a {
-  color: white;
-  text-decoration: underline;
-}
-
-.nav-item a:hover {
-  text-decoration: none;
-  color: white;
-}
-
-ul.nav {
-  justify-content: center;
-}
-
-.nav-item {
-  margin-left: 10px;
-}
-
-.is-active {
-  font-weight: bold;
-}
