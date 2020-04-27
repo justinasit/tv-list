@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import Storage from '../Storage';
 import { useSelector, useDispatch } from 'react-redux';
+import DefaultCheckbox from '../stylesheets/DefaultCheckbox';
 
 const ListSeasons = props => {
   const storage = new Storage();
   const myShows = useSelector(state => state.myShows);
   const storedShows = useSelector(state => state.storedShows);
   const dispatch = useDispatch();
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   /* Update the seasons watched array in storage and state */
   const checkSeason = (seasonNumber, item, visibility) => {
@@ -25,6 +27,7 @@ const ListSeasons = props => {
     });
     storage.setItem('stored-shows', updatedShows);
     updateShowActivity(updatedShows, item, seasonAdded, visibility);
+    forceUpdate();
   };
 
   const updateShowActivity = (updatedShows, item, seasonAdded, visibility) => {
@@ -57,17 +60,19 @@ const ListSeasons = props => {
   return (
     <span>
       {Array.from(Array(props.item.number_of_seasons), (e, i) => i + 1).map(i => (
-        <span key={i}>
+        <span className={i % 5 !== 1 ? 'ml-3' : ''} key={i}>
           Season {i}
-          <input
-            defaultChecked={storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
-            onChange={() => checkSeason(i, props.item, props.visibility)}
-            type="checkbox"
-            disabled={i > props.item.last_aired_season}
-            className="ml-1"
-            id={'season-checkbox-' + props.item.id + '-' + i}
-          />
-          <br />
+          <label>
+            <DefaultCheckbox
+              defaultChecked={storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
+              onChange={() => checkSeason(i, props.item, props.visibility)}
+              type="checkbox"
+              disabled={i > props.item.last_aired_season}
+              className="ml-1"
+              id={'season-checkbox-' + props.item.id + '-' + i}
+            />
+          </label>
+          {i % 5 === 0 ? <br /> : ''}
         </span>
       ))}
     </span>
