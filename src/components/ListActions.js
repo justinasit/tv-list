@@ -62,6 +62,7 @@ const ListActions = props => {
       type: 'stored-shows',
     });
     storage.setItem('stored-shows', storedShows);
+    activeItem.current.note = note;
     setModal(false);
   };
 
