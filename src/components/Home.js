@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import * as MovieApi from '../api/MovieApi';
 import ListResults from './ListResults';
 import ListActions from './ListActions';
-import SaveAndLoad from './SaveAndLoad';
 import Storage from '../Storage';
 import { Button } from 'reactstrap';
 import { useDispatch } from 'react-redux';
+import { Heading1, Heading3 } from '../stylesheets/Headings';
 
 const Home = () => {
   const [items, setItems] = useState([]);
@@ -76,13 +76,14 @@ const Home = () => {
         <ListResults items={items} />
       </div>
       <div className="col-md-9">
-        <h2>Active Shows</h2>
+        <Heading1>Active Shows</Heading1>
+        <Heading3>These are the shows that have new episodes available.</Heading3>
         <br />
         <ListActions visibility="active" />
-        <h2 className="mt-3">Finished Shows</h2>
+        <Heading1 className="mt-3">Finished Shows</Heading1>
+        <Heading3>These are the shows that you have finished watching.</Heading3>
         <br />
         <ListActions visibility="finished" />
-        <SaveAndLoad />
       </div>
     </div>
   );
