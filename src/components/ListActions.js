@@ -54,6 +54,12 @@ const ListActions = props => {
 
   const showNote = note => (note ? <Heading3>{note}</Heading3> : '');
 
+  const showDateOfNextEpisode = date => {
+    if (date) {
+      return <Heading3>Date of next episode: {date}</Heading3>;
+    }
+  };
+
   const addNote = e => {
     e.preventDefault();
     storedShows[activeItem.current.showIdIndex].note = note;
@@ -83,6 +89,7 @@ const ListActions = props => {
         <div className="col-md-9">
           <Heading2>{item.name}</Heading2>
           {showNote(storedShows[item.showIdIndex].note)}
+          {showDateOfNextEpisode(item.date_of_next_episode)}
           <ListSeasons item={item} visibility={props.visibility} />
           <br />
           <DefaultButton
