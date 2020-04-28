@@ -14,6 +14,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import DefaultButton from '../stylesheets/DefaultButton';
+import { Heading2, Heading3 } from '../stylesheets/Headings';
 
 const SingleShow = styled.div`
   border-bottom: 1px solid grey;
@@ -51,7 +52,7 @@ const ListActions = props => {
     removeShow(e, visibility, id, index);
   };
 
-  const showNote = note => (note ? note : '');
+  const showNote = note => (note ? <Heading3>{note}</Heading3> : '');
 
   const addNote = e => {
     e.preventDefault();
@@ -79,11 +80,9 @@ const ListActions = props => {
           <img className="col-md-8" src={item.poster} alt="poster" />
         </div>
         <div className="col-md-9">
-          <h4>{item.name}</h4>
-          <br />
+          <Heading2>{item.name}</Heading2>
           {showNote(storedShows[item.showIdIndex].note)}
           <ListSeasons item={item} visibility={props.visibility} />
-          <br />
           <br />
           <DefaultButton
             id={'remove-button-' + index}

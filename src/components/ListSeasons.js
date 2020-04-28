@@ -58,7 +58,7 @@ const ListSeasons = props => {
 
   /* List seasons with checkboxes, disable checkboxes for seasons that haven't aired yet */
   return (
-    <span>
+    <div className="mt-2">
       {Array.from(Array(props.item.number_of_seasons), (e, i) => i + 1).map(i => (
         <span className={i % 5 !== 1 ? 'ml-3' : ''} key={i}>
           Season {i}
@@ -75,7 +75,7 @@ const ListSeasons = props => {
           {i % 5 === 0 ? <br /> : ''}
         </span>
       ))}
-    </span>
+    </div>
   );
 };
 
