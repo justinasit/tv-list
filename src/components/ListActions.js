@@ -60,6 +60,12 @@ const ListActions = props => {
     }
   };
 
+  const showInProduction = inProduction => {
+    if (!inProduction) {
+      return <Heading3>This show has now finished airing and is no longer in production.</Heading3>;
+    }
+  };
+
   const addNote = e => {
     e.preventDefault();
     storedShows[activeItem.current.showIdIndex].note = note;
@@ -90,6 +96,7 @@ const ListActions = props => {
           <Heading2>{item.name}</Heading2>
           {showNote(storedShows[item.showIdIndex].note)}
           {showDateOfNextEpisode(item.date_of_next_episode)}
+          {showInProduction(item.in_production)}
           <ListSeasons item={item} visibility={props.visibility} />
           <br />
           <DefaultButton

@@ -27,6 +27,7 @@ export function mapApiDataToObject(apiData, showIdIndex, note = null) {
       ? 'https://image.tmdb.org/t/p/w440_and_h660_face' + apiData.poster_path
       : './img/no_poster.jpg',
     date_of_next_episode: apiData.next_episode_to_air ? apiData.next_episode_to_air.air_date : null,
+    in_production: apiData.in_production,
   };
 }
 
