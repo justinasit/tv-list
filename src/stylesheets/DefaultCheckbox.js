@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   border: 0;
@@ -20,6 +20,10 @@ const Icon = styled.svg`
   stroke-width: 4px;
 `;
 
+const disabledStyles = css`
+  background: #ecb2b2;
+`;
+
 const StyledCheckbox = styled.div`
   display: inline-block;
   width: 16px;
@@ -36,6 +40,8 @@ const StyledCheckbox = styled.div`
   ${Icon} {
     visibility: ${props => (props.defaultChecked ? 'visible' : 'hidden')};
   }
+
+  ${props => (props.disabled ? disabledStyles : ``)};
 `;
 
 const CheckboxContainer = styled.div`
@@ -46,7 +52,7 @@ const DefaultCheckbox = ({ className, ...props }) => {
   return (
     <CheckboxContainer className={className}>
       <HiddenCheckbox {...props} />
-      <StyledCheckbox defaultChecked={props.defaultChecked}>
+      <StyledCheckbox defaultChecked={props.defaultChecked} disabled={props.disabled}>
         <Icon viewBox="0 0 24 24">
           <polyline points="20 6 9 17 4 12" />
         </Icon>
