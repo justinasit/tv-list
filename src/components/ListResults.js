@@ -2,6 +2,28 @@ import React from 'react';
 import * as MovieApi from '../api/MovieApi';
 import Storage from '../Storage';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+
+const ListItem = styled.li`
+  padding: 0.75rem 1.25rem;
+  background-color: #303030;
+  border: 1px solid #444;
+  cursor: pointer;
+`;
+
+const SingleResult = ({ className, ...props }) => {
+  return (
+    <span className={className}>
+      <ListItem
+        className="d-flex justify-content-between align-items-center"
+        id={'add-show-button-' + props.index}
+        onClick={() => props.addShowCheck(props.item.id)}
+      >
+        {props.item.original_name}
+      </ListItem>
+    </span>
+  );
+};
 
 const ListResults = props => {
   const storage = new Storage();
@@ -38,14 +60,22 @@ const ListResults = props => {
     });
   };
 
+  const getFoundString = () => {
+    if (props.items.length)
+      return (
+        <p>
+          Click on the show below that you want to add:
+          <br />
+        </p>
+      );
+  };
+
   return (
     <span>
+      {getFoundString()}
       {props.items.map((item, index) => (
         <p key={index}>
-          <li>{item.original_name}</li>
-          <button id={'add-show-button-' + index} onClick={() => addShowCheck(item.id)}>
-            Add
-          </button>
+          <SingleResult index={index} item={item} addShowCheck={addShowCheck}></SingleResult>
         </p>
       ))}
     </span>

@@ -3,9 +3,10 @@ import * as MovieApi from '../api/MovieApi';
 import ListResults from './ListResults';
 import ListActions from './ListActions';
 import Storage from '../Storage';
-import { Button } from 'reactstrap';
+import { Input } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import { Heading1, Heading3 } from '../stylesheets/Headings';
+import DefaultButton from '../stylesheets/DefaultButton';
 
 const Home = () => {
   const [items, setItems] = useState([]);
@@ -64,13 +65,12 @@ const Home = () => {
   return (
     <div className="Home row">
       <div className="col-md-2 mt-2 ml-1 border-right">
-        Search for tv series below.
+        Search for tv series below to add it to your list.
+        <br />
         <br />
         <form className="App-intro" onSubmit={searchApi}>
-          <input onChange={event => (term = event.target.value)} />
-          <Button className="ml-1 mt-1" color="success">
-            Submit
-          </Button>
+          <Input placeholder="Search" onChange={event => (term = event.target.value)} />
+          <DefaultButton className="ml-1 mt-1">Submit</DefaultButton>
         </form>
         <br />
         <ListResults items={items} />
