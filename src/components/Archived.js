@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Storage from '../Storage';
-import { Button } from 'reactstrap';
+import { Heading1 } from '../stylesheets/Headings';
+import DefaultButton from '../stylesheets/DefaultButton';
+import { ListGroup } from 'reactstrap';
+import styled from 'styled-components';
+
+const SingleArchivedShow = styled.li`
+  list-style-type: none;
+`;
 
 const Archived = () => {
   const storage = new Storage();
@@ -26,26 +33,24 @@ const Archived = () => {
   };
 
   return (
-    <div>
-      <h2>Archived Shows</h2>
+    <div className="ml-3">
+      <Heading1>Archived Shows</Heading1>
       <br />
-      {archivedShows.length === 0 ? <p>Nothing here!</p> : ''}
+      {archivedShows.length === 0 ? <p>Nothing here yet!</p> : ''}
       {archivedShows.map((item, index) => (
-        <p key={index}>
-          <li>
-            {`${item.name} (Seasons - ${item.number_of_seasons})`}
-            <br />
-            <Button
-              size="sm"
+        <ListGroup key={index}>
+          <SingleArchivedShow>
+            {`${item.name} (${item.number_of_seasons} Seasons)`}
+            <DefaultButton
+              className="ml-3"
               id={'unarchive-button-' + index}
               onClick={() => unArchiveShow(item.id, index)}
             >
-              Un-Archive
-            </Button>
-            <br />
-            <br />
-          </li>
-        </p>
+              Unarchive
+            </DefaultButton>
+          </SingleArchivedShow>
+          <br />
+        </ListGroup>
       ))}
     </div>
   );
