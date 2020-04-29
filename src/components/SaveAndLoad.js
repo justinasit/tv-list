@@ -12,6 +12,9 @@ import {
   Alert,
 } from 'reactstrap';
 import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { NavItem } from 'reactstrap';
+import HeaderLink from '../stylesheets/HeaderLink';
 
 const SaveAndLoad = () => {
   const storage = new Storage();
@@ -84,10 +87,17 @@ const SaveAndLoad = () => {
   };
 
   return (
-    <div>
-      <Button size="sm" id={'save-button'} onClick={e => toggleSaveModal(e)} className="ml-1">
-        Save
-      </Button>
+    <>
+      <NavItem>
+        <NavLink to="" id={'save-button'} onClick={e => toggleSaveModal(e)} className="ml-2">
+          <HeaderLink>Save List</HeaderLink>
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink to="" id={'load-button'} onClick={e => toggleLoadModal(e)} className="ml-2">
+          <HeaderLink>Load List</HeaderLink>
+        </NavLink>
+      </NavItem>
       <Modal isOpen={saveModal} toggle={toggleSaveModal}>
         <ModalHeader>Save shows</ModalHeader>
         <ModalBody>
@@ -115,9 +125,6 @@ const SaveAndLoad = () => {
           </Button>
         </ModalFooter>
       </Modal>
-      <Button size="sm" id={'load-button'} onClick={e => toggleLoadModal(e)} className="ml-1">
-        Load
-      </Button>
       <Modal isOpen={loadModal} toggle={toggleLoadModal}>
         <ModalHeader>Login</ModalHeader>
         <ModalBody>
@@ -143,7 +150,7 @@ const SaveAndLoad = () => {
           </Button>
         </ModalFooter>
       </Modal>
-    </div>
+    </>
   );
 };
 
