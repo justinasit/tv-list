@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Storage from '../Storage';
 import {
-  Button,
   Modal,
   ModalHeader,
   ModalBody,
@@ -15,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { NavItem } from 'reactstrap';
 import HeaderLink from '../stylesheets/HeaderLink';
+import DefaultButton from '../stylesheets/DefaultButton';
 
 const SaveAndLoad = () => {
   const storage = new Storage();
@@ -22,9 +22,9 @@ const SaveAndLoad = () => {
   const [saveModal, setSaveModal] = useState(false);
   const [loadModal, setLoadModal] = useState(false);
   const [error, setError] = useState(null);
-  let name = '';
-  let email = '';
-  let password = '';
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const saveShows = async e => {
     e.preventDefault();
@@ -104,25 +104,23 @@ const SaveAndLoad = () => {
           {error}
           <Form>
             <FormGroup>
-              <Input placeholder="Name" onChange={event => (name = event.target.value)} />
+              <Input placeholder="Name" onChange={event => setName(event.target.value)} />
               <br />
-              <Input placeholder="Email" onChange={event => (email = event.target.value)} />
+              <Input placeholder="Email" onChange={event => setEmail(event.target.value)} />
               <br />
               <Input
                 placeholder="Password"
                 type="password"
-                onChange={event => (password = event.target.value)}
+                onChange={event => setPassword(event.target.value)}
               />
             </FormGroup>
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button id="submit-note" color="primary" onClick={e => saveShows(e)}>
+          <DefaultButton id="submit-note" onClick={e => saveShows(e)}>
             Submit
-          </Button>{' '}
-          <Button color="secondary" onClick={toggleSaveModal}>
-            Cancel
-          </Button>
+          </DefaultButton>
+          <DefaultButton onClick={toggleSaveModal}>Cancel</DefaultButton>
         </ModalFooter>
       </Modal>
       <Modal isOpen={loadModal} toggle={toggleLoadModal}>
@@ -131,23 +129,21 @@ const SaveAndLoad = () => {
           {error}
           <Form>
             <FormGroup>
-              <Input placeholder="Email" onChange={event => (email = event.target.value)} />
+              <Input placeholder="Email" onChange={event => setEmail(event.target.value)} />
               <br />
               <Input
                 placeholder="Password"
                 type="password"
-                onChange={event => (password = event.target.value)}
+                onChange={event => setPassword(event.target.value)}
               />
             </FormGroup>
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button id="submit-note" color="primary" onClick={e => loadShows(e)}>
+          <DefaultButton id="submit-note" onClick={e => loadShows(e)}>
             Submit
-          </Button>{' '}
-          <Button color="secondary" onClick={toggleLoadModal}>
-            Cancel
-          </Button>
+          </DefaultButton>
+          <DefaultButton onClick={toggleLoadModal}>Cancel</DefaultButton>
         </ModalFooter>
       </Modal>
     </>
