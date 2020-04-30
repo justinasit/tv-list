@@ -92,7 +92,12 @@ const ListActions = props => {
     <p id="empty">Nothing here!</p>
   ) : (
     myShows[props.visibility].map((item, index) => (
-      <SingleShow key={index} index={index} className={'mt-2 row pt-2'}>
+      <SingleShow
+        id={'show-' + props.visibility + index}
+        key={index}
+        index={index}
+        className={'mt-2 row pt-2'}
+      >
         <div className="col-md-3">
           <img className="col-md-8" src={item.poster} alt="poster" />
         </div>

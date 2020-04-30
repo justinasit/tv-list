@@ -50,7 +50,7 @@ const CheckboxContainer = styled.div`
 `;
 const DefaultCheckbox = ({ className, ...props }) => {
   return (
-    <CheckboxContainer className={className}>
+    <CheckboxContainer className={className} id={props.id}>
       <HiddenCheckbox {...props} />
       <StyledCheckbox defaultChecked={props.defaultChecked} disabled={props.disabled}>
         <Icon viewBox="0 0 24 24">

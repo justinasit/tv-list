@@ -42,7 +42,7 @@ describe('ListActions test suite', () => {
   const initialiseComponent = state => {
     const store = mockStore(state ? state : initialState);
     const div = document.createElement('div');
-    div.setAttribute('id', 'toggler-active0');
+    div.setAttribute('id', 'show-active0');
     document.body.appendChild(div);
 
     return mount(
@@ -55,8 +55,18 @@ describe('ListActions test suite', () => {
 
   it('renders all mocked shows', () => {
     expect(wrapper.find('#empty').exists()).toBe(false);
-    expect(wrapper.find('#toggler-active0').text()).toEqual('The Blacklist');
-    expect(wrapper.find('#toggler-active1').text()).toEqual('The Good Place');
+    expect(
+      wrapper
+        .find('div')
+        .find('#show-active0 h2')
+        .text(),
+    ).toEqual('The Blacklist');
+    expect(
+      wrapper
+        .find('div')
+        .find('#show-active1 h2')
+        .text(),
+    ).toEqual('The Good Place');
   });
 
   it('renders no shows', () => {

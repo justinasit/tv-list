@@ -46,7 +46,7 @@ describe('tv-list app testing', () => {
   test(
     'stored show is visible',
     async () => {
-      await page.$eval('#toggler-active0', value => (value = 'Homeland'));
+      await page.$eval('#show-active0', value => (value = 'Homeland'));
     },
     config.timeout,
   );
@@ -54,12 +54,12 @@ describe('tv-list app testing', () => {
   test(
     'remove show',
     async () => {
-      await page.waitForSelector('#toggler-active0', { visible: true });
-      await page.click('#toggler-active0');
-      await page.waitForSelector('#remove-button-0', { visible: true });
+      await page.waitForSelector('#show-active0', { visible: true });
       await page.waitFor(1000);
       await page.click('#remove-button-0');
-      await page.waitForSelector('#toggler-active0', { hidden: true });
+      await page.waitForSelector('#confirm-remove-show', { visible: true });
+      await page.click('#confirm-remove-show');
+      await page.waitForSelector('#show-active0', { hidden: true });
     },
     config.timeout,
   );
@@ -98,15 +98,13 @@ describe('tv-list app testing', () => {
   test(
     'finish all seasons',
     async () => {
-      await page.waitForSelector('#toggler-active0', { visible: true });
-      await page.waitForSelector('#toggler-finished0', { hidden: true });
-      await page.click('#toggler-active0');
-      await page.waitFor(1000);
+      await page.waitForSelector('#show-active0', { visible: true });
+      await page.waitForSelector('#show-finished0', { hidden: true });
       for (let i = 1; i < 4; i++) {
         await page.click('#season-checkbox-66732-' + i);
       }
-      await page.waitForSelector('#toggler-active0', { hidden: true });
-      await page.waitForSelector('#toggler-finished0', { visible: true });
+      await page.waitForSelector('#show-active0', { hidden: true });
+      await page.waitForSelector('#show-finished0', { visible: true });
     },
     config.timeout,
   );
@@ -114,11 +112,12 @@ describe('tv-list app testing', () => {
   test(
     'move show back to active',
     async () => {
-      await page.click('#toggler-finished0');
+      await page.waitForSelector('#show-finished0', { visible: true });
+      await page.click('#show-finished0');
       await page.waitFor(1000);
       await page.click('#season-checkbox-66732-1');
-      await page.waitForSelector('#toggler-active0', { visible: true });
-      await page.waitForSelector('#toggler-finished0', { hidden: true });
+      await page.waitForSelector('#show-active0', { visible: true });
+      await page.waitForSelector('#show-finished0', { hidden: true });
     },
     config.timeout,
   );
@@ -126,11 +125,12 @@ describe('tv-list app testing', () => {
   test(
     'archive show',
     async () => {
-      await page.click('#toggler-active0');
-      await page.waitForSelector('#archive-button-0', { visible: true });
+      await page.waitForSelector('#show-active0', { visible: true });
       await page.waitFor(1000);
       await page.click('#archive-button-0');
-      await page.waitForSelector('#archive-button-0', { hidden: true });
+      await page.waitForSelector('#confirm-archive-show', { visible: true });
+      await page.click('#confirm-archive-show');
+      await page.waitForSelector('#show-active0', { hidden: true });
     },
     config.timeout,
   );
