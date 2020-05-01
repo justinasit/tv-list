@@ -99,7 +99,7 @@ const ListActions = props => {
         className={'mt-2 row pt-2 pb-3 pb-md-0'}
       >
         <div className="col-md-3">
-          <img className="img-fluid col-6 col-md-12" src={item.poster} alt="poster" />
+          <img className="img-fluid col-6 col-md-8" src={item.poster} alt="poster" />
         </div>
         <div className="col-md-9 pl-4 pl-md-0">
           <Heading2>{item.name}</Heading2>

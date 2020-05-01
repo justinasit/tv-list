@@ -60,7 +60,10 @@ const ListSeasons = props => {
   return (
     <div className="mt-2">
       {Array.from(Array(props.item.number_of_seasons), (e, i) => i + 1).map(i => (
-        <span className={i % 5 !== 1 ? 'ml-3' : ''} key={i}>
+        <span key={i}>
+          {/* Margin every 3 seasons for mobile, every 5 seasons for desktop */}
+          <span className={i % 3 !== 1 ? 'd-inline d-md-none ml-3' : ''}></span>
+          <span className={i % 5 !== 1 ? 'd-none d-md-inline ml-3' : ''}></span>
           Season {i}
           <label>
             <DefaultCheckbox
@@ -72,7 +75,9 @@ const ListSeasons = props => {
               id={'season-checkbox-' + props.item.id + '-' + i}
             />
           </label>
-          {i % 5 === 0 ? <br /> : ''}
+          {/* Break every 3 seasons for mobile, every 5 seasons for desktop */}
+          <span className="d-inline d-md-none">{i % 3 === 0 ? <br /> : ''}</span>
+          <span className="d-none d-md-inline">{i % 5 === 0 ? <br /> : ''}</span>
         </span>
       ))}
     </div>
