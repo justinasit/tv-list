@@ -102,12 +102,16 @@ const Home = () => {
       </div>
       <div className="col-md-9">
         {showEmptyState()}
-        <Heading1>Active Shows</Heading1>
-        <Heading3>These are the shows that have new episodes available.</Heading3>
+        <Heading1 className="ml-2 ml-md-0">Active Shows</Heading1>
+        <Heading3 className="ml-2 ml-md-0">
+          These are the shows that have new episodes available.
+        </Heading3>
         <br />
         <ListActions visibility="active" />
-        <Heading1 className="mt-3">Finished Shows</Heading1>
-        <Heading3>These are the shows that you have finished watching.</Heading3>
+        <Heading1 className="mt-3 ml-2 ml-md-0">Finished Shows</Heading1>
+        <Heading3 className="ml-2 ml-md-0">
+          These are the shows that you have finished watching.
+        </Heading3>
         <br />
         <ListActions visibility="finished" />
       </div>
