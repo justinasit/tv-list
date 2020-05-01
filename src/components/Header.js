@@ -7,7 +7,7 @@ import HeaderLink from '../stylesheets/HeaderLink';
 const Header = () => (
   <header className="header row mt-3 ml-3 mb-3">
     <div className="col-md-6">
-      <h1 className="title">Your TV List</h1>
+      <h1 className="title">Your TV Tracker</h1>
     </div>
     <div className="col-md-6">
       <Nav className="mt-3">
