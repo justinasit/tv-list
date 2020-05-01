@@ -22,10 +22,13 @@ const ListActions = props => {
   const [removeModal, setRemoveModal] = useState(false);
   let note = '';
   const activeItem = useRef(0);
+  const activeIndex = useRef(0);
 
-  const removeShow = (e, visibility, id, index) => {
+  const removeShow = (e, visibility) => {
     e.preventDefault();
-    const showsWithoutRemovedItem = myShows[visibility].filter((show, key) => key !== index);
+    const showsWithoutRemovedItem = myShows[visibility].filter(
+      (show, key) => key !== activeIndex.current,
+    );
     dispatch({
       payload: {
         active: visibility === 'active' ? showsWithoutRemovedItem : myShows.active,
@@ -35,16 +38,16 @@ const ListActions = props => {
     });
     storage.setItem(
       'stored-shows',
-      storedShows.filter(show => id !== show.id),
+      storedShows.filter(show => activeItem.current.id !== show.id),
     );
     setRemoveModal(false);
   };
 
-  const archiveShow = async (e, visibility, id, index) => {
+  const archiveShow = async (e, visibility) => {
     const archivedShows = await storage.getItem('archived-shows');
-    archivedShows.push(myShows[visibility][index]);
+    archivedShows.push(myShows[visibility][activeIndex.current]);
     storage.setItem('archived-shows', archivedShows);
-    removeShow(e, visibility, id, index);
+    removeShow(e, visibility);
     setArchiveModal(false);
   };
 
@@ -80,11 +83,19 @@ const ListActions = props => {
     setNoteModal(!noteModal);
   };
 
-  const toggleRemoveModal = () => {
+  const toggleRemoveModal = (index, item) => {
+    if (!removeModal) {
+      activeIndex.current = index;
+      activeItem.current = item;
+    }
     setRemoveModal(!removeModal);
   };
 
-  const toggleArchiveModal = () => {
+  const toggleArchiveModal = (index, item) => {
+    if (!archiveModal) {
+      activeIndex.current = index;
+      activeItem.current = item;
+    }
     setArchiveModal(!archiveModal);
   };
 
@@ -110,14 +121,14 @@ const ListActions = props => {
           <br />
           <DefaultButton
             id={'remove-button-' + index}
-            onClick={e => toggleRemoveModal(e)}
+            onClick={e => toggleRemoveModal(index, item)}
             className="remove-button mr-2"
           >
             Remove
           </DefaultButton>
           <DefaultButton
             id={'archive-button-' + index}
-            onClick={e => toggleArchiveModal(e)}
+            onClick={e => toggleArchiveModal(index, item)}
             className="archive-button mr-2"
           >
             Archive
@@ -147,7 +158,7 @@ const ListActions = props => {
             <ModalFooter>
               <DefaultButton id="submit-note" onClick={e => addNote(e)}>
                 Submit
-              </DefaultButton>{' '}
+              </DefaultButton>
               <DefaultButton onClick={toggleNoteModal}>Cancel</DefaultButton>
             </ModalFooter>
           </Modal>
@@ -157,7 +168,7 @@ const ListActions = props => {
             <ModalFooter>
               <DefaultButton
                 id="confirm-remove-show"
-                onClick={e => removeShow(e, props.visibility, item.id, index)}
+                onClick={e => removeShow(e, props.visibility)}
               >
                 Submit
               </DefaultButton>
@@ -174,7 +185,7 @@ const ListActions = props => {
             <ModalFooter>
               <DefaultButton
                 id="confirm-archive-show"
-                onClick={e => archiveShow(e, props.visibility, item.id, index)}
+                onClick={e => archiveShow(e, props.visibility)}
               >
                 Submit
               </DefaultButton>
