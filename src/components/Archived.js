@@ -35,6 +35,9 @@ const Archived = () => {
   return (
     <div className="ml-3">
       <Heading1>Archived Shows</Heading1>
+      You can find a list of shows here that you decided to archive if you're no longer interested
+      in them.
+      <br />
       <br />
       {archivedShows.length === 0 ? <p>Nothing here yet!</p> : ''}
       {archivedShows.map((item, index) => (
