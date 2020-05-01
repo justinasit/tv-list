@@ -2,12 +2,16 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Nav, NavItem } from 'reactstrap';
 import SaveAndLoad from './SaveAndLoad';
-import HeaderLink from '../stylesheets/HeaderLink';
+import HeaderLink, { AppName } from '../stylesheets/HeaderLink';
 
 const Header = () => (
   <header className="header row mt-3 ml-3 mb-3">
     <div className="col-md-6">
-      <h1 className="title">Your TV Tracker</h1>
+      <h1 className="title">
+        <NavLink to="/">
+          <AppName>Your TV Tracker</AppName>
+        </NavLink>
+      </h1>
     </div>
     <div className="col-md-6">
       <Nav className="mt-3">

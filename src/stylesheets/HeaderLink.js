@@ -8,4 +8,8 @@ const HeaderLink = styled.span`
   }
 `;
 
+export const AppName = styled.span`
+  color: #ffffff;
+`;
+
 export default HeaderLink;
