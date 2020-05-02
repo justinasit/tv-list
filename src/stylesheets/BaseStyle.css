@@ -9,3 +9,7 @@ body {
 a {
   text-decoration: none !important;
 }
+
+.modal-content {
+  color: #212529;
+}
