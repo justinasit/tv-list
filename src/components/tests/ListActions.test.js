@@ -54,7 +54,7 @@ describe('ListActions test suite', () => {
   };
 
   it('renders all mocked shows', () => {
-    expect(wrapper.find('#empty').exists()).toBe(false);
+    expect(wrapper.find('#empty-active').exists()).toBe(false);
     expect(
       wrapper
         .find('div')
@@ -71,6 +71,6 @@ describe('ListActions test suite', () => {
 
   it('renders no shows', () => {
     const wrapper = initialiseComponent({ myShows: { active: [], finished: [] } });
-    expect(wrapper.find('#empty').exists()).toBe(true);
+    expect(wrapper.find('#empty-active').exists()).toBe(true);
   });
 });

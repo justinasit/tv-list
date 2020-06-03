@@ -100,7 +100,7 @@ const ListActions = props => {
   };
 
   return !myShows[props.visibility] || myShows[props.visibility].length === 0 ? (
-    <p id="empty">Nothing here!</p>
+    <p id={'empty-' + props.visibility}>Nothing here!</p>
   ) : (
     myShows[props.visibility].map((item, index) => (
       <SingleShow
