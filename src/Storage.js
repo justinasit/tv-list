@@ -20,15 +20,17 @@ export default class Storage {
   async getItem(key) {
     let itemsFromStorage = [];
     try {
-      itemsFromStorage = await (
-        await fetch(this.storageUrl + key, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem('x-access-token'),
-          },
-        })
-      ).json();
+      if (localStorage.getItem('x-access-token')) {
+        itemsFromStorage = await (
+          await fetch(this.storageUrl + key, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-access-token': localStorage.getItem('x-access-token'),
+            },
+          })
+        ).json();
+      }
 
       return itemsFromStorage.length > 0
         ? itemsFromStorage
