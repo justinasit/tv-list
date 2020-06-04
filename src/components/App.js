@@ -13,7 +13,7 @@ const Body = styled.div`
 
 const App = () => {
   return (
-    <Body>
+    <Body className="container-fluid">
       <Header />
       <Main />
     </Body>
