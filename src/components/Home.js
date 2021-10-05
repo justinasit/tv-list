@@ -29,7 +29,7 @@ const Home = () => {
       });
       let shows = { active: [], finished: [] };
       const getShowData = (showsArray, show, apiData, showIdIndex) => {
-        if (show.seasons_watched.length === apiData.last_episode_to_air.season_number) {
+        if (show.seasons_watched.length === apiData.last_episode_to_air?.season_number) {
           showsArray.finished.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
         } else {
           showsArray.active.push(MovieApi.mapApiDataToObject(apiData, showIdIndex, show.note));
