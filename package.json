@@ -35,8 +35,5 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "^2.5.1",
     "redux-mock-store": "^1.5.4"
-  },
-  "browser": {
-    "fs": false
   }
 }
