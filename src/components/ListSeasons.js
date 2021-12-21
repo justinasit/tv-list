@@ -62,8 +62,8 @@ const ListSeasons = props => {
       {Array.from(Array(props.item.number_of_seasons), (e, i) => i + 1).map(i => (
         <span key={i}>
           {/* Margin every 3 seasons for mobile, every 5 seasons for desktop */}
-          <span className={i % 3 !== 1 ? 'd-inline d-md-none ml-3' : ''}></span>
-          <span className={i % 5 !== 1 ? 'd-none d-md-inline ml-3' : ''}></span>
+          <span className={i % 3 !== 1 ? 'd-inline d-md-none ms-3' : ''}></span>
+          <span className={i % 5 !== 1 ? 'd-none d-md-inline ms-3' : ''}></span>
           Season {i}
           <label>
             <DefaultCheckbox
@@ -71,7 +71,7 @@ const ListSeasons = props => {
               onChange={() => checkSeason(i, props.item, props.visibility)}
               type="checkbox"
               disabled={i > props.item.last_aired_season}
-              className="ml-1"
+              className="ms-1"
               id={'season-checkbox-' + props.item.id + '-' + i}
             />
           </label>

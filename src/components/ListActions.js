@@ -112,7 +112,7 @@ const ListActions = props => {
         <div className="col-md-3">
           <img className="img-fluid col-6 col-md-8" src={item.poster} alt="poster" />
         </div>
-        <div className="col-md-9 pl-4 pl-md-0">
+        <div className="col-md-9 ps-4 ps-md-0">
           <Heading2>{item.name}</Heading2>
           {showNote(storedShows[item.showIdIndex].note)}
           {showDateOfNextEpisode(item.date_of_next_episode)}
@@ -121,22 +121,22 @@ const ListActions = props => {
           <br />
           <DefaultButton
             id={'remove-button-' + index}
-            onClick={e => toggleRemoveModal(index, item)}
-            className="remove-button mr-2"
+            onClick={() => toggleRemoveModal(index, item)}
+            className="remove-button me-2"
           >
             Remove
           </DefaultButton>
           <DefaultButton
             id={'archive-button-' + index}
-            onClick={e => toggleArchiveModal(index, item)}
-            className="archive-button mr-2"
+            onClick={() => toggleArchiveModal(index, item)}
+            className="archive-button me-2"
           >
             Archive
           </DefaultButton>
           <DefaultButton
             id={'add-note-' + index}
             onClick={e => toggleNoteModal(e, item)}
-            className="mr-2"
+            className="me-2"
           >
             Add Note
           </DefaultButton>

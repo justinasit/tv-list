@@ -4,8 +4,6 @@ import Main from './Main';
 import '../stylesheets/BaseStyle.css';
 import styled from 'styled-components';
 
-require('dotenv').config();
-
 const Body = styled.div`
   background-color: #222;
   color: white;

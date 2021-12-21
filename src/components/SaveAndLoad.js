@@ -89,12 +89,12 @@ const SaveAndLoad = () => {
   return (
     <>
       <NavItem>
-        <NavLink to="" id={'save-button'} onClick={e => toggleSaveModal(e)} className="ml-2">
+        <NavLink to="" id={'save-button'} onClick={e => toggleSaveModal(e)} className="ms-2">
           <HeaderLink>Save List</HeaderLink>
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="" id={'load-button'} onClick={e => toggleLoadModal(e)} className="ml-2">
+        <NavLink to="" id={'load-button'} onClick={e => toggleLoadModal(e)} className="ms-2">
           <HeaderLink>Load List</HeaderLink>
         </NavLink>
       </NavItem>
@@ -105,9 +105,9 @@ const SaveAndLoad = () => {
             Saving your list is completely optional as it is automatically saved in your browser.
             This means that the list will be remembered even if you close the tab or navigate away.
             <br />
-            However, if you want to use a different device or a browser to access the list - you
+            {`However, if you want to use a different device or a browser to access the list - you
             will have to register and load the list on your new device. This will also ensure your
-            data won't get lost if your browser cache gets cleared.
+            data won't get lost if your browser cache gets cleared.`}
           </Alert>
           {error}
           <Form>
