@@ -105,9 +105,9 @@ const SaveAndLoad = () => {
             Saving your list is completely optional as it is automatically saved in your browser.
             This means that the list will be remembered even if you close the tab or navigate away.
             <br />
-            However, if you want to use a different device or a browser to access the list - you
+            {`However, if you want to use a different device or a browser to access the list - you
             will have to register and load the list on your new device. This will also ensure your
-            data won't get lost if your browser cache gets cleared.
+            data won't get lost if your browser cache gets cleared.`}
           </Alert>
           {error}
           <Form>
