@@ -9,13 +9,15 @@ import { Heading2, Heading3 } from '../stylesheets/Headings';
 
 //Only show border on non-first element of the lists
 const SingleShow = styled.div`
-  border-top: ${props => (props.index ? '1px solid grey;' : 'none')};
+  border: 1px solid #000000;
+  border-radius: 8px;
+  background-color: #282d34;
 `;
 
-const ListActions = props => {
+const ListActions = (props) => {
   const storage = new Storage();
-  const myShows = useSelector(state => state.myShows);
-  const storedShows = useSelector(state => state.storedShows);
+  const myShows = useSelector((state) => state.myShows);
+  const storedShows = useSelector((state) => state.storedShows);
   const dispatch = useDispatch();
   const [noteModal, setNoteModal] = useState(false);
   const [archiveModal, setArchiveModal] = useState(false);
@@ -38,7 +40,7 @@ const ListActions = props => {
     });
     storage.setItem(
       'stored-shows',
-      storedShows.filter(show => activeItem.current.id !== show.id),
+      storedShows.filter((show) => activeItem.current.id !== show.id),
     );
     setRemoveModal(false);
   };
@@ -51,21 +53,21 @@ const ListActions = props => {
     setArchiveModal(false);
   };
 
-  const showNote = note => (note ? <Heading3>{note}</Heading3> : '');
+  const showNote = (note) => (note ? <Heading3>{note}</Heading3> : '');
 
-  const showDateOfNextEpisode = date => {
+  const showDateOfNextEpisode = (date) => {
     if (date) {
       return <Heading3>Date of next episode: {date}</Heading3>;
     }
   };
 
-  const showInProduction = inProduction => {
+  const showInProduction = (inProduction) => {
     if (!inProduction) {
       return <Heading3>This show has now finished airing and is no longer in production.</Heading3>;
     }
   };
 
-  const addNote = e => {
+  const addNote = (e) => {
     e.preventDefault();
     storedShows[activeItem.current.showIdIndex].note = note;
     dispatch({
@@ -107,7 +109,7 @@ const ListActions = props => {
         id={'show-' + props.visibility + index}
         key={index}
         index={index}
-        className={'mt-2 row pt-2 pb-3 pb-md-0'}
+        className={'mt-3 row ps-3 pt-3 pb-3 pb-md-0'}
       >
         <div className="col-md-3">
           <img className="img-fluid col-6 col-md-8" src={item.poster} alt="poster" />
@@ -135,7 +137,7 @@ const ListActions = props => {
           </DefaultButton>
           <DefaultButton
             id={'add-note-' + index}
-            onClick={e => toggleNoteModal(e, item)}
+            onClick={(e) => toggleNoteModal(e, item)}
             className="me-2"
           >
             Add Note
@@ -150,13 +152,13 @@ const ListActions = props => {
                   <Input
                     defaultValue={activeItem.current.note}
                     placeholder="Your Note"
-                    onChange={event => (note = event.target.value)}
+                    onChange={(event) => (note = event.target.value)}
                   />
                 </FormGroup>
               </Form>
             </ModalBody>
             <ModalFooter>
-              <DefaultButton id="submit-note" onClick={e => addNote(e)}>
+              <DefaultButton id="submit-note" onClick={(e) => addNote(e)}>
                 Submit
               </DefaultButton>
               <DefaultButton onClick={toggleNoteModal}>Cancel</DefaultButton>
@@ -168,7 +170,7 @@ const ListActions = props => {
             <ModalFooter>
               <DefaultButton
                 id="confirm-remove-show"
-                onClick={e => removeShow(e, props.visibility)}
+                onClick={(e) => removeShow(e, props.visibility)}
               >
                 Submit
               </DefaultButton>
@@ -185,7 +187,7 @@ const ListActions = props => {
             <ModalFooter>
               <DefaultButton
                 id="confirm-archive-show"
-                onClick={e => archiveShow(e, props.visibility)}
+                onClick={(e) => archiveShow(e, props.visibility)}
               >
                 Submit
               </DefaultButton>

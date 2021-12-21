@@ -5,7 +5,7 @@ import '../stylesheets/BaseStyle.css';
 import styled from 'styled-components';
 
 const Body = styled.div`
-  background-color: #222;
+  background-color: #2a363b;
   color: white;
 `;
 

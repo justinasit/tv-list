@@ -9,7 +9,9 @@ const Header = () => (
     <div className="col-md-6">
       <h1 className="title">
         <NavLink to="/">
-          <AppName>Your TV Tracker</AppName>
+          <AppName>
+            <img style={{ width: '190px' }} src="img/logo.png"></img>
+          </AppName>
         </NavLink>
       </h1>
     </div>
