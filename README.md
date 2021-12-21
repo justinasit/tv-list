@@ -9,16 +9,16 @@
 
 # Prerequisites:
 
-- Node & NPM
+- Node & Yarn
 
 # Set up TV-List:
 
 1. Clone tv-list repository.
-2. Run `npm install` to install all dependencies.
+2. Run `yarn` to install all dependencies.
 3. [Get a TMDB API key](https://koditips.com/create-tmdb-api-key/).
 4. Copy `.env.example` file and name it `.env`.
 5. Paste your TMDB key to your new `.env` file.
-6. Use `npm run start` to run the app.
+6. Use `yarn start` to run the app.
 
 # Notes
 
