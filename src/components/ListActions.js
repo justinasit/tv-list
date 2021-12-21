@@ -121,14 +121,14 @@ const ListActions = props => {
           <br />
           <DefaultButton
             id={'remove-button-' + index}
-            onClick={e => toggleRemoveModal(index, item)}
+            onClick={() => toggleRemoveModal(index, item)}
             className="remove-button me-2"
           >
             Remove
           </DefaultButton>
           <DefaultButton
             id={'archive-button-' + index}
-            onClick={e => toggleArchiveModal(index, item)}
+            onClick={() => toggleArchiveModal(index, item)}
             className="archive-button me-2"
           >
             Archive
