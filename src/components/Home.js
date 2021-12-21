@@ -72,10 +72,10 @@ const Home = () => {
           This application allows you to find any of your favourite TV series. <br />
           It is useful for tracking releases of new seasons and marking off the ones you watched.
           <br />
-          Once you mark off all seasons as watched, the series will move to the "Finished" category.
+          {`Once you mark off all seasons as watched, the series will move to the "Finished" category.`}
           <br />
-          Finished shows will automatically move back to "Active" once a new season of a show has
-          been released.
+          {`Finished shows will automatically move back to "Active" once a new season of a show has
+          been released.`}
           <br />
           This way you will automatically know which series has new seasons just by visiting this
           page. <br />
