@@ -17,9 +17,19 @@ const storedShows = (state = {}, action) => {
   }
 };
 
+const isLoading = (state = {}, action) => {
+  switch (action.type) {
+    case 'isLoading':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   myShows,
   storedShows,
+  isLoading,
 });
 
 export default rootReducer;

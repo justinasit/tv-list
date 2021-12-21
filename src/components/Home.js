@@ -7,9 +7,11 @@ import { Input } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Heading1, Heading3 } from '../stylesheets/Headings';
 import DefaultButton from '../stylesheets/DefaultButton';
+import LoadingSpinner from './LoadingSpinner';
 
 const Home = () => {
   const [items, setItems] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
   let term = '';
   const dispatch = useDispatch();
   const myShows = useSelector(state => state.myShows);
@@ -38,8 +40,13 @@ const Home = () => {
         return showsArray;
       };
 
+      if (!storedShows.length) {
+        setLoadingData(false);
+      }
+
       storedShows.map((show, showIdIndex) =>
         MovieApi.getInfoById(show.id).then(data => {
+          setLoadingData(false);
           shows = getShowData(shows, show, data, showIdIndex);
           // Only change state on last element
           if (shows.finished.length + shows.active.length === storedShows.length) {
@@ -64,7 +71,7 @@ const Home = () => {
   };
 
   const showEmptyState = () => {
-    if (typeof myShows.active === 'undefined') {
+    if (!loadingData && typeof myShows.active === 'undefined') {
       return (
         <div>
           <h2>Welcome!</h2>
@@ -87,6 +94,33 @@ const Home = () => {
     }
   };
 
+  const showLoadingState = () => {
+    if (loadingData) {
+      return <LoadingSpinner />;
+    }
+  };
+
+  const showShows = () => {
+    if (!loadingData && myShows.active && myShows.active.length) {
+      return (
+        <div>
+          <Heading1 className="ms-2 ms-md-0">Active Shows</Heading1>
+          <Heading3 className="ms-2 ms-md-0">
+            These are the shows that have new episodes available.
+          </Heading3>
+          <br />
+          <ListActions visibility="active" />
+          <Heading1 className="mt-3 ms-2 ms-md-0">Finished Shows</Heading1>
+          <Heading3 className="ms-2 ms-md-0">
+            These are the shows that you have finished watching.
+          </Heading3>
+          <br />
+          <ListActions visibility="finished" />
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="Home row">
       <div className="col-md-2 mt-2 ms-1 border-right">
@@ -101,19 +135,9 @@ const Home = () => {
         <ListResults items={items} />
       </div>
       <div className="col-md-9">
+        {showLoadingState()}
         {showEmptyState()}
-        <Heading1 className="ms-2 ms-md-0">Active Shows</Heading1>
-        <Heading3 className="ms-2 ms-md-0">
-          These are the shows that have new episodes available.
-        </Heading3>
-        <br />
-        <ListActions visibility="active" />
-        <Heading1 className="mt-3 ms-2 ms-md-0">Finished Shows</Heading1>
-        <Heading3 className="ms-2 ms-md-0">
-          These are the shows that you have finished watching.
-        </Heading3>
-        <br />
-        <ListActions visibility="finished" />
+        {showShows()}
       </div>
     </div>
   );
