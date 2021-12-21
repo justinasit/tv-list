@@ -89,12 +89,12 @@ const SaveAndLoad = () => {
   return (
     <>
       <NavItem>
-        <NavLink to="" id={'save-button'} onClick={e => toggleSaveModal(e)} className="ml-2">
+        <NavLink to="" id={'save-button'} onClick={e => toggleSaveModal(e)} className="ms-2">
           <HeaderLink>Save List</HeaderLink>
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to="" id={'load-button'} onClick={e => toggleLoadModal(e)} className="ml-2">
+        <NavLink to="" id={'load-button'} onClick={e => toggleLoadModal(e)} className="ms-2">
           <HeaderLink>Load List</HeaderLink>
         </NavLink>
       </NavItem>

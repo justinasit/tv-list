@@ -5,7 +5,7 @@ import SaveAndLoad from './SaveAndLoad';
 import HeaderLink, { AppName } from '../stylesheets/HeaderLink';
 
 const Header = () => (
-  <header className="header row mt-3 ml-3 mb-3">
+  <header className="header row mt-3 ms-3 mb-3">
     <div className="col-md-6">
       <h1 className="title">
         <NavLink to="/">
@@ -20,7 +20,7 @@ const Header = () => (
             <HeaderLink>Home</HeaderLink>
           </NavLink>
         </NavItem>
-        <NavItem className="ml-2">
+        <NavItem className="ms-2">
           <NavLink to="/archived">
             <HeaderLink>Archived</HeaderLink>
           </NavLink>

@@ -89,27 +89,27 @@ const Home = () => {
 
   return (
     <div className="Home row">
-      <div className="col-md-2 mt-2 ml-1 border-right">
+      <div className="col-md-2 mt-2 ms-1 border-right">
         Search for tv series below to add it to your list.
         <br />
         <br />
         <form className="App-intro" onSubmit={searchApi}>
           <Input placeholder="Search" onChange={event => (term = event.target.value)} />
-          <DefaultButton className="ml-1 mt-1">Submit</DefaultButton>
+          <DefaultButton className="ms-1 mt-1">Submit</DefaultButton>
         </form>
         <br />
         <ListResults items={items} />
       </div>
       <div className="col-md-9">
         {showEmptyState()}
-        <Heading1 className="ml-2 ml-md-0">Active Shows</Heading1>
-        <Heading3 className="ml-2 ml-md-0">
+        <Heading1 className="ms-2 ms-md-0">Active Shows</Heading1>
+        <Heading3 className="ms-2 ms-md-0">
           These are the shows that have new episodes available.
         </Heading3>
         <br />
         <ListActions visibility="active" />
-        <Heading1 className="mt-3 ml-2 ml-md-0">Finished Shows</Heading1>
-        <Heading3 className="ml-2 ml-md-0">
+        <Heading1 className="mt-3 ms-2 ms-md-0">Finished Shows</Heading1>
+        <Heading3 className="ms-2 ms-md-0">
           These are the shows that you have finished watching.
         </Heading3>
         <br />

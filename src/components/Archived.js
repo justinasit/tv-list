@@ -33,7 +33,7 @@ const Archived = () => {
   };
 
   return (
-    <div className="ml-3">
+    <div className="ms-3">
       <Heading1>Archived Shows</Heading1>
       {`You can find a list of shows here that you decided to archive if you're no longer interested
       in them.`}
@@ -45,7 +45,7 @@ const Archived = () => {
           <SingleArchivedShow>
             {`${item.name} (${item.number_of_seasons} Seasons)`}
             <DefaultButton
-              className="ml-3"
+              className="ms-3"
               id={'unarchive-button-' + index}
               onClick={() => unArchiveShow(item.id, index)}
             >
