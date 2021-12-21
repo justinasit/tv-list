@@ -16,12 +16,12 @@ const Header = () => (
     <div className="col-md-6">
       <Nav className="mt-3">
         <NavItem>
-          <NavLink exact={true} activeClassName="is-active" to="/">
+          <NavLink to="/">
             <HeaderLink>Home</HeaderLink>
           </NavLink>
         </NavItem>
         <NavItem className="ml-2">
-          <NavLink activeClassName="is-active" to="/archived">
+          <NavLink to="/archived">
             <HeaderLink>Archived</HeaderLink>
           </NavLink>
         </NavItem>
