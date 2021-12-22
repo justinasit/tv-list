@@ -12,7 +12,7 @@ const Home = () => {
   const [items, setItems] = useState([]);
   let term = '';
   const dispatch = useDispatch();
-  const myShows = useSelector(state => state.myShows);
+  const myShows = useSelector((state) => state.myShows);
 
   /* Call the API to retrieve all user's stored show data.
    * Push show data from the API to either active or finished array
@@ -39,7 +39,7 @@ const Home = () => {
       };
 
       storedShows.map((show, showIdIndex) =>
-        MovieApi.getInfoById(show.id).then(data => {
+        MovieApi.getInfoById(show.id).then((data) => {
           shows = getShowData(shows, show, data, showIdIndex);
           // Only change state on last element
           if (shows.finished.length + shows.active.length === storedShows.length) {
@@ -54,10 +54,10 @@ const Home = () => {
     fetchData();
   }, [dispatch]);
 
-  const searchApi = event => {
+  const searchApi = (event) => {
     event.preventDefault();
 
-    MovieApi.searchTv(term).then(data => {
+    MovieApi.searchTv(term).then((data) => {
       setItems(data.results);
       term = '';
     });
@@ -89,18 +89,18 @@ const Home = () => {
 
   return (
     <div className="Home row">
-      <div className="col-md-2 mt-2 ms-1 border-right">
+      <div className="col-md-2 mt-2 ms-1 pe-4 border-end">
         Search for tv series below to add it to your list.
         <br />
         <br />
         <form className="App-intro" onSubmit={searchApi}>
-          <Input placeholder="Search" onChange={event => (term = event.target.value)} />
-          <DefaultButton className="ms-1 mt-1">Submit</DefaultButton>
+          <Input placeholder="Search" onChange={(event) => (term = event.target.value)} />
+          <DefaultButton className="ms-1 mt-3">Submit</DefaultButton>
         </form>
         <br />
         <ListResults items={items} />
       </div>
-      <div className="col-md-9">
+      <div className="col-md-9 ps-4">
         {showEmptyState()}
         <Heading1 className="ms-2 ms-md-0">Active Shows</Heading1>
         <Heading3 className="ms-2 ms-md-0">

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 const Body = styled.div`
   background-color: #2a363b;
-  color: white;
+  color: #f5f5f5;
 `;
 
 const App = () => {

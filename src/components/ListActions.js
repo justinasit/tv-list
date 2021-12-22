@@ -111,8 +111,8 @@ const ListActions = (props) => {
         index={index}
         className={'mt-3 row ps-3 pt-3 pb-3 pb-md-0'}
       >
-        <div className="col-md-3">
-          <img className="img-fluid col-6 col-md-8" src={item.poster} alt="poster" />
+        <div className="col-md-3 pb-3">
+          <img className="img-fluid col-6 col-md-8 rounded" src={item.poster} alt="poster" />
         </div>
         <div className="col-md-9 ps-4 ps-md-0">
           <Heading2>{item.name}</Heading2>
