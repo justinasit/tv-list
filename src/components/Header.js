@@ -2,32 +2,32 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Nav, NavItem } from 'reactstrap';
 import SaveAndLoad from './SaveAndLoad';
-import HeaderLink, { AppName } from '../stylesheets/HeaderLink';
+import HeaderLink, { StyledNavLink, AppName } from '../stylesheets/HeaderLink';
 
 const Header = () => (
-  <header className="header row mt-3 ms-3 mb-3">
-    <div className="col-md-6">
-      <h1 className="title">
+  <header className="row mt-3 mb-3">
+    <ul className="navbar-nav mb-2 col-md-2 ms-1 pe-4">
+      <li className="nav-item">
         <NavLink to="/">
-          <AppName>Your TV Tracker</AppName>
+          <AppName>
+            <img style={{ width: '190px' }} src="img/logo.png"></img>
+          </AppName>
         </NavLink>
-      </h1>
-    </div>
-    <div className="col-md-6">
-      <Nav className="mt-3">
-        <NavItem>
-          <NavLink to="/">
-            <HeaderLink>Home</HeaderLink>
-          </NavLink>
-        </NavItem>
-        <NavItem className="ms-2">
-          <NavLink to="/archived">
-            <HeaderLink>Archived</HeaderLink>
-          </NavLink>
-        </NavItem>
-        <SaveAndLoad />
-      </Nav>
-    </div>
+      </li>
+    </ul>
+    <Nav className="mt-3 col-md-9 ps-4" style={{ display: 'inline-block', paddingRight: '0px' }}>
+      <SaveAndLoad />
+      <NavItem className="ms-2" style={{ float: 'right' }}>
+        <StyledNavLink to="/archived">
+          <HeaderLink>Archived</HeaderLink>
+        </StyledNavLink>
+      </NavItem>
+      <NavItem className="ms-2" style={{ float: 'right' }}>
+        <StyledNavLink to="/">
+          <HeaderLink>Home</HeaderLink>
+        </StyledNavLink>
+      </NavItem>
+    </Nav>
   </header>
 );
 

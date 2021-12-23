@@ -11,14 +11,13 @@ import {
   Alert,
 } from 'reactstrap';
 import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import { NavItem } from 'reactstrap';
-import HeaderLink from '../stylesheets/HeaderLink';
+import HeaderLink, { StyledNavLink } from '../stylesheets/HeaderLink';
 import DefaultButton from '../stylesheets/DefaultButton';
 
 const SaveAndLoad = () => {
   const storage = new Storage();
-  const storedShows = useSelector(state => state.storedShows);
+  const storedShows = useSelector((state) => state.storedShows);
   const [saveModal, setSaveModal] = useState(false);
   const [loadModal, setLoadModal] = useState(false);
   const [error, setError] = useState(null);
@@ -26,7 +25,7 @@ const SaveAndLoad = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const saveShows = async e => {
+  const saveShows = async (e) => {
     e.preventDefault();
     const response = await fetch(process.env.REACT_APP_STORAGE_URL + 'user', {
       method: 'POST',
@@ -51,7 +50,7 @@ const SaveAndLoad = () => {
     setError(<Alert color="danger">{error.message}</Alert>);
   };
 
-  const loadShows = async e => {
+  const loadShows = async (e) => {
     e.preventDefault();
     const response = await fetch(process.env.REACT_APP_STORAGE_URL + 'login', {
       method: 'POST',
@@ -76,27 +75,37 @@ const SaveAndLoad = () => {
     setError(<Alert color="danger">{error.message}</Alert>);
   };
 
-  const toggleSaveModal = e => {
+  const toggleSaveModal = (e) => {
     e.preventDefault();
     setSaveModal(!saveModal);
   };
 
-  const toggleLoadModal = e => {
+  const toggleLoadModal = (e) => {
     e.preventDefault();
     setLoadModal(!loadModal);
   };
 
   return (
     <>
-      <NavItem>
-        <NavLink to="" id={'save-button'} onClick={e => toggleSaveModal(e)} className="ms-2">
+      <NavItem style={{ float: 'right' }}>
+        <StyledNavLink
+          to=""
+          id={'save-button'}
+          onClick={(e) => toggleSaveModal(e)}
+          className="ms-2"
+        >
           <HeaderLink>Save List</HeaderLink>
-        </NavLink>
+        </StyledNavLink>
       </NavItem>
-      <NavItem>
-        <NavLink to="" id={'load-button'} onClick={e => toggleLoadModal(e)} className="ms-2">
+      <NavItem style={{ float: 'right' }}>
+        <StyledNavLink
+          to=""
+          id={'load-button'}
+          onClick={(e) => toggleLoadModal(e)}
+          className="ms-2"
+        >
           <HeaderLink>Load List</HeaderLink>
-        </NavLink>
+        </StyledNavLink>
       </NavItem>
       <Modal isOpen={saveModal} toggle={toggleSaveModal} size={'md'}>
         <ModalHeader>Save shows</ModalHeader>
@@ -112,20 +121,20 @@ const SaveAndLoad = () => {
           {error}
           <Form>
             <FormGroup>
-              <Input placeholder="Name" onChange={event => setName(event.target.value)} />
+              <Input placeholder="Name" onChange={(event) => setName(event.target.value)} />
               <br />
-              <Input placeholder="Email" onChange={event => setEmail(event.target.value)} />
+              <Input placeholder="Email" onChange={(event) => setEmail(event.target.value)} />
               <br />
               <Input
                 placeholder="Password"
                 type="password"
-                onChange={event => setPassword(event.target.value)}
+                onChange={(event) => setPassword(event.target.value)}
               />
             </FormGroup>
           </Form>
         </ModalBody>
         <ModalFooter>
-          <DefaultButton id="submit-note" onClick={e => saveShows(e)}>
+          <DefaultButton id="submit-note" onClick={(e) => saveShows(e)}>
             Submit
           </DefaultButton>
           <DefaultButton onClick={toggleSaveModal}>Cancel</DefaultButton>
@@ -138,18 +147,18 @@ const SaveAndLoad = () => {
           {error}
           <Form>
             <FormGroup>
-              <Input placeholder="Email" onChange={event => setEmail(event.target.value)} />
+              <Input placeholder="Email" onChange={(event) => setEmail(event.target.value)} />
               <br />
               <Input
                 placeholder="Password"
                 type="password"
-                onChange={event => setPassword(event.target.value)}
+                onChange={(event) => setPassword(event.target.value)}
               />
             </FormGroup>
           </Form>
         </ModalBody>
         <ModalFooter>
-          <DefaultButton id="submit-note" onClick={e => loadShows(e)}>
+          <DefaultButton id="submit-note" onClick={(e) => loadShows(e)}>
             Submit
           </DefaultButton>
           <DefaultButton onClick={toggleLoadModal}>Cancel</DefaultButton>
