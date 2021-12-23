@@ -6,9 +6,12 @@ import styled from 'styled-components';
 
 const ListItem = styled.li`
   padding: 0.75rem 1.25rem;
-  background-color: #303030;
-  border: 1px solid #444;
+  border: 1px solid #ffffff;
   cursor: pointer;
+  background-color: #2f3c48;
+  &:hover {
+    background-color: #343131;
+  }
 `;
 
 const SingleResult = ({ className, ...props }) => {
@@ -25,22 +28,22 @@ const SingleResult = ({ className, ...props }) => {
   );
 };
 
-const ListResults = props => {
+const ListResults = (props) => {
   const storage = new Storage();
-  const myShows = useSelector(state => state.myShows);
-  const storedShows = useSelector(state => state.storedShows);
+  const myShows = useSelector((state) => state.myShows);
+  const storedShows = useSelector((state) => state.storedShows);
   const dispatch = useDispatch();
 
   /* If the show is already stored - no need to add it again */
-  const addShowCheck = id => {
-    if (!storedShows.map(show => show.id).includes(id)) {
+  const addShowCheck = (id) => {
+    if (!storedShows.map((show) => show.id).includes(id)) {
       addShow(id);
     }
   };
 
   /* Add show id and season number to storage, update the state with show details */
-  const addShow = id => {
-    MovieApi.getInfoById(id).then(data => {
+  const addShow = (id) => {
+    MovieApi.getInfoById(id).then((data) => {
       if (MovieApi.hasSeasons(data)) {
         storedShows.push({ id: id, seasons_watched: [] });
         storage.setItem('stored-shows', storedShows);
