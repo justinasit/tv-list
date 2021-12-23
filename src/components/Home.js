@@ -88,7 +88,7 @@ const Home = () => {
   };
 
   return (
-    <div className="Home row">
+    <div className="row">
       <div className="col-md-2 mt-2 ms-1 pe-4 border-end">
         Search for tv series below to add it to your list.
         <br />
