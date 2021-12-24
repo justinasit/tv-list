@@ -112,10 +112,18 @@ const ListActions = (props) => {
         className={'mt-3 row ps-3 pt-3 pb-3 pb-md-0'}
       >
         <div className="col-md-3 pb-3">
-          <img className="img-fluid col-6 col-md-8 rounded" src={item.poster} alt="poster" />
+          <a target="_blank" rel="noreferrer" href={item.homepage}>
+            <div>
+              <img className="img-fluid col-6 col-md-8 rounded" src={item.poster} alt="poster" />
+            </div>
+          </a>
         </div>
         <div className="col-md-9 ps-4 ps-md-0">
-          <Heading2>{item.name}</Heading2>
+          <Heading2>
+            <a target="_blank" rel="noreferrer" href={item.homepage}>
+              {item.name}
+            </a>
+          </Heading2>
           {showNote(storedShows[item.showIdIndex].note)}
           {showDateOfNextEpisode(item.date_of_next_episode)}
           {showInProduction(item.in_production)}
