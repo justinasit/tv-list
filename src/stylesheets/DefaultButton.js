@@ -15,6 +15,9 @@ const DefaultButton = styled.button`
   color: #fff;
   background-color: #2f3c48;
   border-color: white;
+  &:hover {
+    background-color: #343131;
+  }
 `;
 
 export default DefaultButton;
