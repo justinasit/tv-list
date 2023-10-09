@@ -10,7 +10,12 @@ const Header = () => (
       <li className="nav-item">
         <NavLink to="/">
           <AppName>
-            <img className="d-block mx-auto" style={{ width: '190px' }} src="img/logo.png"></img>
+            <img
+              className="d-block mx-auto"
+              style={{ width: '190px' }}
+              alt="tv list logo"
+              src="img/logo.png"
+            ></img>
           </AppName>
         </NavLink>
       </li>

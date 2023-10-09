@@ -30,7 +30,7 @@ const StyledCheckbox = styled.div`
   height: 16px;
   line-height: 0.7;
   margin-bottom: 8px;
-  background: ${props => (props.defaultChecked ? '#2f3c48' : '#dee2e6')};
+  background: ${(props) => (props.defaultChecked ? '#2f3c48' : '#dee2e6')};
   border-radius: 3px;
   transition: all 150ms;
 
@@ -38,10 +38,10 @@ const StyledCheckbox = styled.div`
     box-shadow: 0 0 0 3px #2f3c48;
   }
   ${Icon} {
-    visibility: ${props => (props.defaultChecked ? 'visible' : 'hidden')};
+    visibility: ${(props) => (props.defaultChecked ? 'visible' : 'hidden')};
   }
 
-  ${props => (props.disabled ? disabledStyles : ``)};
+  ${(props) => (props.disabled ? disabledStyles : ``)};
 `;
 
 const CheckboxContainer = styled.div`
@@ -50,7 +50,7 @@ const CheckboxContainer = styled.div`
 `;
 const DefaultCheckbox = ({ className, ...props }) => {
   return (
-    <CheckboxContainer className={className} id={props.id}>
+    <CheckboxContainer className={className} id={props.id + '-container'}>
       <HiddenCheckbox {...props} />
       <StyledCheckbox defaultChecked={props.defaultChecked} disabled={props.disabled}>
         <Icon viewBox="0 0 24 24">
