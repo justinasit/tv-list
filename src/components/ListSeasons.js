@@ -64,16 +64,16 @@ const ListSeasons = (props) => {
           {/* Margin every 3 seasons for mobile, every 5 seasons for desktop */}
           <span className={i % 3 !== 1 ? 'd-inline d-md-none ms-3' : ''}></span>
           <span className={i % 5 !== 1 ? 'd-none d-md-inline ms-3' : ''}></span>
-          <DefaultCheckbox
-            defaultChecked={storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
-            onChange={() => checkSeason(i, props.item, props.visibility)}
-            type="checkbox"
-            disabled={i > props.item.last_aired_season}
-            id={'season-checkbox-' + props.item.id + '-' + i}
-          />
-          <label className="ms-1" htmlFor={'season-checkbox-' + props.item.id + '-' + i}>
-            Season {i}
+          <label>
+            <DefaultCheckbox
+              defaultChecked={storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
+              onChange={() => checkSeason(i, props.item, props.visibility)}
+              type="checkbox"
+              disabled={i > props.item.last_aired_season}
+              id={'season-checkbox-' + props.item.id + '-' + i}
+            />
           </label>
+          <label className="ms-1"> Season {i}</label>
           {/* Break every 3 seasons for mobile, every 5 seasons for desktop */}
           <span className="d-inline d-md-none">{i % 3 === 0 ? <br /> : ''}</span>
           <span className="d-none d-md-inline">{i % 5 === 0 ? <br /> : ''}</span>
