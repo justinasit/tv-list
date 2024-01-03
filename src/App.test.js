@@ -1,24 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import App from './components/App';
-import puppeteer from 'puppeteer';
 import * as config from './setupTests';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './reducers';
+import { createRoot } from 'react-dom/client';
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(
+  const container = document.createElement('div');
+  const root = createRoot(container);
+  root.render(
     <Provider store={createStore(rootReducer)}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>,
-    div,
   );
-  ReactDOM.unmountComponentAtNode(div);
 });
 
 describe('tv-list app testing', () => {
@@ -46,7 +44,7 @@ describe('tv-list app testing', () => {
   test(
     'stored show is visible',
     async () => {
-      await page.$eval('#show-active0', value => (value = 'Homeland'));
+      await page.$eval('#show-active0', (value) => (value = 'Homeland'));
     },
     config.timeout,
   );
@@ -67,7 +65,7 @@ describe('tv-list app testing', () => {
   test(
     'the search submit button is visible',
     async () => {
-      const button = await page.$eval('.App-intro button', e => e.innerHTML);
+      const button = await page.$eval('.App-intro button', (e) => e.innerHTML);
       expect(button).toEqual('Submit');
     },
     config.timeout,
@@ -80,7 +78,7 @@ describe('tv-list app testing', () => {
       await page.keyboard.type('Stranger Things');
       await page.click('.App-intro button');
       await page.waitFor('span p li');
-      await page.$eval('span p li', value => (value = 'Stranger Things'));
+      await page.$eval('span p li', (value) => (value = 'Stranger Things'));
     },
     config.timeout,
   );
@@ -89,7 +87,7 @@ describe('tv-list app testing', () => {
     'storing show works',
     async () => {
       await page.click('#add-show-button-0');
-      const newShowName = await page.$eval('p li', e => e.innerHTML);
+      const newShowName = await page.$eval('p li', (e) => e.innerHTML);
       expect(newShowName).toEqual('Stranger Things');
     },
     config.timeout,
@@ -143,7 +141,7 @@ describe('tv-list app testing', () => {
       await page.click('.App-intro button');
       await page.waitFor('#add-show-button-0');
       await page.click('#add-show-button-0');
-      await page.on('dialog', async dialog => {
+      await page.on('dialog', async (dialog) => {
         const defaultValue = await dialog.message();
         expect(defaultValue).toEqual('Sorry, this show does not have a season number provided!');
         await dialog.dismiss();
