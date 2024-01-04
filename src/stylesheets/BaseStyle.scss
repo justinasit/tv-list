@@ -1,6 +1,8 @@
 @font-face {
   font-family: 'Poppins';
-  src: url('./font/Poppins-ExtraLight.ttf'), url('./font/Poppins-ExtraLight.eot'),
+  src:
+    url('./font/Poppins-ExtraLight.ttf'),
+    url('./font/Poppins-ExtraLight.eot'),
     url('./font/Poppins-ExtraLight.woff2') format('woff2'),
     url('./font/Poppins-ExtraLight.otf') format('opentype'),
     url('./font/Poppins-ExtraLight.svg#filename') format('svg');
@@ -9,9 +11,21 @@
 body {
   background-color: #2a363b !important;
   color: white;
-  font-family: 'Poppins', 'Varela', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji' !important;
+  font-family:
+    'Poppins',
+    'Varela',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    'Noto Sans',
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'Noto Color Emoji' !important;
 }
 
 a {
@@ -20,4 +34,24 @@ a {
 
 .modal-content {
   color: #212529;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+}
+
+.rotating-icon {
+  animation: rotating 2s linear infinite;
+  color: white;
 }

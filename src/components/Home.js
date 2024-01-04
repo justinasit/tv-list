@@ -13,6 +13,7 @@ const Home = () => {
   let term = '';
   const dispatch = useDispatch();
   const myShows = useSelector((state) => state.myShows);
+  const [pageLoaded, setPageLoaded] = useState(false);
 
   /* Call the API to retrieve all user's stored show data.
    * Push show data from the API to either active or finished array
@@ -47,9 +48,14 @@ const Home = () => {
               payload: shows,
               type: 'myShows',
             });
+            setPageLoaded(true);
           }
         }),
       );
+
+      if (!storedShows.length) {
+        setPageLoaded(true);
+      }
     };
     fetchData();
   }, [dispatch]);
@@ -64,6 +70,13 @@ const Home = () => {
   };
 
   const showEmptyState = () => {
+    if (!pageLoaded) {
+      return (
+        <div className="loading-state">
+          <img className="rotating-icon" src="./icons/progress_activity.svg" alt="Loading SVG" />
+        </div>
+      );
+    }
     if (typeof myShows.active === 'undefined') {
       return (
         <div>
@@ -87,6 +100,27 @@ const Home = () => {
     }
   };
 
+  const showActiveFinishedShows = () => {
+    if (pageLoaded) {
+      return (
+        <div>
+          <Heading1 className="ms-2 ms-md-0">Active Shows</Heading1>
+          <Heading3 className="ms-2 ms-md-0">
+            These are the shows that have new episodes available.
+          </Heading3>
+          <br />
+          <ListActions visibility="active" />
+          <Heading1 className="mt-3 ms-2 ms-md-0">Finished Shows</Heading1>
+          <Heading3 className="ms-2 ms-md-0">
+            These are the shows that you have finished watching.
+          </Heading3>
+          <br />
+          <ListActions visibility="finished" />
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="row">
       <div className="col-md-2 mt-2 ms-1 pe-4 border-end">
@@ -102,18 +136,7 @@ const Home = () => {
       </div>
       <div className="col-md-9 ps-4">
         {showEmptyState()}
-        <Heading1 className="ms-2 ms-md-0">Active Shows</Heading1>
-        <Heading3 className="ms-2 ms-md-0">
-          These are the shows that have new episodes available.
-        </Heading3>
-        <br />
-        <ListActions visibility="active" />
-        <Heading1 className="mt-3 ms-2 ms-md-0">Finished Shows</Heading1>
-        <Heading3 className="ms-2 ms-md-0">
-          These are the shows that you have finished watching.
-        </Heading3>
-        <br />
-        <ListActions visibility="finished" />
+        {showActiveFinishedShows()}
       </div>
     </div>
   );
