@@ -2,7 +2,8 @@ import React from 'react';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import ListActions from '../ListActions';
-import {render} from '@testing-library/react'
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 describe('ListActions test suite', () => {
   const initialState = {
@@ -39,7 +40,7 @@ describe('ListActions test suite', () => {
     wrapper = initialiseComponent();
   });
 
-  const initialiseComponent = state => {
+  const initialiseComponent = (state) => {
     const store = mockStore(state ? state : initialState);
     const div = document.createElement('div');
     div.setAttribute('id', 'show-active0');
