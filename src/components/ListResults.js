@@ -22,7 +22,7 @@ const SingleResult = ({ className, ...props }) => {
         id={'add-show-button-' + props.index}
         onClick={() => props.addShowCheck(props.item.id)}
       >
-        {props.item.original_name}
+        {props.item.name}
       </ListItem>
     </span>
   );
