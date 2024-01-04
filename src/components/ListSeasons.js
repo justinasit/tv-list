@@ -3,12 +3,12 @@ import Storage from '../Storage';
 import { useSelector, useDispatch } from 'react-redux';
 import DefaultCheckbox from '../stylesheets/DefaultCheckbox';
 
-const ListSeasons = props => {
+const ListSeasons = (props) => {
   const storage = new Storage();
-  const myShows = useSelector(state => state.myShows);
-  const storedShows = useSelector(state => state.storedShows);
+  const myShows = useSelector((state) => state.myShows);
+  const storedShows = useSelector((state) => state.storedShows);
   const dispatch = useDispatch();
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   /* Update the seasons watched array in storage and state */
   const checkSeason = (seasonNumber, item, visibility) => {
@@ -36,7 +36,7 @@ const ListSeasons = props => {
         myShows.finished.push(item);
         dispatch({
           payload: {
-            active: myShows.active.filter(show => show.name !== item.name),
+            active: myShows.active.filter((show) => show.name !== item.name),
             finished: myShows.finished,
           },
           type: 'myShows',
@@ -48,7 +48,7 @@ const ListSeasons = props => {
         dispatch({
           payload: {
             active: myShows.active,
-            finished: myShows.finished.filter(show => show.name !== item.name),
+            finished: myShows.finished.filter((show) => show.name !== item.name),
           },
           type: 'myShows',
         });
@@ -59,22 +59,21 @@ const ListSeasons = props => {
   /* List seasons with checkboxes, disable checkboxes for seasons that haven't aired yet */
   return (
     <div className="mt-2">
-      {Array.from(Array(props.item.number_of_seasons), (e, i) => i + 1).map(i => (
+      {Array.from(Array(props.item.number_of_seasons), (e, i) => i + 1).map((i) => (
         <span key={i}>
           {/* Margin every 3 seasons for mobile, every 5 seasons for desktop */}
           <span className={i % 3 !== 1 ? 'd-inline d-md-none ms-3' : ''}></span>
           <span className={i % 5 !== 1 ? 'd-none d-md-inline ms-3' : ''}></span>
-          Season {i}
           <label>
             <DefaultCheckbox
               defaultChecked={storedShows[props.item.showIdIndex].seasons_watched.includes(i)}
               onChange={() => checkSeason(i, props.item, props.visibility)}
               type="checkbox"
               disabled={i > props.item.last_aired_season}
-              className="ms-1"
               id={'season-checkbox-' + props.item.id + '-' + i}
             />
           </label>
+          <label className="ms-1"> Season {i}</label>
           {/* Break every 3 seasons for mobile, every 5 seasons for desktop */}
           <span className="d-inline d-md-none">{i % 3 === 0 ? <br /> : ''}</span>
           <span className="d-none d-md-inline">{i % 5 === 0 ? <br /> : ''}</span>

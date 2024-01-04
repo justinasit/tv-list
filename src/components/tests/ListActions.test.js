@@ -1,8 +1,9 @@
 import React from 'react';
-import { mount } from '../../enzyme';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import ListActions from '../ListActions';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 describe('ListActions test suite', () => {
   const initialState = {
@@ -39,13 +40,13 @@ describe('ListActions test suite', () => {
     wrapper = initialiseComponent();
   });
 
-  const initialiseComponent = state => {
+  const initialiseComponent = (state) => {
     const store = mockStore(state ? state : initialState);
     const div = document.createElement('div');
     div.setAttribute('id', 'show-active0');
     document.body.appendChild(div);
 
-    return mount(
+    return render(
       <Provider store={store}>
         <ListActions visibility="active" />
       </Provider>,
@@ -54,23 +55,13 @@ describe('ListActions test suite', () => {
   };
 
   it('renders all mocked shows', () => {
-    expect(wrapper.find('#empty-active').exists()).toBe(false);
-    expect(
-      wrapper
-        .find('div')
-        .find('#show-active0 h2')
-        .text(),
-    ).toEqual('The Blacklist');
-    expect(
-      wrapper
-        .find('div')
-        .find('#show-active1 h2')
-        .text(),
-    ).toEqual('The Good Place');
+    expect(wrapper.container.querySelector('empty-active')).toBeNull();
+    expect(wrapper.container.querySelector('#show-active0 h2')).toHaveTextContent('The Blacklist');
+    expect(wrapper.container.querySelector('#show-active1 h2')).toHaveTextContent('The Good Place');
   });
 
-  it('renders no shows', () => {
+  it('renders no shows', async () => {
     const wrapper = initialiseComponent({ myShows: { active: [], finished: [] } });
-    expect(wrapper.find('#empty-active').exists()).toBe(true);
+    expect(wrapper.container.querySelector('#empty-active')).toBeVisible();
   });
 });
