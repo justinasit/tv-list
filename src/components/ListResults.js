@@ -50,8 +50,8 @@ const ListResults = (props) => {
         dispatch({
           payload: {
             active: [
-              ...(myShows.active ? myShows.active : []),
               MovieApi.mapApiDataToObject(data, storedShows.length - 1),
+              ...(myShows.active ? myShows.active : []),
             ],
             finished: myShows.finished ? myShows.finished : [],
           },
