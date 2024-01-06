@@ -30,7 +30,7 @@ describe('TV List App', () => {
 
     cy.get('#add-show-button-0').click();
     cy.get('.App-intro button').click();
-    cy.get('#show-active1').contains('Stranger Things');
+    cy.get('#show-active0').contains('Stranger Things');
   });
 
   it('should finish all seasons and move show back to active', () => {
@@ -55,10 +55,12 @@ describe('TV List App', () => {
     cy.get('#show-finished0').should('not.exist');
   });
 
-  // Commented out because these shows are rare and it's hard to find examples
-  // it('should not be able to add a show with no seasons', () => {
-  //   cy.get('.App-intro input').type('Dar');
-  //   cy.get('.App-intro button').click();
-  //   cy.get('#add-show-button-0').click();
-  // });
+  // Not sure how to test alert pop-up in Cypress
+  it('should not be able to add a show with no seasons', () => {
+    cy.get('.App-intro input').type('Dar Alzaman');
+    cy.get('.App-intro button').click();
+    cy.get('#add-show-button-0').click();
+
+    cy.get('#show-active0').contains('Homeland');
+  });
 });
