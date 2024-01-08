@@ -38,6 +38,8 @@ const ListResults = (props) => {
   const addShowCheck = (id) => {
     if (!storedShows.map((show) => show.id).includes(id)) {
       addShow(id);
+    } else {
+      alert('This show is already in your list!');
     }
   };
 
