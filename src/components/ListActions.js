@@ -38,10 +38,19 @@ const ListActions = (props) => {
       },
       type: 'myShows',
     });
+    // We want to remove these shows from the storage but not the "storedShows" state.
+    // Otherwise, the index mapping between "myShows" and "storedShows" gets messed up.
+    const updatedShows = storedShows.map((show) =>
+      activeItem.current.id === show.id ? { ...show, ...{ removed: true } } : show,
+    );
     storage.setItem(
       'stored-shows',
-      storedShows.filter((show) => activeItem.current.id !== show.id),
+      updatedShows.filter((show) => !show.removed),
     );
+    dispatch({
+      payload: updatedShows,
+      type: 'storedShows',
+    });
     setRemoveModal(false);
   };
 
